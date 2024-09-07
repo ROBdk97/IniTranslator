@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DeepL;
+using System;
 using System.Linq;
 using System.Windows;
 
-namespace IniTranslator
+namespace IniTranslator.Models
 {
     public class SettingsFile
     {
@@ -17,5 +18,10 @@ namespace IniTranslator
         public double WindowRight { get; set; }
         public double WindowBottom { get; set; }
         public WindowState WindowState { get; set; } = WindowState.Normal;
+        public TranslationProvider TranslationProvider { get; set; } = TranslationProvider.None;
+        public string GoogleApiKey { get; set; } = string.Empty;
+        public string DeepLApiKey { get; set; } = string.Empty;
+        public string Language { get; set; } = LanguageCode.English;
+        public string Theme { get; set; } = "Light";
     }
 }

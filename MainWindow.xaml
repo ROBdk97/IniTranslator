@@ -4,14 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:IniTranslator"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodels="clr-namespace:IniTranslator.ViewModels"
     Width="800"
     Height="450"
     mc:Ignorable="d"
     Loaded="Window_Loaded"
     Closing="Window_Closing"
     Icon="Icon.ico"
-    d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     Title="Ini Translator">
     <Grid>
         <Grid.RowDefinitions>
@@ -22,7 +22,7 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="550" />
+                <ColumnDefinition Width="650" />
             </Grid.ColumnDefinitions>
             <Menu Grid.Column="0">
                 <MenuItem Header="_File">
@@ -41,13 +41,15 @@
                     <MenuItem Click="MenuItem_Click" Header="_Translate"/>
                 </MenuItem>
                 <MenuItem Header="_Jump to next Change" Click="JumpToNextChange"/>
-                <MenuItem Header="_Settings" />
+                <MenuItem Header="_Settings" Click="OpenSettings_Click"/>
                 <MenuItem Header="_Help">
                     <MenuItem Header="_Documentation" Click="Help_Click" />
                     <MenuItem Header="_About" Click="About_Click" />
                 </MenuItem>
             </Menu>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Height="20" Text="©ROBdk97 2024" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Border Background="Black" Width="0.7" Height="15" Margin="3"/>
                 <TextBlock Height="20" Text="Keys: " VerticalAlignment="Center"/>
                 <TextBlock Height="20" Text="{Binding Translations.Count}" VerticalAlignment="Center" Width="35"/>
                 <Border Background="Black" Width="0.7" Height="15" Margin="3"/>

@@ -1,4 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using IniTranslator.Helpers;
+using IniTranslator.Models;
+using IniTranslator.ViewModels;
+using IniTranslator.Windows;
+using Microsoft.Win32;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,8 +17,7 @@ namespace IniTranslator
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainViewModel ViewModel { get; }
-
+        private readonly MainViewModel ViewModel;
 
         public MainWindow()
         {
@@ -188,7 +191,7 @@ namespace IniTranslator
             // Control + T = Use  Translator API
             if (e.Key == Key.T && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                ViewModel.TranslateSelectedItems(listView.SelectedItems);
+                ViewModel.TranslateSelectedItemsAsync(listView.SelectedItems);
                 e.Handled = true; // Mark the event as handled
             }
             // Control + J = Jump to Line
@@ -222,7 +225,7 @@ namespace IniTranslator
         { MainViewModel.CopyFromEnglish(listView.SelectedItems); }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
-        { ViewModel.TranslateSelectedItems(listView.SelectedItems); }
+        { ViewModel.TranslateSelectedItemsAsync(listView.SelectedItems); }
 
         private void JumpToLine()
         {
@@ -256,6 +259,8 @@ namespace IniTranslator
                             "- Open English and Translated INI files\n" +
                             "- Select items to translate\n" +
                             "- Use shortcuts to copy, paste, translate, etc.\n" +
+                            "- Select Old INI file to compare changes\n" +
+                            "- Jump to next change in the list\n" +
                             "- Save changes to the translated INI file\n";
             string shortcuts = "Keyboard Shortcuts:\n" +
                              "Ctrl + C:\tCopy selected items to clipboard\n" +
@@ -269,7 +274,7 @@ namespace IniTranslator
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer","https://github.com/ROBdk97/Ini-Translator");
+            System.Diagnostics.Process.Start("explorer", "https://github.com/ROBdk97/IniTranslator");
         }
 
         private async void OpenOldIni_Click(object sender, RoutedEventArgs e)
@@ -295,6 +300,16 @@ namespace IniTranslator
             // Scroll to the specified line and select it
             listView.ScrollIntoView(listView.Items[newIndex]);
             listView.SelectedIndex = newIndex;
+        }
+
+        private void OpenSettings_Click(object sender, RoutedEventArgs e)
+        {
+            var settingsWindow = new SettingsWindow(ViewModel.Settings)
+            {
+                Owner = this
+            };
+            settingsWindow.ShowDialog();
+            ViewModel.LoadSettings();
         }
     }
 }

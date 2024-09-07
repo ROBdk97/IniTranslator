@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace IniTranslator
+namespace IniTranslator.Helpers
 {
     internal static class FileEquilizer
     {

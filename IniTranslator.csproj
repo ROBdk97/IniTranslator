@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DeepL.net" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

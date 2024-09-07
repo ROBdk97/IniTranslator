@@ -1,7 +1,8 @@
-﻿using System;
+﻿using IniTranslator.ViewModels;
+using System;
 using System.Linq;
 
-namespace IniTranslator
+namespace IniTranslator.Models
 {
     public class Translations : BaseModel
     {

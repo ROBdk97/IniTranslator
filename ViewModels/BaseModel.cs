@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace IniTranslator
+namespace IniTranslator.ViewModels
 {
     public abstract class BaseModel : INotifyPropertyChanged
     {

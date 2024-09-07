@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IniTranslator.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,11 +8,11 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace IniTranslator
+namespace IniTranslator.Helpers
 {
     internal static class SettingsManager
     {
-        private static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new()
         {
             WriteIndented = true // Makes JSON more readable
         };

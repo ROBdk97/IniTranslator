@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IniTranslator.Helpers;
+using IniTranslator.Models;
+using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,12 +11,12 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace IniTranslator
+namespace IniTranslator.ViewModels
 {
     public class MainViewModel : BaseModel
     {
         private readonly ObservableCollection<Translations> translations; // Internal collection to be displayed
-        private readonly SettingsFile settingsFile; // Holds settings information
+        private SettingsFile settingsFile; // Holds settings information
 
         private string searchText = string.Empty; // Search text for filtering translations
         public bool IgnoreCase
@@ -49,8 +51,13 @@ namespace IniTranslator
         public MainViewModel()
         {
             translations = [];
-            settingsFile = SettingsManager.LoadSettings(); // Load settings or create default
+            LoadSettings();
             _ = UpdateTranslationsAsync(settingsFile.EnglishIniPath, settingsFile.TranslatedIniPath); // Start updating translations
+        }
+
+        public void LoadSettings()
+        {
+            settingsFile = SettingsManager.LoadSettings(); // Load settings or create default
         }
 
         /// <summary>
@@ -157,9 +164,24 @@ namespace IniTranslator
             await UpdateTranslationsAsync(settingsFile.EnglishIniPath, settingsFile.TranslatedIniPath);
         }
 
-        internal void TranslateSelectedItems(IList selectedItems)
+        internal async Task TranslateSelectedItemsAsync(IList selectedItems)
         {
+            // for each selected item translate the value using the selected translator
+            foreach (Translations item in selectedItems)
+            {
+                if (string.IsNullOrWhiteSpace(item.Value)) continue;
+                item.Translation = await Translate(item.Value);
+            }
+        }
 
+        private async Task<string?> Translate(string value)
+        {
+            return settingsFile.TranslationProvider switch
+            {
+                TranslationProvider.GoogleTranslate => await Translators.GoogleTranslate(value, settingsFile.Language, settingsFile.GoogleApiKey),
+                TranslationProvider.DeepL => await Translators.DeepLTranslate(value, settingsFile.Language, settingsFile.DeepLApiKey),
+                _ => value,
+            };
         }
 
         internal static void PasteFromClipboard(IList selectedItems)
