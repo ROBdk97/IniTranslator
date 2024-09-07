@@ -1,0 +1,131 @@
+﻿<Window
+    x:Class="IniTranslator.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:IniTranslator"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d"
+    Loaded="Window_Loaded"
+    Closing="Window_Closing"
+    Icon="Icon.ico"
+    d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+    Title="Ini Translator">
+    <Grid>
+        <Grid.RowDefinitions>
+            <!--<RowDefinition Height="30" />-->
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="550" />
+            </Grid.ColumnDefinitions>
+            <Menu Grid.Column="0">
+                <MenuItem Header="_File">
+                    <MenuItem Click="Open_ClickAsync" Header="_Open" />
+                    <MenuItem Click="OpenOldIni_Click" Header="_Open Old Ini File" />
+                    <MenuItem Click="SaveButton_Click" Header="_Save" Name="SaveButton" />
+                    <MenuItem Click="ShowEnInExplorer_Click" Header="_Show English in Explorer" />
+                    <MenuItem Click="ShowTrInExplorer_Click" Header="_Show Translated in Explorer" />
+                    <MenuItem Click="Reload_Click" Header="_Reload" />
+                    <MenuItem Click="LoadBackup_Click" Header="_Load Backup" />
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Click="Copy_Click" Header="_Copy"/>
+                    <MenuItem Click="Paste_Click" Header="_Paste" />
+                    <MenuItem Click="CopyFromEnglish_Click" Header="_Copy from English"/>
+                    <MenuItem Click="MenuItem_Click" Header="_Translate"/>
+                </MenuItem>
+                <MenuItem Header="_Jump to next Change" Click="JumpToNextChange"/>
+                <MenuItem Header="_Settings" />
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_Documentation" Click="Help_Click" />
+                    <MenuItem Header="_About" Click="About_Click" />
+                </MenuItem>
+            </Menu>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Height="20" Text="Keys: " VerticalAlignment="Center"/>
+                <TextBlock Height="20" Text="{Binding Translations.Count}" VerticalAlignment="Center" Width="35"/>
+                <Border Background="Black" Width="0.7" Height="15" Margin="3"/>
+                <TextBlock Height="20" Text="Search: " VerticalAlignment="Center" />
+                <TextBox
+                    x:Name="SearchTextBox"
+                    Width="400" VerticalAlignment="Center" Height="20" Padding="2"
+                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                    TextChanged="SearchTextBox_TextChanged"/>
+                <CheckBox
+                    x:Name="RegexCheckBox"
+                    ToolTip="RegEx"
+                    Click="SearchBoxChanged"
+                    IsChecked="{Binding Regex}"
+                    VerticalAlignment="Center"/>
+                <CheckBox
+                    x:Name="IgnoreCaseCheckBox"
+                    ToolTip="Ignore Case"
+                    IsChecked="{Binding IgnoreCase}"
+                    Click="SearchBoxChanged"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <ListView
+                x:Name="listView"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                ItemsSource="{Binding Translations}"
+                KeyDown="ListView_KeyDown"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                SizeChanged="ListView_SizeChanged">
+                <ListView.View>
+                    <GridView>
+
+                        <!-- LineNumber -->
+                        <GridViewColumn
+                            Width="44"
+                            DisplayMemberBinding="{Binding Index}"
+                            Header="Line" />
+
+                        <!-- Key Column -->
+                        <GridViewColumn
+                            Width="Auto"
+                            DisplayMemberBinding="{Binding Key}"
+                            Header="Key" />
+
+                        <!-- English Column -->
+                        <GridViewColumn Header="English">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <!-- Translation Column -->
+                        <GridViewColumn Header="Translation">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Center"
+                                        AcceptsReturn="True"
+                                        BorderThickness="0"
+                                        Text="{Binding Translation, UpdateSourceTrigger=PropertyChanged}"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>
