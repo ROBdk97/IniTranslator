@@ -344,7 +344,7 @@ namespace IniTranslator.ViewModels
         internal int GetNextChange(int current)
         {
             // check if any contains OldValue
-            if (Translations.Any(t => string.IsNullOrWhiteSpace(t.OldValue)))
+            if (!Translations.Any(t => !string.IsNullOrWhiteSpace(t.OldValue)))
             {
                 // Please click on "File"->"Open Old Ini File" first to use this feature. 
                 MessageBox.Show("Please click on \"File\"->\"Open Old Ini File\" first to use this feature.");

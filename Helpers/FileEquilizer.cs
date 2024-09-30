@@ -113,6 +113,8 @@ namespace IniTranslator.Helpers
                     window.Content = stackPanel;
                     window.ShowDialog();
 
+                    window.Tag ??= 0;
+
                     int choice = (int)window.Tag;
                     if (choice <= 0)
                     {
