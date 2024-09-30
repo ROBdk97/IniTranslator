@@ -9,7 +9,7 @@ namespace IniTranslator.Models
     {
         public string? EnglishIniPath { get; set; }
         public string? TranslatedIniPath { get; set; }
-        public bool Regex { get; set; }
+        public bool useRegex { get; set; }
         public bool IgnoreCase { get; set; }
         public double WindowWidth { get; set; } = 800;
         public double WindowHeight { get; set; } = 600;

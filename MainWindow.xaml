@@ -41,6 +41,7 @@
                     <MenuItem Click="MenuItem_Click" Header="_Translate"/>
                 </MenuItem>
                 <MenuItem Header="_Jump to next Change" Click="JumpToNextChange"/>
+                <MenuItem Header="_Next missing placeholder" Click="JumpNextMissingPlaceholder_Click"/>
                 <MenuItem Header="_Settings" Click="OpenSettings_Click"/>
                 <MenuItem Header="_Help">
                     <MenuItem Header="_Documentation" Click="Help_Click" />
@@ -63,7 +64,7 @@
                     x:Name="RegexCheckBox"
                     ToolTip="RegEx"
                     Click="SearchBoxChanged"
-                    IsChecked="{Binding Regex}"
+                    IsChecked="{Binding UseRegex}"
                     VerticalAlignment="Center"/>
                 <CheckBox
                     x:Name="IgnoreCaseCheckBox"
@@ -71,6 +72,7 @@
                     IsChecked="{Binding IgnoreCase}"
                     Click="SearchBoxChanged"
                     VerticalAlignment="Center"/>
+                <Button Content="X" Click="SwitchTheme_Click" ToolTip="Theme"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">

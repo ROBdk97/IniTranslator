@@ -25,6 +25,7 @@ namespace IniTranslator
             DataContext = ViewModel;
             InitializeComponent();
             AttachColumnWidthChangedHandler();
+            SetTheme(ViewModel.Settings.Theme);
         }
 
         private async void Open_ClickAsync(object sender, RoutedEventArgs e)
@@ -56,7 +57,7 @@ namespace IniTranslator
                 return;
             }
 
-            bool useRegex = ViewModel.Regex;
+            bool useRegex = ViewModel.UseRegex;
             bool ignoreCase = ViewModel.IgnoreCase;
             var comparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
@@ -310,6 +311,46 @@ namespace IniTranslator
             };
             settingsWindow.ShowDialog();
             ViewModel.LoadSettings();
+        }
+
+        private void JumpNextMissingPlaceholder_Click(object sender, RoutedEventArgs e)
+        {
+            // get current selected index
+            int index = listView.SelectedIndex;
+            if (index < 0) index = 0;
+            // if no item is selected, jump to the first change
+            var newIndex = ViewModel.GetNextMissingPlaceHolder(index);
+            if (newIndex <= index) return;
+
+            // Scroll to the specified line and select it
+            listView.ScrollIntoView(listView.Items[newIndex]);
+            listView.SelectedIndex = newIndex;
+        }
+
+        public void SetTheme(string theme)
+        {
+            ResourceDictionary themeResource = new ResourceDictionary();
+
+            switch (theme)
+            {
+                case "Dark":
+                    themeResource.Source = new Uri("pack://application:,,,/Themes/DarkTheme.xaml");
+                    break;
+                case "Light":
+                default:
+                    themeResource.Source = new Uri("pack://application:,,,/Themes/LightTheme.xaml");
+                    break;
+            }
+
+            // Clear the old resources and add the new theme resources
+            Resources.MergedDictionaries.Clear();
+            Resources.MergedDictionaries.Add(themeResource);
+        }
+
+        private void SwitchTheme_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Settings.Theme = ViewModel.Settings.Theme == "Light" ? "Dark" : "Light";
+            SetTheme(ViewModel.Settings.Theme);
         }
     }
 }

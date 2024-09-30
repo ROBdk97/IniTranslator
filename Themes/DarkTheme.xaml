@@ -1,0 +1,131 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Global Colors -->
+    <Color x:Key="BackgroundColor">#FF1E1E1E</Color>
+    <!-- Dark background for window -->
+    <Color x:Key="ForegroundColor">#FFFFFFFF</Color>
+    <!-- White foreground (text) -->
+    <Color x:Key="ControlBackgroundColor">#FF2E2E2E</Color>
+    <!-- Dark gray background for controls -->
+    <Color x:Key="BorderBrushColor">#FF5A5A5A</Color>
+    <!-- Darker border for controls -->
+    <Color x:Key="SelectedBackgroundColor">#FF3E3E3E</Color>
+    <!-- Slightly lighter background for selected items -->
+    <Color x:Key="SelectedForegroundColor">#FFFFFFFF</Color>
+    <!-- White text for selected items -->
+    <Color x:Key="MenuBackgroundColor">#FF2A2A2A</Color>
+    <!-- Dark background color for Menu -->
+
+    <!-- Global Brushes -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
+    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="{StaticResource ControlBackgroundColor}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderBrushColor}"/>
+    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="{StaticResource SelectedBackgroundColor}"/>
+    <SolidColorBrush x:Key="SelectedForegroundBrush" Color="{StaticResource SelectedForegroundColor}"/>
+    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="{StaticResource MenuBackgroundColor}"/>
+
+    <!-- Window Style -->
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+    </Style>
+
+    <!-- Button Style -->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    </Style>
+
+    <!-- TextBox Style -->
+    <Style TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    </Style>
+    
+    <!-- TextBlock Style -->
+    <Style TargetType="TextBlock">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+    </Style>
+
+    <!-- StackPanel Style -->
+    <Style TargetType="StackPanel">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+    </Style>
+
+    <!-- ListView Style -->
+    <Style TargetType="ListView">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    </Style>
+
+    <!-- ListViewItem Style (to handle item selection and hover state) -->
+    <Style TargetType="ListViewItem">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="Control.Padding" Value="5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+        <!-- Style Triggers for Selection and Hover -->
+        <Style.Triggers>
+            <!-- When the item is selected -->
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource SelectedBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource SelectedForegroundBrush}"/>
+            </Trigger>
+
+            <!-- When the item is hovered over (mouse is over it) -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FF4A4A4A"/>
+                <!-- Darker gray for hover state -->
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+                <!-- Keep text color white -->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <!-- CheckBox Style -->
+    <Style TargetType="CheckBox">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+    </Style>
+
+    <!-- Menu Style -->
+    <Style TargetType="Menu">
+        <Setter Property="Background" Value="{StaticResource MenuBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    </Style>
+
+    <!-- MenuItem Style -->
+    <Style TargetType="MenuItem">
+        <Setter Property="Background" Value="{StaticResource MenuBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource SelectedBackgroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- GridViewColumnHeader Style (ListView Column Headers) -->
+    <Style TargetType="GridViewColumnHeader">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource SelectedBackgroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

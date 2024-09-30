@@ -19,6 +19,7 @@ namespace IniTranslator.ViewModels
         private SettingsFile settingsFile; // Holds settings information
 
         private string searchText = string.Empty; // Search text for filtering translations
+
         public bool IgnoreCase
         {
             get => Settings.IgnoreCase;
@@ -28,17 +29,19 @@ namespace IniTranslator.ViewModels
                 OnPropertyChanged(nameof(IgnoreCase));
             }
         }
-        public bool Regex
+
+        public bool UseRegex
         {
-            get => Settings.Regex;
+            get => Settings.useRegex;
             set
             {
-                Settings.Regex = value;
-                OnPropertyChanged(nameof(Regex));
+                Settings.useRegex = value;
+                OnPropertyChanged(nameof(UseRegex));
             }
         }
 
         public string SearchText { get => searchText; set => SetProperty(ref searchText, value); }
+
         public SettingsFile Settings { get => settingsFile; }
 
         /// <summary>
@@ -83,13 +86,14 @@ namespace IniTranslator.ViewModels
             var index = 1;
             foreach (var key in englishIni.Keys)
             {
-                translations.Add(new Translations
-                {
-                    Index = index++,
-                    Key = key,
-                    Value = englishIni[key],
-                    Translation = translatedIni.TryGetValue(key, out var value) ? value : string.Empty
-                });
+                translations.Add(
+                    new Translations
+                    {
+                        Index = index++,
+                        Key = key,
+                        Value = englishIni[key],
+                        Translation = translatedIni.TryGetValue(key, out var value) ? value : string.Empty
+                    });
             }
             OnPropertyChanged(nameof(Translations));
             Debug.WriteLine("Translations updated");
@@ -148,7 +152,8 @@ namespace IniTranslator.ViewModels
         internal void ShowInExplorer(bool translated = false)
         {
             var path = translated ? settingsFile.TranslatedIniPath : settingsFile.EnglishIniPath;
-            if (string.IsNullOrWhiteSpace(path)) return;
+            if (string.IsNullOrWhiteSpace(path))
+                return;
             try
             {
                 Process.Start("explorer.exe", $"/select, \"{path}\"");
@@ -160,16 +165,15 @@ namespace IniTranslator.ViewModels
         }
 
         internal async Task Reload()
-        {
-            await UpdateTranslationsAsync(settingsFile.EnglishIniPath, settingsFile.TranslatedIniPath);
-        }
+        { await UpdateTranslationsAsync(settingsFile.EnglishIniPath, settingsFile.TranslatedIniPath); }
 
         internal async Task TranslateSelectedItemsAsync(IList selectedItems)
         {
             // for each selected item translate the value using the selected translator
             foreach (Translations item in selectedItems)
             {
-                if (string.IsNullOrWhiteSpace(item.Value)) continue;
+                if (string.IsNullOrWhiteSpace(item.Value))
+                    continue;
                 item.Translation = await Translate(item.Value);
             }
         }
@@ -178,16 +182,24 @@ namespace IniTranslator.ViewModels
         {
             return settingsFile.TranslationProvider switch
             {
-                TranslationProvider.GoogleTranslate => await Translators.GoogleTranslate(value, settingsFile.Language, settingsFile.GoogleApiKey),
-                TranslationProvider.DeepL => await Translators.DeepLTranslate(value, settingsFile.Language, settingsFile.DeepLApiKey),
+                TranslationProvider.GoogleTranslate => await Translators.GoogleTranslate(
+                    value,
+                    settingsFile.Language,
+                    settingsFile.GoogleApiKey),
+                TranslationProvider.DeepL => await Translators.DeepLTranslate(
+                    value,
+                    settingsFile.Language,
+                    settingsFile.DeepLApiKey),
                 _ => value,
             };
         }
 
         internal static void PasteFromClipboard(IList selectedItems)
         {
-            if (selectedItems is null) return;
-            if (selectedItems.Count == 0) return;
+            if (selectedItems is null)
+                return;
+            if (selectedItems.Count == 0)
+                return;
 
             var clipboardText = Clipboard.GetText();
             var lines = clipboardText.Split(separator, StringSplitOptions.None);
@@ -209,7 +221,8 @@ namespace IniTranslator.ViewModels
             foreach (var line in cleanLines)
             {
                 var parts = line.Split('=');
-                if (parts.Length != 2) continue;
+                if (parts.Length != 2)
+                    continue;
 
                 var key = parts[0];
                 var value = parts[1].Trim();
@@ -225,8 +238,10 @@ namespace IniTranslator.ViewModels
 
         internal static void CopyFromEnglish(IList selectedItems)
         {
-            if (selectedItems is null) return;
-            if (selectedItems.Count == 0) return;
+            if (selectedItems is null)
+                return;
+            if (selectedItems.Count == 0)
+                return;
             foreach (var item in selectedItems)
             {
                 if (item is Translations translation)
@@ -238,8 +253,10 @@ namespace IniTranslator.ViewModels
 
         internal static void CopySelectedItemsToClipboard(IList selectedItems)
         {
-            if (selectedItems is null) return;
-            if (selectedItems.Count == 0) return;
+            if (selectedItems is null)
+                return;
+            if (selectedItems.Count == 0)
+                return;
             var sb = new StringBuilder();
             foreach (Translations item in selectedItems)
             {
@@ -251,35 +268,43 @@ namespace IniTranslator.ViewModels
 
         internal void ReplaceSelectedItems(IList<Translations> selectedItems, string searchText, string replaceText)
         {
-            if (selectedItems is null || selectedItems.Count == 0) return;
+            if (selectedItems is null || selectedItems.Count == 0)
+                return;
 
             // Compile the regex for better performance if using regex
             RegexOptions regexOptions = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
-            Regex? regexPattern = Regex ? new Regex(searchText, regexOptions | RegexOptions.Compiled) : null;
+            Regex? regexPattern = UseRegex ? new Regex(searchText, regexOptions | RegexOptions.Compiled) : null;
 
             foreach (var item in selectedItems)
             {
-                item.Translation = Regex
+                item.Translation = UseRegex
                     ? ReplaceWithRegex(item.Translation ?? string.Empty, regexPattern!, replaceText)
                     : ReplaceWithStringComparison(item.Translation ?? string.Empty, searchText, replaceText);
             }
         }
 
         private static string ReplaceWithRegex(string input, Regex regex, string replaceText)
-        {
-            return regex.Replace(input, replaceText);
-        }
+        { return regex.Replace(input, replaceText); }
 
         private string ReplaceWithStringComparison(string input, string searchText, string replaceText)
         {
-            return input.Replace(searchText, replaceText, IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+            return input.Replace(
+                searchText,
+                replaceText,
+                IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
 
         internal async Task EqualizeFiles(string? oldFilePath)
         {
-            if (string.IsNullOrWhiteSpace(oldFilePath)) return;
-            if (string.IsNullOrWhiteSpace(settingsFile.EnglishIniPath) || string.IsNullOrWhiteSpace(settingsFile.TranslatedIniPath)) return;
-            await FileEquilizer.AddMissingEntries(oldFilePath, settingsFile.EnglishIniPath, settingsFile.TranslatedIniPath);
+            if (string.IsNullOrWhiteSpace(oldFilePath))
+                return;
+            if (string.IsNullOrWhiteSpace(settingsFile.EnglishIniPath) ||
+                string.IsNullOrWhiteSpace(settingsFile.TranslatedIniPath))
+                return;
+            await FileEquilizer.AddMissingEntries(
+                oldFilePath,
+                settingsFile.EnglishIniPath,
+                settingsFile.TranslatedIniPath);
             await Reload();
             string[] oldLines = await File.ReadAllLinesAsync(oldFilePath);
             var translationsDict = Translations.ToDictionary(t => t.Key);  // Create a dictionary for quick lookup
@@ -287,7 +312,8 @@ namespace IniTranslator.ViewModels
             foreach (var line in oldLines)
             {
                 var index = line.IndexOf('=');  // Use IndexOf for better performance than Split
-                if (index < 0) continue;  // Skip lines that do not contain '='
+                if (index < 0)
+                    continue;  // Skip lines that do not contain '='
 
                 var key = line.Substring(0, index);
                 var value = line.Substring(index + 1).Trim();
@@ -305,7 +331,8 @@ namespace IniTranslator.ViewModels
 
         internal async Task LoadBackupAsync()
         {
-            if (string.IsNullOrWhiteSpace(settingsFile.TranslatedIniPath)) return;
+            if (string.IsNullOrWhiteSpace(settingsFile.TranslatedIniPath))
+                return;
             var backupPath = settingsFile.TranslatedIniPath + ".bak";
             if (File.Exists(backupPath))
             {
@@ -316,13 +343,55 @@ namespace IniTranslator.ViewModels
 
         internal int GetNextChange(int current)
         {
+            // check if any contains OldValue
+            if (Translations.Any(t => string.IsNullOrWhiteSpace(t.OldValue)))
+            {
+                // Please click on "File"->"Open Old Ini File" first to use this feature. 
+                MessageBox.Show("Please click on \"File\"->\"Open Old Ini File\" first to use this feature.");
+                return current;
+            }
+
             var next = current + 1;
             while (next < Translations.Count)
             {
-                // if value and old value are not the same or translation is empty return the index
+                // if value and old value are not the same or translation is empty return the current
                 if (Translations[next].Value != Translations[next].OldValue)
                 {
                     return next;
+                }
+                next++;
+            }
+            return current;
+        }
+
+        internal int GetNextMissingPlaceHolder(int current)
+        {
+            var next = current + 1;
+            // Check for missing or mismatched placeholders in the translations Value
+            // Placeholders start with ~ and end with )
+            // Example: ~mission(Location|address)
+            // Other placeholders start with % followed by two alphanumeric characters
+            // Example: %ls
+            // The function ensures both sides have the same placeholders; if not, it returns the current index
+            while (next < Translations.Count)
+            {
+                var value = Translations[next].Value;
+                if (value != null)
+                {
+                    var valuePlaceHolders = Regex.Matches(value, @"(~\w+\(.*?\)|%[a-zA-Z0-9]{2})")
+                        .Select(m => m.Value)
+                        .ToHashSet();
+                    var translationPlaceHolders = Regex.Matches(
+                        Translations[next].Translation ?? string.Empty,
+                        @"(~\w+\(.*?\)|%[a-zA-Z0-9]{2})")
+                        .Select(m => m.Value)
+                        .ToHashSet();
+
+                    // Check if the placeholders are the same in both sets
+                    if (!valuePlaceHolders.SetEquals(translationPlaceHolders))
+                    {
+                        return next;
+                    }
                 }
                 next++;
             }
