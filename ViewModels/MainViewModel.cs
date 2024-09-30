@@ -367,30 +367,40 @@ namespace IniTranslator.ViewModels
         internal int GetNextMissingPlaceHolder(int current)
         {
             var next = current + 1;
-            // Check for missing or mismatched placeholders in the translations Value
-            // Placeholders start with ~ and end with )
-            // Example: ~mission(Location|address)
-            // Other placeholders start with % followed by two alphanumeric characters
-            // Example: %ls
-            // The function ensures both sides have the same placeholders; if not, it returns the current index
+
+            // Updated placeholder pattern:
+            // 1. %[a-zA-Z0-9]{1,2} for % placeholders with 1-2 alphanumeric characters, no preceding character before %
+            // 2. \[~\w+\(.*?\)\] for [~action(...)] placeholders enclosed in square brackets
+            // 3. ~\w+\(.*?\) for ~action(...) placeholders without square brackets
+            var placeholderPattern = @"(?<!\S)%[a-zA-Z0-9]{1,2}|\[~\w+\(.*?\)\]|~\w+\(.*?\)";
+
             while (next < Translations.Count)
             {
                 var value = Translations[next].Value;
                 if (value != null)
                 {
-                    var valuePlaceHolders = Regex.Matches(value, @"(~\w+\(.*?\)|%[a-zA-Z0-9]{2})")
-                        .Select(m => m.Value)
-                        .ToHashSet();
-                    var translationPlaceHolders = Regex.Matches(
-                        Translations[next].Translation ?? string.Empty,
-                        @"(~\w+\(.*?\)|%[a-zA-Z0-9]{2})")
-                        .Select(m => m.Value)
+                    // Extract placeholders in the Value field
+                    var valuePlaceHolders = Regex.Matches(value, placeholderPattern)
+                        .Select(m => m.Value.Trim()) // Normalize by trimming whitespace
                         .ToHashSet();
 
-                    // Check if the placeholders are the same in both sets
+                    // Extract placeholders in the Translation field
+                    var translationPlaceHolders = Regex.Matches(
+                        Translations[next].Translation ?? string.Empty,
+                        placeholderPattern)
+                        .Select(m => m.Value.Trim()) // Normalize by trimming whitespace
+                        .ToHashSet();
+
+                    // Compare the two sets of placeholders
                     if (!valuePlaceHolders.SetEquals(translationPlaceHolders))
                     {
-                        return next;
+                        // if value is null or whitespace skip
+                        if (string.IsNullOrWhiteSpace(value))
+                        {
+                            next++;
+                            continue;
+                        }
+                        return next; // Return index if placeholders don't match
                     }
                 }
                 next++;
