@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace IniTranslator.ViewModels
 {
-    public class MainViewModel : BaseModel
+    public partial class MainViewModel : BaseModel
     {
         private readonly ObservableCollection<Translations> translations; // Internal collection to be displayed
         private SettingsFile settingsFile; // Holds settings information
@@ -127,6 +127,21 @@ namespace IniTranslator.ViewModels
 
                 if (settingsFile is null || string.IsNullOrWhiteSpace(settingsFile.TranslatedIniPath))
                     return;
+
+                // Check for missing or mismatched placeholders before saving
+                if (ContainsMissingPlaceHolder())
+                {
+                    // Display a message box to inform the user about the issue
+                    MessageBox.Show(
+                        "There are missing or mismatched placeholders in your translations. Please review and correct them before saving.",
+                        "Missing Placeholders",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                    );
+
+                    Debug.WriteLine("Save operation aborted due to missing placeholders.");
+                    return; // Abort the save operation
+                }
 
                 var outputBuilder = new StringBuilder();
                 foreach (var translation in Translations)
@@ -364,48 +379,77 @@ namespace IniTranslator.ViewModels
             return current;
         }
 
-        internal int GetNextMissingPlaceHolder(int current)
+        // 1. %[a-zA-Z0-9]{1,2} for % placeholders with 1-2 alphanumeric characters, no preceding character before %
+        // 2. \[~\w+\(.*?\)\] for [~action(...)] placeholders enclosed in square brackets
+        // 3. ~\w+\(.*?\) for ~action(...) placeholders without square brackets
+        [GeneratedRegex(@"(?<!\S)%[a-zA-Z0-9]{1,2}|\[~\w+\(.*?\)\]|~\w+\(.*?\)", RegexOptions.Compiled)]
+        internal static partial Regex PlaceholderRegex();
+        /// <summary>
+        /// Retrieves all translation entries with mismatched placeholders between Value and Translation.
+        /// </summary>
+        /// <returns>A list of indices where placeholders are mismatched.</returns>
+        public List<int> GetEntriesWithMissingPlaceholders()
         {
-            var next = current + 1;
+            var mismatchedEntries = new List<int>();
 
-            // Updated placeholder pattern:
-            // 1. %[a-zA-Z0-9]{1,2} for % placeholders with 1-2 alphanumeric characters, no preceding character before %
-            // 2. \[~\w+\(.*?\)\] for [~action(...)] placeholders enclosed in square brackets
-            // 3. ~\w+\(.*?\) for ~action(...) placeholders without square brackets
-            var placeholderPattern = @"(?<!\S)%[a-zA-Z0-9]{1,2}|\[~\w+\(.*?\)\]|~\w+\(.*?\)";
-
-            while (next < Translations.Count)
+            for (int i = 0; i < Translations.Count; i++)
             {
-                var value = Translations[next].Value;
-                if (value != null)
+                var entry = Translations[i];
+
+                // Skip entries with null or whitespace values
+                if (string.IsNullOrWhiteSpace(entry?.Value))
+                    continue;
+
+                // Extract placeholders from the Value field
+                var valuePlaceholders = ExtractPlaceholders(entry.Value);
+
+                // Extract placeholders from the Translation field
+                var translationPlaceholders = ExtractPlaceholders(entry.Translation ?? string.Empty);
+
+                // Add the index to the result if placeholders are mismatched
+                if (!valuePlaceholders.SetEquals(translationPlaceholders))
                 {
-                    // Extract placeholders in the Value field
-                    var valuePlaceHolders = Regex.Matches(value, placeholderPattern)
-                        .Select(m => m.Value.Trim()) // Normalize by trimming whitespace
-                        .ToHashSet();
-
-                    // Extract placeholders in the Translation field
-                    var translationPlaceHolders = Regex.Matches(
-                        Translations[next].Translation ?? string.Empty,
-                        placeholderPattern)
-                        .Select(m => m.Value.Trim()) // Normalize by trimming whitespace
-                        .ToHashSet();
-
-                    // Compare the two sets of placeholders
-                    if (!valuePlaceHolders.SetEquals(translationPlaceHolders))
-                    {
-                        // if value is null or whitespace skip
-                        if (string.IsNullOrWhiteSpace(value))
-                        {
-                            next++;
-                            continue;
-                        }
-                        return next; // Return index if placeholders don't match
-                    }
+                    mismatchedEntries.Add(i);
                 }
-                next++;
             }
-            return current;
+
+            return mismatchedEntries;
         }
+
+        /// <summary>
+        /// Gets the next missing placeholder entry starting from the given index.
+        /// </summary>
+        /// <param name="current">The current index to start searching from.</param>
+        /// <returns>The index of the next mismatched placeholder, or -1 if none are found.</returns>
+        public int GetNextMissingPlaceHolder(int current)
+        {
+            // Get all mismatched entries
+            var mismatchedEntries = GetEntriesWithMissingPlaceholders();
+
+            // Find the first index greater than the current index
+            return mismatchedEntries.FirstOrDefault(index => index > current, -1);
+        }
+
+        /// <summary>
+        /// Determines whether there are any translations with missing or mismatched placeholders.
+        /// </summary>
+        /// <returns>True if any missing placeholders are found; otherwise, false.</returns>
+        public bool ContainsMissingPlaceHolder()
+        {
+            return GetEntriesWithMissingPlaceholders().Any();
+        }
+
+        /// <summary>
+        /// Extracts placeholders from a string using the specified regex pattern.
+        /// </summary>
+        /// <param name="input">The input string to analyze.</param>
+        /// <returns>A HashSet of normalized placeholders.</returns>
+        private static HashSet<string> ExtractPlaceholders(string input)
+        {
+            return PlaceholderRegex().Matches(input)
+                        .Select(m => m.Value.Trim())
+                        .ToHashSet();
+        }
+
     }
 }
