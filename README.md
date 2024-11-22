@@ -1,128 +1,156 @@
+Here's an improved version of your README:
+
+---
+
 # IniTranslator
 
-**IniTranslator** is a WPF-based desktop application designed to help users compare, edit, and manage translations in INI files, typically used for software localization. It allows for easy synchronization between English and translated versions of INI files, providing features for searching, editing, and managing translation tasks efficiently.
+**IniTranslator** is a powerful WPF desktop application designed for easy comparison, editing, and management of INI file translations, commonly used in software localization. With advanced features and an intuitive UI, it simplifies synchronization between English and translated INI files.
+
+![Screenshot](Image.png)
+
+---
 
 ## Table of Contents
 
 - [Features](#features)
 - [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Download Options](#download-options)
 - [Usage](#usage)
-- [Keyboard Shortcuts](#keyboard-shortcuts)
+  - [General Usage](#general-usage)
+  - [Keyboard Shortcuts](#keyboard-shortcuts)
+  - [Menu Options](#menu-options)
+  - [Toolbar Functions](#toolbar-functions)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 
-### Features
+---
 
-- **Multi-Language INI File Handling**: Open, edit, and compare English and translated INI files side-by-side, with support for extracting INI files directly from Star Citizen game archives.  
-- **Real-Time Search and Filtering**: Quickly locate translations with regex and case-insensitive search options, enabling efficient navigation through complex INI files.  
-- **Advanced Placeholder Validation**: Detect and resolve mismatched or missing placeholders with automatic navigation to problematic entries.  
-- **Integrated Backup System**: Create, restore, and manage translation backups seamlessly, ensuring data safety.  
-- **Translation API Integration**: Use Google Translate or DeepL APIs for quick and accurate translations, configurable in the settings.  
-- **Version Comparison**: Compare translations with older INI versions, identify differences, and jump directly to changes.  
-- **Customizable User Interface**: Switch between Light and Dark themes, and save preferences like window size, position, and settings for a consistent experience.  
-- **Keyboard-Driven Navigation**: Perform actions like jumping to lines, replacing text, or translating entries using intuitive keyboard shortcuts.  
-- **Contextual Editing Tools**: Copy English values to translations, replace text with regex support, and paste structured clipboard data into selected entries.  
-- **File System Integration**: Open INI files directly in Windows Explorer or extract English files from game data archives for complete workflow management.  
-- **Live Progress Indicators**: Monitor task completion status with progress bars and detailed status messages.  
-- **Comprehensive Help and Documentation**: In-app guidance, including detailed keyboard shortcuts, contextual tooltips, and a link to the GitHub repository for community support.
+## Features
+
+- **Multi-Language INI File Management**  
+  Open, edit, and compare English and translated INI files side-by-side. Extract INI files directly from *Star Citizen* game archives for localization tasks.
+  
+- **Search & Filtering**  
+  Utilize regex and case-insensitive search to quickly locate entries in large files.
+
+- **Placeholder Validation**  
+  Automatically detect and resolve mismatched or missing placeholders.
+
+- **Backup System**  
+  Create, manage, and restore backups effortlessly.
+
+- **Translation API Support**  
+  Leverage Google Translate or DeepL APIs for instant translations.
+
+- **Version Comparison**  
+  Identify differences between current and older INI file versions.
+
+- **Customizable UI**  
+  Switch between Light and Dark themes; save preferences like window size and position.
+
+- **Efficient Navigation**  
+  Navigate using intuitive keyboard shortcuts and jump to lines or specific entries with ease.
+
+- **Comprehensive Editing Tools**  
+  Replace text using regex, copy English values to translation fields, and manage structured clipboard data.
+
+- **File System Integration**  
+  Open INI files directly via Windows Explorer or extract INI files from game archives.
+
+- **Help & Documentation**  
+  In-app guidance with keyboard shortcuts, tooltips, and GitHub repository links.
+
+---
 
 ## Installation
 
 ### Prerequisites
 
-- **.NET 8 Desktop Runtime**: Make sure you have the .NET 8 Desktop Runtime installed. The setup file will install it if necessary.
+- **.NET 8 Desktop Runtime**: Ensure the runtime is installed. The setup file will handle installation if needed.
 
 ### Download Options
 
-1. **Download the Setup**: The setup file (`IniTranslatorSetup.msi`) will install the application, create desktop and start menu entries, and ensure the .NET 8 Desktop Runtime is installed.
+1. **Setup Installer**  
+   Install the application with a guided setup, including desktop/start menu entries and runtime installation.  
+   [Download Setup](https://github.com/ROBdk97/IniTranslator/releases/download/latest/IniTranslatorSetup.msi)
 
-   - [Download IniTranslator Setup](https://github.com/ROBdk97/IniTranslator/releases/download/latest/IniTranslatorSetup.msi)
+2. **Direct Executable**  
+   For advanced users who already have the runtime installed.  
+   [Download Executable](https://github.com/ROBdk97/IniTranslator/releases/download/latest/Release.zip)
 
-2. **Download the Executable**: If you already have the .NET 8 Desktop Runtime installed, you can directly download the program executable (`IniTranslator.exe`).
+---
 
-   - [Download IniTranslator Executable](https://github.com/ROBdk97/IniTranslator/releases/download/latest/IniTranslator.exe)
+## Usage
 
-# Ini Translator - Help & Documentation
+### General Usage
 
-## General Usage:
-- **Open Files:** Use *File > Open...* or press `Ctrl + O` to load English and Translated INI files.
-- **Extract INI:** Use *File > Extract from Game* to retrieve the English INI file from Star Citizen game archives.
-- **Edit Translations:** Click on items in the list to modify their translations.
-- **Translate:** Use *Edit > Translate* or press `Ctrl + T` to automatically translate selected items.
-- **Validate Placeholders:** Identify mismatched placeholders using the "Next Missing Placeholder" toolbar button.
-- **Save Progress:** Save translations with *File > Save* or press `Ctrl + S`.
-- **Restore Backups:** Reload previous translations using *File > Load Backup*.
+- **Open Files**: Load English and translated INI files via `File > Open` or `Ctrl + O`.
+- **Edit Translations**: Modify translation entries directly in the interface.
+- **Translate**: Use the configured API via `Edit > Translate` or `Ctrl + T`.
+- **Validate Placeholders**: Locate mismatched placeholders using the toolbar.
+- **Save Work**: Save your changes with `Ctrl + S`.
+- **Restore Backups**: Reload backups from `File > Load Backup`.
 
-## Keyboard Shortcuts:
-- **Ctrl + O:** Open INI files
-- **Ctrl + S:** Save translations
-- **Ctrl + C:** Copy selected items to clipboard
-- **Ctrl + V:** Paste clipboard contents into selected items
-- **Ctrl + M:** Copy English values to translation
-- **Ctrl + T:** Translate selected items
-- **Ctrl + J:** Jump to a specific line
-- **F3:** Jump to the next changed entry
-- **F4:** Jump to the next mismatched placeholder
+### Keyboard Shortcuts
 
-## Menu Options:
+- **Ctrl + O**: Open INI files  
+- **Ctrl + S**: Save translations  
+- **Ctrl + T**: Translate selected entries  
+- **Ctrl + J**: Jump to a specific line  
+- **F3**: Navigate to the next change  
+- **F4**: Jump to mismatched placeholders  
 
-### File:
-- **Open...**: Load English and Translated INI files.
-- **Open Old INI File...**: Load an older INI version for comparison.
-- **Extract from Game**: Extract the English INI file from game data archives.
-- **Save**: Save translations to the translated INI file.
-- **Reload**: Reload translations from the currently loaded INI files.
-- **Load Backup**: Restore translations from a backup file.
-- **Show in Explorer**: Open the file location in Windows Explorer.
-- **Exit**: Close the application.
+### Menu Options
 
-### Edit:
-- **Copy**: Copy selected items to clipboard.
-- **Paste**: Paste clipboard contents into selected items.
-- **Copy from English**: Replace translations with English values.
-- **Translate**: Automatically translate selected items using the configured API.
-- **Replace...**: Find and replace text within selected translations.
-- **Jump to Line...**: Navigate to a specific line.
+#### File  
+- **Open...**: Load English and translated INI files.  
+- **Extract from Game**: Retrieve English INI files from *Star Citizen* archives.  
+- **Save/Reload**: Manage translations.  
+- **Load Backup**: Restore previous versions.  
 
-### Tools:
-- **Settings**: Open the settings window to configure preferences like API keys and themes.
-- **Theme**: Switch between Light and Dark themes.
+#### Edit  
+- **Copy/Paste**: Manage clipboard data.  
+- **Replace**: Find and replace text.  
+- **Translate**: Automate translations.  
 
-### Help:
-- **Documentation**: View detailed usage instructions.
-- **About**: Learn more about Ini Translator.
+#### Tools  
+- **Settings**: Configure API keys, themes, and more.  
+- **Theme**: Toggle between Light and Dark modes.  
 
-## Toolbar Functions:
-- **Jump to Next Change:** Navigate to the next updated or changed translation.
-- **Next Missing Placeholder:** Highlight the next entry with mismatched placeholders.
-- **Search Box:** Filter translations using keywords or regular expressions.
-- **Replace:** Find and replace text in selected translations.
-- **Switch Theme:** Toggle between Light and Dark themes.
-- **Total Keys:** Display the total number of translation keys.
+---
 
-## Additional Features:
-- **Translation API Support:** Use Google Translate or DeepL for automated translations.
-- **Placeholder Validation:** Detect missing or mismatched placeholders before saving translations.
-- **Backup Management:** Automatically create backups when saving translations.
-- **INI Version Comparison:** Compare translations with older INI files to identify changes.
+## Toolbar Functions
+
+- **Search**: Filter translations using keywords or regex.  
+- **Jump to Changes**: Navigate directly to updated translations.  
+- **Placeholder Validation**: Highlight entries with mismatched placeholders.  
+- **Progress Indicators**: Monitor tasks in real-time.  
+
+---
 
 ## Contributing
 
-Contributions are welcome! If you want to contribute to the project, follow these steps:
+We welcome contributions! To contribute:
 
-1. Fork the repository on GitHub.
-2. Create a new branch for your feature: `git checkout -b feature/YourFeatureName`.
-3. Commit your changes: `git commit -m 'Add some feature'`.
-4. Push to the branch: `git push origin feature/YourFeatureName`.
-5. Open a pull request on GitHub.
+1. **Fork** the repository.  
+2. Create a branch: `git checkout -b feature/YourFeatureName`.  
+3. Commit changes: `git commit -m "Description of changes"`.  
+4. Push to your branch: `git push origin feature/YourFeatureName`.  
+5. Open a **Pull Request**.
 
-For major changes, please open an issue to discuss what you would like to change.
+For significant changes, start a discussion by opening an issue.
+
+---
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/ROBdk97/IniTranslator/blob/main/LICENSE) file for details.
+This project is licensed under the [MIT License](https://github.com/ROBdk97/IniTranslator/blob/main/LICENSE).
+
+---
 
 ## Contact
 
-For more information, issues, or feature requests, please visit the [GitHub repository](https://github.com/ROBdk97/IniTranslator) or open an issue there.
+- **GitHub Repository**: [IniTranslator](https://github.com/ROBdk97/IniTranslator)  
+- **Issues & Feature Requests**: Open an issue on GitHub  
