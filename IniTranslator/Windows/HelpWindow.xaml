@@ -2,41 +2,58 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Help - Ini Translator"
-        Width="600"
-        Height="600"
+        Width="700"
+        Height="700"
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
         Background="{DynamicResource BackgroundBrush}"
         Foreground="{DynamicResource ForegroundBrush}">
     <FlowDocumentScrollViewer Margin="10">
         <FlowDocument>
-            <Paragraph FontFamily="Segoe UI" FontSize="14">
-                <Bold>General Usage:</Bold>
-                <LineBreak />
-                -
-                <Bold>Open Files:</Bold> Use File > Open... to load English and Translated INI files.
-                <LineBreak />
-                -
-                <Bold>Select Items:</Bold> Click on items in the list to select them for translation or modification.
-                <LineBreak />
-                -
-                <Bold>Translate:</Bold> Use Edit > Translate or press Ctrl + T to automatically translate selected items using the configured API.
-                <LineBreak />
-                -
-                <Bold>Compare Files:</Bold> Open an Old INI file via File > Open Old INI File... to compare changes.
-                <LineBreak />
-                -
-                <Bold>Jump to Changes:</Bold> Use toolbar buttons or keyboard shortcuts to navigate to specific changes or missing placeholders.
-                <LineBreak />
-                -
-                <Bold>Save Translations:</Bold> Save your progress using File > Save or press Ctrl + S.
+            <!-- Title -->
+            <Paragraph FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="0,0,0,10">
+                Ini Translator - Help & Documentation
             </Paragraph>
 
-            <Paragraph FontFamily="Segoe UI" FontSize="14">
-                <Bold>Keyboard Shortcuts:</Bold>
+            <!-- General Usage -->
+            <Paragraph FontFamily="Segoe UI" FontSize="16" FontWeight="Bold" Margin="0,10,0,5">
+                General Usage:
+            </Paragraph>
+            <Paragraph FontFamily="Segoe UI" FontSize="14" Margin="0,0,0,10">
+                -
+                <Bold>Open Files:</Bold> Use
+                <Italic>File > Open...</Italic> or press Ctrl + O to load English and Translated INI files.
                 <LineBreak />
                 -
-                <Bold>Ctrl + O:</Bold> Open English and Translated INI files
+                <Bold>Extract INI:</Bold> Use
+                <Italic>File > Extract from Game</Italic> to retrieve the English INI file from Star Citizen game archives.
+                <LineBreak />
+                -
+                <Bold>Edit Translations:</Bold> Click on items in the list to modify their translations.
+                <LineBreak />
+                -
+                <Bold>Translate:</Bold> Use
+                <Italic>Edit > Translate</Italic> or press Ctrl + T to automatically translate selected items.
+                <LineBreak />
+                -
+                <Bold>Validate Placeholders:</Bold> Identify mismatched placeholders using the "Next Missing Placeholder" toolbar button.
+                <LineBreak />
+                -
+                <Bold>Save Progress:</Bold> Save translations with
+                <Italic>File > Save</Italic> or press Ctrl + S.
+                <LineBreak />
+                -
+                <Bold>Restore Backups:</Bold> Reload previous translations using
+                <Italic>File > Load Backup</Italic> .
+            </Paragraph>
+
+            <!-- Keyboard Shortcuts -->
+            <Paragraph FontFamily="Segoe UI" FontSize="16" FontWeight="Bold" Margin="0,10,0,5">
+                Keyboard Shortcuts:
+            </Paragraph>
+            <Paragraph FontFamily="Segoe UI" FontSize="14" Margin="0,0,0,10">
+                -
+                <Bold>Ctrl + O:</Bold> Open INI files
                 <LineBreak />
                 -
                 <Bold>Ctrl + S:</Bold> Save translations
@@ -51,92 +68,84 @@
                 <Bold>Ctrl + M:</Bold> Copy English values to translation
                 <LineBreak />
                 -
-                <Bold>Ctrl + T:</Bold> Translate selected items using API
+                <Bold>Ctrl + T:</Bold> Translate selected items
                 <LineBreak />
                 -
                 <Bold>Ctrl + J:</Bold> Jump to a specific line
+                <LineBreak />
+                -
+                <Bold>F3:</Bold> Jump to the next changed entry
+                <LineBreak />
+                -
+                <Bold>F4:</Bold> Jump to the next mismatched placeholder
             </Paragraph>
 
-            <Paragraph FontFamily="Segoe UI" FontSize="14">
-                <Bold>Menu Options:</Bold>
-                <LineBreak />
+            <!-- Menu Options -->
+            <Paragraph FontFamily="Segoe UI" FontSize="16" FontWeight="Bold" Margin="0,10,0,5">
+                Menu Options:
+            </Paragraph>
+            <Paragraph FontFamily="Segoe UI" FontSize="14" Margin="0,0,0,10">
                 <Bold>File:</Bold>
                 <LineBreak />
-                -
-                <Italic>Open...</Italic> : Load English and Translated INI files.
+                - Open...: Load English and Translated INI files.
                 <LineBreak />
-                -
-                <Italic>Open Old INI File...</Italic> : Load an older version of the INI file for comparison.
+                - Open Old INI File...: Load an older INI version for comparison.
                 <LineBreak />
-                -
-                <Italic>Extract from Game:</Italic> Extract the English INI file from game files.
+                - Extract from Game: Extract the English INI file from game data archives.
                 <LineBreak />
-                -
-                <Italic>Save:</Italic> Save your translations.
+                - Save: Save translations to the translated INI file.
                 <LineBreak />
-                -
-                <Italic>Reload:</Italic> Reload the translations from the INI files.
+                - Reload: Reload translations from the currently loaded INI files.
                 <LineBreak />
-                -
-                <Italic>Load Backup:</Italic> Restore translations from a backup file.
+                - Load Backup: Restore translations from a backup file.
                 <LineBreak />
-                -
-                <Italic>Show in Explorer:</Italic> Open the file location in Windows Explorer.
+                - Show in Explorer: Open the file location in Windows Explorer.
                 <LineBreak />
-                -
-                <Italic>Exit:</Italic> Close the application.
+                - Exit: Close the application.
                 <LineBreak />
                 <Bold>Edit:</Bold>
                 <LineBreak />
-                -
-                <Italic>Copy:</Italic> Copy selected items to clipboard.
+                - Copy: Copy selected items to clipboard.
                 <LineBreak />
-                -
-                <Italic>Paste:</Italic> Paste clipboard contents into selected items.
+                - Paste: Paste clipboard contents into selected items.
                 <LineBreak />
-                -
-                <Italic>Copy from English:</Italic> Replace translations with their English counterparts.
+                - Copy from English: Replace translations with English values.
                 <LineBreak />
-                -
-                <Italic>Translate:</Italic> Automatically translate selected items using the configured API.
+                - Translate: Automatically translate selected items using the configured API.
                 <LineBreak />
-                -
-                <Italic>Replace...</Italic> : Find and replace text in selected translations.
+                - Replace...: Find and replace text within selected translations.
                 <LineBreak />
-                -
-                <Italic>Jump to Line...</Italic> : Navigate to a specific line number in the list.
-                <LineBreak />
-                <Bold>View:</Bold>
-                <LineBreak />
-                -
-                <Italic>Theme:</Italic> Switch between Light and Dark themes.
+                - Jump to Line...: Navigate to a specific line.
                 <LineBreak />
                 <Bold>Tools:</Bold>
                 <LineBreak />
-                -
-                <Italic>Settings:</Italic> Open the settings window to configure application preferences.
+                - Settings: Open the settings window to configure preferences like API keys and themes.
+                <LineBreak />
+                - Theme: Switch between Light and Dark themes.
+                <LineBreak />
+                <Bold>Help:</Bold>
+                <LineBreak />
+                - Documentation: View detailed usage instructions.
+                <LineBreak />
+                - About: Learn more about Ini Translator.
             </Paragraph>
 
-            <Paragraph FontFamily="Segoe UI" FontSize="14">
-                <Bold>Toolbar Buttons:</Bold>
+            <!-- Toolbar Functions -->
+            <Paragraph FontFamily="Segoe UI" FontSize="16" FontWeight="Bold" Margin="0,10,0,5">
+                Toolbar Functions:
+            </Paragraph>
+            <Paragraph FontFamily="Segoe UI" FontSize="14" Margin="0,0,0,10">
+                -
+                <Bold>Jump to Next Change:</Bold> Navigate to the next updated or changed translation.
                 <LineBreak />
                 -
-                <Bold>Jump to Next Change:</Bold> Navigate to the next changed translation.
+                <Bold>Next Missing Placeholder:</Bold> Highlight the next entry with mismatched placeholders.
                 <LineBreak />
                 -
-                <Bold>Next Missing Placeholder:</Bold> Navigate to the next translation with missing placeholders.
+                <Bold>Search Box:</Bold> Filter translations using keywords or regular expressions.
                 <LineBreak />
                 -
-                <Bold>Search Box:</Bold> Filter translations based on your input.
-                <LineBreak />
-                -
-                <Bold>Clear Search (X):</Bold> Clear the search input.
-                <LineBreak />
-                -
-                <Bold>RegEx CheckBox:</Bold> Enable or disable regular expression search.
-                <LineBreak />
-                -
-                <Bold>Ignore Case CheckBox:</Bold> Toggle case-insensitive search.
+                <Bold>Replace:</Bold> Find and replace text in selected translations.
                 <LineBreak />
                 -
                 <Bold>Switch Theme:</Bold> Toggle between Light and Dark themes.
@@ -145,14 +154,33 @@
                 <Bold>Total Keys:</Bold> Display the total number of translation keys.
             </Paragraph>
 
-            <Paragraph FontFamily="Segoe UI" FontSize="14">
-                <Bold>About:</Bold>
+            <!-- Additional Features -->
+            <Paragraph FontFamily="Segoe UI" FontSize="16" FontWeight="Bold" Margin="0,10,0,5">
+                Additional Features:
+            </Paragraph>
+            <Paragraph FontFamily="Segoe UI" FontSize="14" Margin="0,0,0,10">
+                -
+                <Bold>Translation API Support:</Bold> Use Google Translate or DeepL for automated translations.
                 <LineBreak />
-                Ini Translator by ROBdk97.
+                -
+                <Bold>Placeholder Validation:</Bold> Detect missing or mismatched placeholders before saving translations.
                 <LineBreak />
+                -
+                <Bold>Backup Management:</Bold> Automatically create backups when saving translations.
+                <LineBreak />
+                -
+                <Bold>INI Version Comparison:</Bold> Compare translations with older INI files to identify changes.
+            </Paragraph>
+
+            <!-- Footer -->
+            <Paragraph FontFamily="Segoe UI" FontSize="14" FontWeight="Bold" Margin="0,10,0,5">
+                About:
+            </Paragraph>
+            <Paragraph FontFamily="Segoe UI" FontSize="14" Margin="0,0,0,10">
+                Ini Translator by ROBdk97. For more information or to contribute, visit our
                 <Hyperlink NavigateUri="https://github.com/ROBdk97/IniTranslator" RequestNavigate="Hyperlink_RequestNavigate">
-                    Visit our GitHub repository
-                </Hyperlink>
+                    GitHub Repository
+                </Hyperlink> .
             </Paragraph>
         </FlowDocument>
     </FlowDocumentScrollViewer>
