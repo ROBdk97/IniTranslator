@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="File" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>_Open...</value>
+  </data>
+  <data name="OpenEnglishAndTranslatedINIFiles" xml:space="preserve">
+    <value>Open English and Translated INI files</value>
+  </data>
+  <data name="OpenAnOlderVersionOfTheINIFileForComparison" xml:space="preserve">
+    <value>Open an older version of the INI file for comparison</value>
+  </data>
+  <data name="Open_OldINIFile" xml:space="preserve">
+    <value>Open _Old INI File...</value>
+  </data>
+  <data name="ExtractFromGame" xml:space="preserve">
+    <value>_Extract from Game</value>
+  </data>
+  <data name="ExtractTheEnglishINIFileFromGameFiles" xml:space="preserve">
+    <value>Extract the English INI file from game files</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>_Save</value>
+  </data>
+  <data name="Reload" xml:space="preserve">
+    <value>_Reload</value>
+  </data>
+  <data name="Load_Backup" xml:space="preserve">
+    <value>Load _Backup</value>
+  </data>
+  <data name="SaveYourCurrentTranslations" xml:space="preserve">
+    <value>Save your current translations</value>
+  </data>
+  <data name="ReloadTranslationsFromTheINIFiles" xml:space="preserve">
+    <value>Reload translations from the INI files</value>
+  </data>
+  <data name="RestoreTranslationsFromABackupFile" xml:space="preserve">
+    <value>Restore translations from a backup file</value>
+  </data>
+  <data name="EnglishINI" xml:space="preserve">
+    <value>_English INI</value>
+  </data>
+  <data name="TranslatedINI" xml:space="preserve">
+    <value>_Translated INI</value>
+  </data>
+  <data name="OpenTheEnglishINIFileLocationInExplorer" xml:space="preserve">
+    <value>Open the English INI file location in Explorer</value>
+  </data>
+  <data name="OpenTheTranslatedINIFileLocationInExplorer" xml:space="preserve">
+    <value>Open the Translated INI file location in Explorer</value>
+  </data>
+  <data name="CloseTheApplication" xml:space="preserve">
+    <value>Close the application</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>E_xit</value>
+  </data>
+  <data name="IniTranslator" xml:space="preserve">
+    <value>Ini Translator</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
+  <data name="CopySelectedItemsToClipboard" xml:space="preserve">
+    <value>Copy selected items to clipboard</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>_Paste</value>
+  </data>
+  <data name="CopyFromEnglish" xml:space="preserve">
+    <value>Copy from _English</value>
+  </data>
+  <data name="Translate" xml:space="preserve">
+    <value>_Translate</value>
+  </data>
+  <data name="JumpToLine" xml:space="preserve">
+    <value>Jump to _Line...</value>
+  </data>
+  <data name="PasteClipboard" xml:space="preserve">
+    <value>Paste clipboard contents into selected items</value>
+  </data>
+  <data name="ReplaceTranslationsWithTheirEnglishCounterparts" xml:space="preserve">
+    <value>Replace translations with their English counterparts</value>
+  </data>
+  <data name="AutomaticallyTranslateSelectedItemsUsingTheConfiguredAPI" xml:space="preserve">
+    <value>Automatically translate selected items using the configured API</value>
+  </data>
+  <data name="NavigateToASpecificLineNumberInTheList" xml:space="preserve">
+    <value>Navigate to a specific line number in the list</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>_Settings</value>
+  </data>
+  <data name="OpenTheSettingsWindowToConfigurePreferences" xml:space="preserve">
+    <value>Open the settings window to configure preferences</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>_Theme</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>_Light</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>_Dark</value>
+  </data>
+  <data name="SwitchToLightTheme" xml:space="preserve">
+    <value>Switch to Light theme</value>
+  </data>
+  <data name="SwitchToDarkTheme" xml:space="preserve">
+    <value>Switch to Dark theme</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>_Help</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>_Documentation</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>_About</value>
+  </data>
+  <data name="ViewDetailedDocumentationAndUsageInstructions" xml:space="preserve">
+    <value>View detailed documentation and usage instructions</value>
+  </data>
+  <data name="LearnMoreAboutIniTranslator" xml:space="preserve">
+    <value>Learn more about Ini Translator</value>
+  </data>
+  <data name="JumpToNextChange" xml:space="preserve">
+    <value>Jump to Next Change</value>
+  </data>
+  <data name="NextMissingPlaceholder" xml:space="preserve">
+    <value>Next Missing Placeholder</value>
+  </data>
+  <data name="NavigateToTheNextChangedTranslation" xml:space="preserve">
+    <value>Navigate to the next changed translation</value>
+  </data>
+  <data name="NavigateToTheNextTranslationWithMissingPlaceholders" xml:space="preserve">
+    <value>Navigate to the next translation with missing placeholders</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search:</value>
+  </data>
+  <data name="EnterTextToSearchWithinTranslations" xml:space="preserve">
+    <value>Enter text to search within translations</value>
+  </data>
+  <data name="ClearSearch" xml:space="preserve">
+    <value>Clear Search</value>
+  </data>
+  <data name="EnableRegularExpressionSearch" xml:space="preserve">
+    <value>Enable Regular Expression search</value>
+  </data>
+  <data name="IgnoreCase" xml:space="preserve">
+    <value>Ignore Case</value>
+  </data>
+  <data name="IgnoreCaseDuringSearch" xml:space="preserve">
+    <value>Ignore case during search</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="FindAndReplaceTextInSelectedTranslations" xml:space="preserve">
+    <value>Find and replace text in selected translations</value>
+  </data>
+  <data name="SwitchTheme" xml:space="preserve">
+    <value>Switch Theme</value>
+  </data>
+  <data name="ToggleBetweenLightAndDarkThemes" xml:space="preserve">
+    <value>Toggle between Light and Dark themes</value>
+  </data>
+  <data name="TotalKeys" xml:space="preserve">
+    <value>Total Keys:</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Translation" xml:space="preserve">
+    <value>Translation</value>
+  </data>
+  <data name="EditTheTranslationForThisKey" xml:space="preserve">
+    <value>Edit the translation for this key</value>
+  </data>
+  <data name="Jump" xml:space="preserve">
+    <value>Jump</value>
+  </data>
+  <data name="LineW" xml:space="preserve">
+    <value>Line: </value>
+  </data>
+  <data name="ReplaceText" xml:space="preserve">
+    <value>Replace Text</value>
+  </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Search Text:</value>
+  </data>
+  <data name="ReplaceWith" xml:space="preserve">
+    <value>Replace With:</value>
+  </data>
+  <data name="ReplaceAll" xml:space="preserve">
+    <value>Replace All</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SelectVersion" xml:space="preserve">
+    <value>Select Version</value>
+  </data>
+  <data name="PleaseSelectAVersionFromTheList" xml:space="preserve">
+    <value>Please select a version from the list:</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="SettingsWindow_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsWindow_Language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="SettingsWindow_Theme" xml:space="preserve">
+    <value>Theme:</value>
+  </data>
+  <data name="SettingsWindow_TranslationProvider" xml:space="preserve">
+    <value>Translation Provider:</value>
+  </data>
+  <data name="SettingsWindow_DeepLApiKey" xml:space="preserve">
+    <value>DeepL Api Key:</value>
+  </data>
+  <data name="SettingsWindow_GoogleTranslateApiKey" xml:space="preserve">
+    <value>Google Translate Api Key:</value>
+  </data>
+  <data name="SettingsViewModel_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SettingsViewModel_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SpanishSpain" xml:space="preserve">
+    <value>Spanish (Spain)</value>
+  </data>
+  <data name="FrenchFrance" xml:space="preserve">
+    <value>French (France)</value>
+  </data>
+  <data name="ItalianItaly" xml:space="preserve">
+    <value>Italian (Italy)</value>
+  </data>
+  <data name="LithuanianLithuania" xml:space="preserve">
+    <value>Lithuanian (Lithuania)</value>
+  </data>
+  <data name="PortugueseBrazil" xml:space="preserve">
+    <value>Portuguese (Brazil)</value>
+  </data>
+  <data name="GermanGermany" xml:space="preserve">
+    <value>German (Germany)</value>
+  </data>
+</root>
