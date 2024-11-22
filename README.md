@@ -70,7 +70,7 @@
 
 1. **Setup Installer**  
    Install the application with a guided setup, including desktop/start menu entries and runtime installation.  
-   [Download Setup](https://github.com/ROBdk97/IniTranslator/releases/download/latest/IniTranslaterSetup.msi)
+   [Download Setup](https://github.com/ROBdk97/IniTranslator/releases/latest/download/IniTranslatorSetup.msi)
 
 2. **Direct Executable**  
    For advanced users who already have the runtime installed.  
