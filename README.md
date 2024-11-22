@@ -43,32 +43,69 @@
 
    - [Download IniTranslator Executable](https://github.com/ROBdk97/IniTranslator/releases/download/latest/IniTranslator.exe)
 
-## Usage
+# Ini Translator - Help & Documentation
 
-1. **Open INI Files**:
-   - Use the "Open" button to select and load English and translated INI files for comparison.
-2. **Open Old INI File**:
-   - Use the "Open Old INI File" option to select an older version of an INI file. This is useful for comparing changes and utilizing the "Jump to Next Change" feature.
-3. **Search and Filter Translations**:
-   - Enter text in the search box to filter translations. Enable "Regex" for advanced regular expression search or "Ignore Case" for case-insensitive search.
-4. **Edit Translations**:
-   - Select items in the list and use the context menu or keyboard shortcuts to copy, paste, translate, or manage translations.
-5. **Save Changes**:
-   - Use the "Save" button to save any changes made to the translated INI file.
-6. **Backup and Reload**:
-   - Use the backup and reload features to prevent data loss and restore previous states.
+## General Usage:
+- **Open Files:** Use *File > Open...* or press `Ctrl + O` to load English and Translated INI files.
+- **Extract INI:** Use *File > Extract from Game* to retrieve the English INI file from Star Citizen game archives.
+- **Edit Translations:** Click on items in the list to modify their translations.
+- **Translate:** Use *Edit > Translate* or press `Ctrl + T` to automatically translate selected items.
+- **Validate Placeholders:** Identify mismatched placeholders using the "Next Missing Placeholder" toolbar button.
+- **Save Progress:** Save translations with *File > Save* or press `Ctrl + S`.
+- **Restore Backups:** Reload previous translations using *File > Load Backup*.
 
-## Keyboard Shortcuts
+## Keyboard Shortcuts:
+- **Ctrl + O:** Open INI files
+- **Ctrl + S:** Save translations
+- **Ctrl + C:** Copy selected items to clipboard
+- **Ctrl + V:** Paste clipboard contents into selected items
+- **Ctrl + M:** Copy English values to translation
+- **Ctrl + T:** Translate selected items
+- **Ctrl + J:** Jump to a specific line
+- **F3:** Jump to the next changed entry
+- **F4:** Jump to the next mismatched placeholder
 
-- **Ctrl + C**: Copy selected items to clipboard.
-- **Ctrl + V**: Paste clipboard contents to selected items.
-- **Ctrl + M**: Copy English values to the translation column.
-- **Ctrl + T**: Use Translator API to translate selected items.
-- **Ctrl + J**: Jump to a specific line number.
-- **Ctrl + S**: Save the current changes.
-- **Ctrl + O**: Open an English or translated INI file.
-- **Ctrl + N**: Jump to the next change in the list.
-- **Ctrl + H**: Show help dialog with usage instructions and shortcuts.
+## Menu Options:
+
+### File:
+- **Open...**: Load English and Translated INI files.
+- **Open Old INI File...**: Load an older INI version for comparison.
+- **Extract from Game**: Extract the English INI file from game data archives.
+- **Save**: Save translations to the translated INI file.
+- **Reload**: Reload translations from the currently loaded INI files.
+- **Load Backup**: Restore translations from a backup file.
+- **Show in Explorer**: Open the file location in Windows Explorer.
+- **Exit**: Close the application.
+
+### Edit:
+- **Copy**: Copy selected items to clipboard.
+- **Paste**: Paste clipboard contents into selected items.
+- **Copy from English**: Replace translations with English values.
+- **Translate**: Automatically translate selected items using the configured API.
+- **Replace...**: Find and replace text within selected translations.
+- **Jump to Line...**: Navigate to a specific line.
+
+### Tools:
+- **Settings**: Open the settings window to configure preferences like API keys and themes.
+- **Theme**: Switch between Light and Dark themes.
+
+### Help:
+- **Documentation**: View detailed usage instructions.
+- **About**: Learn more about Ini Translator.
+
+## Toolbar Functions:
+- **Jump to Next Change:** Navigate to the next updated or changed translation.
+- **Next Missing Placeholder:** Highlight the next entry with mismatched placeholders.
+- **Search Box:** Filter translations using keywords or regular expressions.
+- **Replace:** Find and replace text in selected translations.
+- **Switch Theme:** Toggle between Light and Dark themes.
+- **Total Keys:** Display the total number of translation keys.
+
+## Additional Features:
+- **Translation API Support:** Use Google Translate or DeepL for automated translations.
+- **Placeholder Validation:** Detect missing or mismatched placeholders before saving translations.
+- **Backup Management:** Automatically create backups when saving translations.
+- **INI Version Comparison:** Compare translations with older INI files to identify changes.
 
 ## Contributing
 
