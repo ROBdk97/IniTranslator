@@ -19,12 +19,17 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: List Installed Windows SDKs
+        run: |
+          dir 'C:\Program Files (x86)\Windows Kits\10\Lib'
+
+
       - name: Restore dependencies
-        run: dotnet restore ./IniTranslator/IniTranslator.csproj
-
+        run: dotnet restore ./IniTranslator/IniTranslator.csproj -r win-x64
+        
       - name: Publish
-        run: dotnet publish ./IniTranslator/IniTranslator.csproj -c Release -p:DebugType=None -r win-x64 --no-restore -o publish
-
+        run: dotnet publish ./IniTranslator/IniTranslator.csproj -c Release -r win-x64 --no-restore -o publish -p:DebugType=None --self-contained true
+        
       - name: Compress Published Files
         shell: powershell
         run: Compress-Archive -Path publish\* -DestinationPath Release.zip
