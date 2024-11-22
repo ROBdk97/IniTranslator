@@ -27,7 +27,7 @@ jobs:
         run: dotnet restore ./IniTranslator/IniTranslator.csproj -r win-x64
         
       - name: Publish
-        run: dotnet publish ./IniTranslator/IniTranslator.csproj -c Release -r win-x64 --no-restore -o publish -p:DebugType=None --self-contained true
+        run: dotnet publish ./IniTranslator/IniTranslator.csproj -c Release -r win-x64 --no-restore -o publish -p:DebugType=None -p:PublishSingleFile=true --self-contained true
         
       - name: Compress Published Files
         shell: powershell
