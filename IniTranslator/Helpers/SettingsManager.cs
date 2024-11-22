@@ -104,6 +104,7 @@ namespace IniTranslator.Helpers
         private static SettingsFile CreateDefaultSettings()
         {
             var defaultSettings = new SettingsFile();
+            defaultSettings.Language = System.Globalization.CultureInfo.CurrentCulture.Name;
             try
             {
                 string json = JsonSerializer.Serialize(defaultSettings, JsonSerializerOptions);
