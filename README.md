@@ -12,17 +12,20 @@
 - [License](#license)
 - [Contact](#contact)
 
-## Features
+### Features
 
-- **Open and Compare INI Files**: Easily load and compare English and translated INI files.
-- **Powerful Search Functionality**: Use regex and case-insensitive search to filter and locate translations.
-- **Keyboard Shortcuts for Efficiency**: Perform common actions like copying, pasting, translating, and jumping to lines using keyboard shortcuts.
-- **Persistent User Settings**: The app remembers window size, position, and state between sessions.
-- **Backup and Reload**: Create backups of translations and reload them when needed.
-- **Integrated Translator API Support**: Use external translation APIs for quick translations.
-- **Open Old INI File to Compare Changes**: Load an older version of an INI file to compare it with the current version, which helps in identifying changes and jumping to the next change.
-- **Jump to Line and Next Change Navigation**: Quickly navigate to a specific line or the next change.
-- **Help and About Dialogs**: Get information about using the app and keyboard shortcuts.
+- **Multi-Language INI File Handling**: Open, edit, and compare English and translated INI files side-by-side, with support for extracting INI files directly from Star Citizen game archives.  
+- **Real-Time Search and Filtering**: Quickly locate translations with regex and case-insensitive search options, enabling efficient navigation through complex INI files.  
+- **Advanced Placeholder Validation**: Detect and resolve mismatched or missing placeholders with automatic navigation to problematic entries.  
+- **Integrated Backup System**: Create, restore, and manage translation backups seamlessly, ensuring data safety.  
+- **Translation API Integration**: Use Google Translate or DeepL APIs for quick and accurate translations, configurable in the settings.  
+- **Version Comparison**: Compare translations with older INI versions, identify differences, and jump directly to changes.  
+- **Customizable User Interface**: Switch between Light and Dark themes, and save preferences like window size, position, and settings for a consistent experience.  
+- **Keyboard-Driven Navigation**: Perform actions like jumping to lines, replacing text, or translating entries using intuitive keyboard shortcuts.  
+- **Contextual Editing Tools**: Copy English values to translations, replace text with regex support, and paste structured clipboard data into selected entries.  
+- **File System Integration**: Open INI files directly in Windows Explorer or extract English files from game data archives for complete workflow management.  
+- **Live Progress Indicators**: Monitor task completion status with progress bars and detailed status messages.  
+- **Comprehensive Help and Documentation**: In-app guidance, including detailed keyboard shortcuts, contextual tooltips, and a link to the GitHub repository for community support.
 
 ## Installation
 

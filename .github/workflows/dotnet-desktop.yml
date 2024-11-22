@@ -1,0 +1,45 @@
+name: .NET Build and Release
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: List Installed Windows SDKs
+        run: dir 'C:\Program Files (x86)\Windows Kits\10\Lib'
+
+
+      - name: Restore dependencies
+        run: dotnet restore ./IniTranslator/IniTranslator.csproj -r win-x64
+        
+      - name: Publish
+        run: dotnet publish ./IniTranslator/IniTranslator.csproj -c Release -r win-x64 --no-restore -o publish -p:DebugType=None -p:PublishSingleFile=true --self-contained true
+        
+      - name: Compress Published Files
+        shell: powershell
+        run: Compress-Archive -Path publish\* -DestinationPath Release.zip
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release
+          path: Release.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: Release.zip
