@@ -74,7 +74,7 @@
 
 2. **Direct Executable**  
    For advanced users who already have the runtime installed.  
-   [Download Executable](https://github.com/ROBdk97/IniTranslator/releases/download/latest/Release.zip)
+   [Download Executable](https://github.com/ROBdk97/IniTranslator/releases/latest/download/Release.zip)
 
 ---
 
