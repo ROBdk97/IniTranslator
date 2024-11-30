@@ -190,7 +190,7 @@ namespace IniTranslator.ViewModels
         }
 
         /// <summary>
-        /// Save _translations back to the translated INI file
+        /// Save translations back to the translated INI file
         /// </summary>
         internal void Save()
         {
@@ -309,6 +309,11 @@ namespace IniTranslator.ViewModels
             UpdateStatus("Selected items translated.");
         }
 
+        /// <summary>
+        /// Translate the given value using the selected translation provider.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private async Task<string?> TranslateAsync(string value)
         {
             return Settings.TranslationProvider switch
@@ -446,6 +451,11 @@ namespace IniTranslator.ViewModels
                 : input.Replace(searchText, replaceText, StringComparison.Ordinal);
         }
 
+        /// <summary>
+        /// Equalize the English and Translated INI files with an old INI file.
+        /// </summary>
+        /// <param name="oldFilePath"></param>
+        /// <returns></returns>
         internal async Task EqualizeFilesAsync(string? oldFilePath)
         {
             if (string.IsNullOrWhiteSpace(oldFilePath))
