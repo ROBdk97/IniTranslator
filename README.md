@@ -1,5 +1,6 @@
 # IniTranslator
 ![GitHub all releases](https://img.shields.io/github/downloads/ROBdk97/IniTranslator/total)
+
 **IniTranslator** is a powerful WPF desktop application designed for easy comparison, editing, and management of INI file translations, commonly used in software localization. With advanced features and an intuitive UI, it simplifies synchronization between English and translated INI files.
 
 ![Screenshot](Image.png)
