@@ -27,7 +27,10 @@
 ## Features
 
 - **Multi-Language INI File Management**  
-  Open, edit, and compare English and translated INI files side-by-side. Extract INI files directly from *Star Citizen* game archives for localization tasks.
+  Open, edit, and compare English and translated INI files side-by-side.
+  
+- **INI File Extraction**  
+  Extract INI files directly from *Star Citizen* game files!
   
 - **Search & Filtering**  
   Utilize regex and case-insensitive search to quickly locate entries in large files.
