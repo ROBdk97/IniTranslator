@@ -59,6 +59,9 @@
 - **Help & Documentation**  
   In-app guidance with keyboard shortcuts, tooltips, and GitHub repository links.
 
+- **Localized Application**  
+  Choose from multiple languages to enhance your experience.
+
 ---
 
 ## Installation
