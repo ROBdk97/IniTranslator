@@ -3573,7 +3573,7 @@ namespace ICSharpCode.SharpZipLib.Zip
                         throw new ZipException("AES Salt expected " + saltLen + " got " + saltIn);
                     //
                     byte[] pwdVerifyRead = new byte[2];
-                    baseStream.Read(pwdVerifyRead, 0, 2);
+                    baseStream.ReadExactly(pwdVerifyRead, 0, 2);
                     int blockSize = entry.AESKeySize / 8;   // bits to bytes
 
                     var decryptor = new ZipAESTransform(rawPassword_, saltBytes, blockSize, false);

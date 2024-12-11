@@ -403,6 +403,24 @@ namespace IniTranslator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing Placeholders.
+        /// </summary>
+        public static string MissingPlaceholders {
+            get {
+                return ResourceManager.GetString("MissingPlaceholders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are missing or mismatched placeholders in your translations. Please review and correct them before saving..
+        /// </summary>
+        public static string MissingPlaceholdersDesc {
+            get {
+                return ResourceManager.GetString("MissingPlaceholdersDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Navigate to a specific line number in the list.
         /// </summary>
         public static string NavigateToASpecificLineNumberInTheList {
@@ -543,6 +561,15 @@ namespace IniTranslator.Properties {
         public static string PortugueseBrazil {
             get {
                 return ResourceManager.GetString("PortugueseBrazil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready.
+        /// </summary>
+        public static string Ready {
+            get {
+                return ResourceManager.GetString("Ready", resourceCulture);
             }
         }
         
@@ -750,6 +777,15 @@ namespace IniTranslator.Properties {
         public static string SpanishSpain {
             get {
                 return ResourceManager.GetString("SpanishSpain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StarCitizen Path:.
+        /// </summary>
+        public static string StarCitizenPath {
+            get {
+                return ResourceManager.GetString("StarCitizenPath", resourceCulture);
             }
         }
         

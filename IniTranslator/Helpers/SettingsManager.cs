@@ -103,8 +103,11 @@ namespace IniTranslator.Helpers
         /// <returns>New default settings.</returns>
         private static SettingsFile CreateDefaultSettings()
         {
-            var defaultSettings = new SettingsFile();
-            defaultSettings.Language = System.Globalization.CultureInfo.CurrentCulture.Name;
+            var defaultSettings = new SettingsFile
+            {
+                Language = System.Globalization.CultureInfo.CurrentCulture.Name,
+                StarCitizenPath = StarCitizenPathFinder.GetStarCitizenPath()
+            };
             try
             {
                 string json = JsonSerializer.Serialize(defaultSettings, JsonSerializerOptions);

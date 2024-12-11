@@ -378,4 +378,16 @@
   <data name="GermanGermany" xml:space="preserve">
     <value>Tedesco (Germania)</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="MissingPlaceholdersDesc" xml:space="preserve">
+    <value>Nelle traduzioni sono presenti segnaposto mancanti o non corrispondenti. Si prega di controllare e correggere prima di salvare.</value>
+  </data>
+  <data name="MissingPlaceholders" xml:space="preserve">
+    <value>Segnaposto mancanti</value>
+  </data>
+  <data name="StarCitizenPath" xml:space="preserve">
+    <value>Percorso di StarCitizen:</value>
+  </data>
 </root>

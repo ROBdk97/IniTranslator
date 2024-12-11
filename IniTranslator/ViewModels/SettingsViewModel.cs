@@ -106,5 +106,15 @@ namespace IniTranslator.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public string? StarCitizenPath
+        {
+            get => _settingsFile.StarCitizenPath;
+            set
+            {
+                _settingsFile.StarCitizenPath = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using IniTranslator.Helpers;
 using IniTranslator.Models;
+using IniTranslator.Properties;
 using IniTranslator.Windows;
 using Microsoft.Win32;
 using ROBdk97.Unp4k.P4kModels;
-using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -21,7 +21,7 @@ namespace IniTranslator.ViewModels
         private SettingsFile _settings; // Holds settings information
 
         private string _searchText = string.Empty; // Search text for filtering _translations
-        private string _status = "Ready";
+        private string _status = Resources.Ready;
         private int _statusIndex = 0;
         private int _statusMax = 3;
 
@@ -82,13 +82,13 @@ namespace IniTranslator.ViewModels
         /// </summary>
         public ObservableCollection<Translations> Translations => _translations;
 
-        private static readonly string[] Separator = new[] { "\r\n" };
+        private static readonly string[] Separator = ["\r\n"];
 
         public MainViewModel()
         {
             _settings = SettingsManager.LoadSettings(); // Load settings or create default
             _translations = [];
-            UpdateStatus("Ready");
+            UpdateStatus(Resources.Ready);
             InitializeAsync();
         }
 
@@ -209,8 +209,8 @@ namespace IniTranslator.ViewModels
                 {
                     // Display a message box to inform the user about the issue
                     MessageBox.Show(
-                        "There are missing or mismatched placeholders in your translations. Please review and correct them before saving.",
-                        "Missing Placeholders",
+                        Resources.MissingPlaceholdersDesc,
+                        Resources.MissingPlaceholders,
                         MessageBoxButton.OK,
                         MessageBoxImage.Warning
                     );
@@ -414,13 +414,12 @@ namespace IniTranslator.ViewModels
                 {
                     sb.AppendLine($"{item.Key}={item.Value}");
                 }
-
-                Clipboard.SetText(sb.ToString());
+                Application.Current.Dispatcher.Invoke(() => Clipboard.SetText(sb.ToString()));
                 UpdateStatus("Copied selected items to clipboard.");
-            }
-            catch (Exception)
-            {
-            }
+            } // Catch COMException when clipboard is locked (copy still works)
+            catch (COMException) { }
+            catch (Exception) { }
+
         }
 
         internal void ReplaceSelectedItems(IEnumerable<Translations> selectedItems, string searchText, string replaceText)
@@ -642,14 +641,17 @@ namespace IniTranslator.ViewModels
         internal async Task ExtractFromGameAsync()
         {
             ResetStatus(3);
-            var path = StarCitizenPathFinder.GetStarCitizenPath();
-            if (string.IsNullOrWhiteSpace(path))
+            if(string.IsNullOrWhiteSpace(Settings.StarCitizenPath) || !Directory.Exists(Settings.StarCitizenPath))
+            {
+                Settings.StarCitizenPath = StarCitizenPathFinder.GetStarCitizenPath();
+            }
+            if (string.IsNullOrWhiteSpace(Settings.StarCitizenPath))
             {
                 MessageBox.Show("Star Citizen installation path not found. Please set it manually in the settings.", "Path Not Found", MessageBoxButton.OK, MessageBoxImage.Warning);
                 UpdateStatus("Star Citizen path not found.");
                 return;
             }
-
+            var path = Settings.StarCitizenPath;
             path = Path.GetDirectoryName(path) ?? path;
             var subDirs = Directory.GetDirectories(path);
 

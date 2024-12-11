@@ -358,4 +358,16 @@
   <data name="GermanGermany" xml:space="preserve">
     <value>German (Germany)</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="MissingPlaceholdersDesc" xml:space="preserve">
+    <value>There are missing or mismatched placeholders in your translations. Please review and correct them before saving.</value>
+  </data>
+  <data name="MissingPlaceholders" xml:space="preserve">
+    <value>Missing Placeholders</value>
+  </data>
+  <data name="StarCitizenPath" xml:space="preserve">
+    <value>StarCitizen Path:</value>
+  </data>
 </root>

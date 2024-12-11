@@ -23,5 +23,6 @@ namespace IniTranslator.Models
         public string DeepLApiKey { get; set; } = string.Empty;
         public string Language { get; set; } = LanguageCode.English;
         public string Theme { get; set; } = "Light";
+        public string? StarCitizenPath { get; set; }
     }
 }

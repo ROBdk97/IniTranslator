@@ -378,4 +378,16 @@
   <data name="GermanGermany" xml:space="preserve">
     <value>Alemán (Alemania)</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Listo</value>
+  </data>
+  <data name="MissingPlaceholdersDesc" xml:space="preserve">
+    <value>Faltan marcadores de posición o no coinciden. Por favor, revíselos y corríjalos antes de guardar.</value>
+  </data>
+  <data name="MissingPlaceholders" xml:space="preserve">
+    <value>Marcadores de posición que faltan</value>
+  </data>
+  <data name="StarCitizenPath" xml:space="preserve">
+    <value>Ruta de StarCitizen:</value>
+  </data>
 </root>

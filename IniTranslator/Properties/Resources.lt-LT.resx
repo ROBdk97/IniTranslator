@@ -378,4 +378,16 @@
   <data name="GermanGermany" xml:space="preserve">
     <value>Vokiečių kalba (Vokietija)</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Paruošta</value>
+  </data>
+  <data name="MissingPlaceholdersDesc" xml:space="preserve">
+    <value>Jūsų vertimuose trūksta arba nesutampa vietos žymenys. Prieš išsaugodami juos peržiūrėkite ir ištaisykite.</value>
+  </data>
+  <data name="MissingPlaceholders" xml:space="preserve">
+    <value>Trūkstamos pakaitinės žymos</value>
+  </data>
+  <data name="StarCitizenPath" xml:space="preserve">
+    <value>StarCitizen kelias:</value>
+  </data>
 </root>

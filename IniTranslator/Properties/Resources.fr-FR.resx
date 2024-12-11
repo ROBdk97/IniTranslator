@@ -378,4 +378,16 @@
   <data name="GermanGermany" xml:space="preserve">
     <value>Allemand (Allemagne)</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Prêt</value>
+  </data>
+  <data name="MissingPlaceholdersDesc" xml:space="preserve">
+    <value>Vos traductions contiennent des caractères de remplacement manquants ou mal assortis. Veuillez les vérifier et les corriger avant de les enregistrer.</value>
+  </data>
+  <data name="MissingPlaceholders" xml:space="preserve">
+    <value>Placeholders manquants</value>
+  </data>
+  <data name="StarCitizenPath" xml:space="preserve">
+    <value>Chemin de StarCitizen:</value>
+  </data>
 </root>

@@ -378,4 +378,16 @@
   <data name="GermanGermany" xml:space="preserve">
     <value>Deutsch (Deutschland)</value>
   </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Bereit</value>
+  </data>
+  <data name="MissingPlaceholdersDesc" xml:space="preserve">
+    <value>In Ihren Übersetzungen fehlen Platzhalter oder stimmen nicht überein. Bitte überprüfen und korrigieren Sie diese vor dem Speichern.</value>
+  </data>
+  <data name="MissingPlaceholders" xml:space="preserve">
+    <value>Fehlende Platzhalter</value>
+  </data>
+  <data name="StarCitizenPath" xml:space="preserve">
+    <value>StarCitizen-Pfad:</value>
+  </data>
 </root>

@@ -64,6 +64,15 @@
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
     </Style>
 
+    <Style TargetType="TextBox" x:Key="ToolBarTextBoxStyle" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="2" />
+    </Style>
+
+
     <!-- Label Style -->
     <Style TargetType="Label">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
