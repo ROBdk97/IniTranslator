@@ -215,8 +215,8 @@ namespace IniTranslator.ViewModels
                         MessageBoxImage.Warning
                     );
 
-                    UpdateStatus("Missing placeholders found. Save aborted.");
-                    return; // Abort the save operation
+                    //UpdateStatus("Missing placeholders found. Save aborted.");
+                    //return; // Abort the save operation
                 }
 
                 var outputBuilder = new StringBuilder();
@@ -401,20 +401,26 @@ namespace IniTranslator.ViewModels
 
         internal void CopySelectedItemsToClipboard(IList selectedItems)
         {
-            if (selectedItems == null || selectedItems.Count == 0)
+            try
             {
-                UpdateStatus("No items selected to copy.");
-                return;
-            }
+                if (selectedItems == null || selectedItems.Count == 0)
+                {
+                    UpdateStatus("No items selected to copy.");
+                    return;
+                }
 
-            var sb = new StringBuilder();
-            foreach (Translations item in selectedItems)
+                var sb = new StringBuilder();
+                foreach (Translations item in selectedItems)
+                {
+                    sb.AppendLine($"{item.Key}={item.Value}");
+                }
+
+                Clipboard.SetText(sb.ToString());
+                UpdateStatus("Copied selected items to clipboard.");
+            }
+            catch (Exception)
             {
-                sb.AppendLine($"{item.Key}={item.Value}");
             }
-
-            Clipboard.SetText(sb.ToString());
-            UpdateStatus("Copied selected items to clipboard.");
         }
 
         internal void ReplaceSelectedItems(IEnumerable<Translations> selectedItems, string searchText, string replaceText)
