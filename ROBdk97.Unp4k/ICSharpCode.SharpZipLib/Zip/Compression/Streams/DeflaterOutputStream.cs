@@ -125,9 +125,9 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
             {
                 if (cryptoTransform_ is ZipAESTransform)
                 {
-                    AESAuthCode = ((ZipAESTransform)cryptoTransform_).GetAuthCode();
+                    AESAuthCode = ((ZipAESTransform?)cryptoTransform_)?.GetAuthCode() ?? [];
                 }
-                cryptoTransform_.Dispose();
+                cryptoTransform_?.Dispose();
                 cryptoTransform_ = null;
             }
         }
@@ -154,9 +154,9 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
 
         #region Encryption
 
-        string password;
+        string? password;
 
-        ICryptoTransform cryptoTransform_;
+        ICryptoTransform? cryptoTransform_;
 
         /// <summary>
         /// Returns the 10 byte AUTH CODE to be appended immediately following the AES data stream.
@@ -171,7 +171,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         {
             get
             {
-                return password;
+                return password ?? string.Empty;
             }
             set
             {
@@ -416,7 +416,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         {
             if (cryptoTransform_ is ZipAESTransform)
             {
-                AESAuthCode = ((ZipAESTransform)cryptoTransform_).GetAuthCode();
+                AESAuthCode = ((ZipAESTransform?)cryptoTransform_)?.GetAuthCode() ?? [];
             }
         }
 

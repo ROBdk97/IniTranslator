@@ -495,7 +495,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             // Write the AES Authentication Code (a hash of the compressed and encrypted data)
             if (curEntry.AESKeySize > 0)
             {
-                baseOutputStream_.Write(AESAuthCode, 0, 10);
+                baseOutputStream_.Write(AESAuthCode!, 0, 10);
             }
 
             if (curEntry.Size < 0)
@@ -889,7 +889,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 zhs.WriteEndOfCentralDirectory(numEntries, sizeEntries, offset, zipComment);
             }
 
-            entries = null;
+            entries = [];
         }
 
         #region Instance Fields
@@ -906,7 +906,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <summary>
         /// The current entry being added.
         /// </summary>
-        ZipEntry curEntry;
+        ZipEntry? curEntry;
 
         int defaultCompressionLevel = Deflater.DEFAULT_COMPRESSION;
 

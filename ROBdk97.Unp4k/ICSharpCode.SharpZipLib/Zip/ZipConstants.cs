@@ -489,7 +489,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <returns>
         /// <paramref name="data">data</paramref>converted to a string
         /// </returns>
-        public static string ConvertToString(byte[] data)
+        public static string ConvertToString(byte[]? data)
         {
             if (data == null)
             {
@@ -560,11 +560,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// String to convert to an array
         /// </param>
         /// <returns>Converted array</returns>
-        public static byte[] ConvertToArray(string str)
+        public static byte[] ConvertToArray(string? str)
         {
-            if (str == null)
+            if (str is null)
             {
-                return new byte[0];
+                return [];
             }
 
             return Encoding.GetEncoding(DefaultCodePage).GetBytes(str);
@@ -578,11 +578,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// String to convert to an array
         /// </param>
         /// <returns>Converted array</returns>
-        public static byte[] ConvertToArray(int flags, string str)
+        public static byte[] ConvertToArray(int flags, string? str)
         {
-            if (str == null)
+            if (str is null)
             {
-                return new byte[0];
+                return [];
             }
 
             if ((flags & (int)GeneralBitFlags.UnicodeText) != 0)

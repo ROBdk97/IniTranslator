@@ -893,6 +893,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             {
                 // TODO: This is slightly safer but less efficient.  Think about wether it should change.
                 //				return (byte[]) extra.Clone();
+                if (extra is null) return [];
                 return extra;
             }
 
@@ -1152,7 +1153,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// A comment is only available for entries when read via the <see cref="ZipFile"/> class.
         /// The <see cref="ZipInputStream"/> class doesnt have the comment data available.
         /// </remarks>
-        public string Comment
+        public string? Comment
         {
             get
             {
@@ -1251,7 +1252,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// Gets a string representation of this ZipEntry.
         /// </summary>
         /// <returns>A readable textual representation of this <see cref="ZipEntry"/></returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return name;
         }
@@ -1282,9 +1283,9 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <remarks>
         /// The <seealso cref="ZipNameTransform">Zip name transform</seealso> class is more flexible.
         /// </remarks>
-        public static string CleanName(string name)
+        public static string CleanName(string? name)
         {
-            if (name == null)
+            if (name is null)
             {
                 return string.Empty;
             }
@@ -1320,8 +1321,8 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         uint dosTime;
 
         CompressionMethod method = CompressionMethod.Deflated;
-        byte[] extra;
-        string comment;
+        byte[]? extra;
+        string? comment;
 
         int flags;                             // general purpose bit flags
 

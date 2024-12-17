@@ -8,15 +8,13 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
     /// </summary>
     internal class ZipAESTransform : ICryptoTransform
     {
-
-#if !NETSTANDARD2_0
         class IncrementalHash : HMACSHA1
         {
             bool _finalised;
             public IncrementalHash(byte[] key) : base(key) { }
             public static IncrementalHash CreateHMAC(string n, byte[] key) => new IncrementalHash(key);
             public void AppendData(byte[] buffer, int offset, int count) => TransformBlock(buffer, offset, count, buffer, offset);
-            public byte[] GetHashAndReset()
+            public byte[]? GetHashAndReset()
             {
                 if (!_finalised)
                 {
@@ -32,7 +30,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         {
             public static string SHA1 = null;
         }
-#endif
 
         private const int PWD_VER_LENGTH = 2;
 
@@ -51,7 +48,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         private int _encrPos;
         private byte[] _pwdVerifier;
         private IncrementalHash _hmacsha1;
-        private byte[] _authCode = null;
+        private byte[]? _authCode = null;
 
         private bool _writeMode;
 
@@ -144,7 +141,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         /// <summary>
         /// Returns the 10 byte AUTH CODE to be checked or appended immediately following the AES data stream.
         /// </summary>
-        public byte[] GetAuthCode()
+        public byte[]? GetAuthCode()
         {
             if (_authCode == null)
             {

@@ -69,7 +69,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// </summary>
         ReadDataHandler internalReader;
 
-        Crc32 crc = new Crc32();
+        Crc32? crc = new Crc32();
         ZipEntry? entry;
 
         long size;
@@ -149,7 +149,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// Password is not set, password is invalid, compression method is invalid,
         /// version required to extract is not supported
         /// </exception>
-        public ZipEntry GetNextEntry()
+        public ZipEntry? GetNextEntry()
         {
             if (crc == null)
             {
