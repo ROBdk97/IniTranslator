@@ -13,7 +13,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
         #endregion
 
         #region Instance Fields
-        short[] tree;
+        short[]? tree;
         #endregion
 
         /// <summary>
@@ -71,17 +71,17 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
         /// <param name = "codeLengths">
         /// the array of code lengths
         /// </param>
-        public InflaterHuffmanTree(byte[] codeLengths)
+        public InflaterHuffmanTree(byte[]? codeLengths)
         {
             BuildTree(codeLengths);
         }
         #endregion
 
-        void BuildTree(byte[] codeLengths)
+        void BuildTree(byte[]? codeLengths)
         {
             int[] blCount = new int[MAX_BITLEN + 1];
             int[] nextCode = new int[MAX_BITLEN + 1];
-
+            if (codeLengths is null) return;
             for (int i = 0; i < codeLengths.Length; i++)
             {
                 int bits = codeLengths[i];

@@ -13,7 +13,7 @@
     <None Remove="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DeepL.net" Version="1.10.0" />
+    <PackageReference Include="DeepL.net" Version="1.11.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ROBdk97.Unp4k\ROBdk97.Unp4k.csproj" />

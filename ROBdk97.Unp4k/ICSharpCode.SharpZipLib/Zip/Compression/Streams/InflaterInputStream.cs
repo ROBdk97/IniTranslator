@@ -269,7 +269,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// Get/set the <see cref="ICryptoTransform"/> to apply to any data.
         /// </summary>
         /// <remarks>Set this value to null to have no transform applied.</remarks>
-        public ICryptoTransform CryptoTransform
+        public ICryptoTransform? CryptoTransform
         {
             set
             {
@@ -308,7 +308,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
 
         int available;
 
-        ICryptoTransform cryptoTransform;
+        ICryptoTransform? cryptoTransform;
         Stream inputStream;
         #endregion
     }

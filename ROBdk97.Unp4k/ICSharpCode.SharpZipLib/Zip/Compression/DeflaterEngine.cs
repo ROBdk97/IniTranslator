@@ -89,13 +89,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
             {
                 FillWindow();
                 bool canFlush = flush && (inputOff == inputEnd);
-
-#if DebugDeflation
-				if (DeflaterConstants.DEBUGGING) {
-					Console.WriteLine("window: [" + blockStart + "," + strstart + ","
-								+ lookahead + "], " + compressionFunction + "," + canFlush);
-				}
-#endif
                 switch (compressionFunction)
                 {
                     case DeflaterConstants.DEFLATE_STORED:
@@ -175,12 +168,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
         /// <param name="length">The length of the dictionary data.</param>
         public void SetDictionary(byte[] buffer, int offset, int length)
         {
-#if DebugDeflation
-			if (DeflaterConstants.DEBUGGING && (strstart != 1) ) 
-			{
-				throw new InvalidOperationException("strstart not 1");
-			}
-#endif
             adler.Update(buffer, offset, length);
             if (length < DeflaterConstants.MIN_MATCH)
             {
@@ -293,13 +280,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
 
             if (DeflaterConstants.COMPR_FUNC[level] != compressionFunction)
             {
-
-#if DebugDeflation
-				if (DeflaterConstants.DEBUGGING) {
-				   Console.WriteLine("Change from " + compressionFunction + " to "
-										  + DeflaterConstants.COMPR_FUNC[level]);
-				}
-#endif
                 switch (compressionFunction)
                 {
                     case DeflaterConstants.DEFLATE_STORED:
@@ -397,20 +377,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
         {
             short match;
             int hash = ((ins_h << DeflaterConstants.HASH_SHIFT) ^ window[strstart + (DeflaterConstants.MIN_MATCH - 1)]) & DeflaterConstants.HASH_MASK;
-
-#if DebugDeflation
-			if (DeflaterConstants.DEBUGGING) 
-			{
-				if (hash != (((window[strstart] << (2*HASH_SHIFT)) ^ 
-								  (window[strstart + 1] << HASH_SHIFT) ^ 
-								  (window[strstart + 2])) & HASH_MASK)) {
-						throw new SharpZipBaseException("hash inconsistent: " + hash + "/"
-												+window[strstart] + ","
-												+window[strstart + 1] + ","
-												+window[strstart + 2] + "," + HASH_SHIFT);
-					}
-			}
-#endif
             prev[strstart & DeflaterConstants.WMASK] = match = head[hash];
             head[hash] = unchecked((short)strstart);
             ins_h = hash;
@@ -565,11 +531,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
 
                 if (scan - strstart > matchLen)
                 {
-#if DebugDeflation
-              if (DeflaterConstants.DEBUGGING && (ins_h == 0) )
-              Console.Error.WriteLine("Found match: " + curMatch + "-" + (scan - strstart));
-#endif
-
                     matchStart = curMatch;
                     matchLen = scan - strstart;
 
@@ -606,14 +567,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
                     storedLength = DeflaterConstants.MAX_BLOCK_SIZE;
                     lastBlock = false;
                 }
-
-#if DebugDeflation
-				if (DeflaterConstants.DEBUGGING) 
-				{
-				   Console.WriteLine("storedBlock[" + storedLength + "," + lastBlock + "]");
-				}
-#endif
-
                 huffman.FlushStoredBlock(window, blockStart, storedLength, lastBlock);
                 blockStart += storedLength;
                 return !lastBlock;

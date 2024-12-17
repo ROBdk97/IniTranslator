@@ -509,11 +509,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// Initialise with known extra data.
         /// </summary>
         /// <param name="data">The extra data.</param>
-        public ZipExtraData(byte[] data)
+        public ZipExtraData(byte[]? data)
         {
             if (data == null)
             {
-                _data = new byte[0];
+                _data = [];
             }
             else
             {
@@ -560,9 +560,9 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// </summary>
         /// <param name="tag">The tag to locate data for.</param>
         /// <returns>Returns a <see cref="Stream"/> containing tag data or null if no tag was found.</returns>
-        public Stream GetStreamForTag(int tag)
+        public Stream? GetStreamForTag(int tag)
         {
-            Stream result = null;
+            Stream? result = null;
             if (Find(tag))
             {
                 result = new MemoryStream(_data, _index, _readValueLength, false);
@@ -575,7 +575,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// </summary>
         /// <typeparam name="T">The tag to search for.</typeparam>
         /// <returns>Returns a <see cref="ITaggedData">tagged value</see> or null if none found.</returns>
-        public T GetData<T>()
+        public T? GetData<T>()
             where T : class, ITaggedData, new()
         {
             T result = new T();
@@ -960,7 +960,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         int _readValueStart;
         int _readValueLength;
 
-        MemoryStream _newEntry;
+        MemoryStream? _newEntry;
         byte[] _data;
         #endregion
     }

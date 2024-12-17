@@ -454,8 +454,8 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         /// <param name="rgbIV">Initialisation vector for the new encryptor.</param>
         /// <returns>Returns a new PkzipClassic encryptor</returns>
         public override ICryptoTransform CreateEncryptor(
-            byte[] rgbKey,
-            byte[] rgbIV)
+            byte[]? rgbKey,
+            byte[]? rgbIV)
         {
             key_ = rgbKey;
             return new PkzipClassicEncryptCryptoTransform(Key);
@@ -468,15 +468,15 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         /// <param name="rgbIV">Initialisation vector for the new decryptor.</param>
         /// <returns>Returns a new decryptor.</returns>
         public override ICryptoTransform CreateDecryptor(
-            byte[] rgbKey,
-            byte[] rgbIV)
+            byte[]? rgbKey,
+            byte[]? rgbIV)
         {
             key_ = rgbKey;
             return new PkzipClassicDecryptCryptoTransform(Key);
         }
 
         #region Instance Fields
-        byte[] key_;
+        byte[]? key_;
         #endregion
     }
 }

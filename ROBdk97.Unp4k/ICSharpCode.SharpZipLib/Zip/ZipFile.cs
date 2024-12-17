@@ -158,7 +158,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <summary>
         /// Get the current/last entry tested.
         /// </summary>
-        public ZipEntry Entry
+        public ZipEntry? Entry
         {
             get { return entry_; }
         }
@@ -200,7 +200,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             operation_ = operation;
         }
 
-        internal void SetEntry(ZipEntry entry)
+        internal void SetEntry(ZipEntry? entry)
         {
             entry_ = entry;
             entryValid_ = true;
@@ -215,7 +215,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 
         #region Instance Fields
         ZipFile file_;
-        ZipEntry entry_;
+        ZipEntry? entry_;
         bool entryValid_;
         int errorCount_;
         long bytesTested_;
@@ -228,7 +228,7 @@ namespace ICSharpCode.SharpZipLib.Zip
     /// </summary>
     /// <remarks>If the message is non-null an error has occured.  If the message is null
     /// the operation as found in <see cref="TestStatus">status</see> has started.</remarks>
-    public delegate void ZipTestResultHandler(TestStatus status, string message);
+    public delegate void ZipTestResultHandler(TestStatus status, string? message);
     #endregion
 
     #region Update Definitions
@@ -719,7 +719,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <exception cref="ObjectDisposedException">
         /// The Zip file has been closed.
         /// </exception>
-        public ZipEntry GetEntry(string name)
+        public ZipEntry? GetEntry(string name)
         {
             if (isDisposed_)
             {
@@ -768,8 +768,6 @@ namespace ICSharpCode.SharpZipLib.Zip
             }
             return GetInputStream(index);
         }
-
-        private String md5_;
 
         /// <summary>
         /// Creates an input stream reading a zip entry
@@ -879,7 +877,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <param name="resultHandler">The <see cref="ZipTestResultHandler"></see> handler to call during testing.</param>
         /// <returns>true if all tests pass, false otherwise</returns>
         /// <exception cref="ObjectDisposedException">The object has already been closed.</exception>
-        public bool TestArchive(bool testData, TestStrategy strategy, ZipTestResultHandler resultHandler)
+        public bool TestArchive(bool testData, TestStrategy strategy, ZipTestResultHandler? resultHandler)
         {
             if (isDisposed_)
             {
@@ -1536,7 +1534,6 @@ namespace ICSharpCode.SharpZipLib.Zip
             try
             {
                 updateIndex_.Clear();
-                updateIndex_ = null;
 
                 if (contentsEdited_)
                 {
@@ -1892,7 +1889,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             {
                 result = true;
                 contentsEdited_ = true;
-                updates_[index] = null;
+                updates_.RemoveAt(index);
                 updateCount_ -= 1;
             }
             else
@@ -1919,7 +1916,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             if (index >= 0)
             {
                 contentsEdited_ = true;
-                updates_[index] = null;
+                updates_.RemoveAt(index);
                 updateCount_ -= 1;
             }
             else
@@ -2275,8 +2272,8 @@ namespace ICSharpCode.SharpZipLib.Zip
         void PostUpdateCleanup()
         {
             updateDataSource_ = null;
-            updates_ = null;
-            updateIndex_ = null;
+            updates_ = [];
+            updateIndex_ = [];
 
             if (archiveStorage_ != null)
             {
@@ -2293,14 +2290,6 @@ namespace ICSharpCode.SharpZipLib.Zip
                 name;
         }
 
-        string GetTransformedDirectoryName(string name)
-        {
-            INameTransform transform = NameTransform;
-            return (transform != null) ?
-                transform.TransformDirectory(name) :
-                name;
-        }
-
         /// <summary>
         /// Get a raw memory buffer.
         /// </summary>
@@ -2314,7 +2303,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             return copyBuffer_;
         }
 
-        void CopyDescriptorBytes(ZipUpdate update, Stream dest, Stream source)
+        void CopyDescriptorBytes(ZipUpdate update, Stream? dest, Stream? source)
         {
             int bytesToCopy = GetDescriptorSize(update);
 
@@ -2340,7 +2329,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             }
         }
 
-        void CopyBytes(ZipUpdate update, Stream destination, Stream source,
+        void CopyBytes(ZipUpdate update, Stream? destination, Stream source,
             long bytesToCopy, bool updateCrc)
         {
             if (destination == source)
@@ -3178,9 +3167,9 @@ namespace ICSharpCode.SharpZipLib.Zip
                 set { _offsetBasedSize = value; }
             }
 
-            public Stream GetSource()
+            public Stream? GetSource()
             {
-                Stream result = null;
+                Stream? result = null;
                 if (dataSource_ != null)
                 {
                     result = dataSource_.GetSource();
@@ -3513,7 +3502,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 
         Stream CreateAndInitAesDecryptionStream(Stream baseStream, ZipEntry entry)
         {
-            using (Aes aes = new AesManaged())
+            using (Aes aes = Aes.Create())
             {
                 aes.Key = this.key;
                 aes.IV = new byte[16];
@@ -3591,9 +3580,9 @@ namespace ICSharpCode.SharpZipLib.Zip
             return result;
         }
 
-        Stream CreateAndInitEncryptionStream(Stream baseStream, ZipEntry entry)
+        CryptoStream? CreateAndInitEncryptionStream(Stream baseStream, ZipEntry entry)
         {
-            CryptoStream result = null;
+            CryptoStream? result = null;
             if ((entry.Version < ZipConstants.VersionStrongEncryption)
                 || (entry.Flags & (int)GeneralBitFlags.StrongEncryption) == 0)
             {
@@ -3665,12 +3654,12 @@ namespace ICSharpCode.SharpZipLib.Zip
         List<ZipUpdate> updates_;
         long updateCount_; // Count is managed manually as updates_ can contain nulls!
         Dictionary<string, int> updateIndex_;
-        IArchiveStorage archiveStorage_;
-        IDynamicDataSource updateDataSource_;
+        IArchiveStorage? archiveStorage_;
+        IDynamicDataSource? updateDataSource_;
         bool contentsEdited_;
         int bufferSize_ = DefaultBufferSize;
-        byte[] copyBuffer_;
-        ZipString newComment_;
+        byte[]? copyBuffer_;
+        ZipString? newComment_;
         bool commentEdited_;
         IEntryFactory updateEntryFactory_ = new ZipEntryFactory();
         #endregion
@@ -3772,15 +3761,15 @@ namespace ICSharpCode.SharpZipLib.Zip
             /// </summary>
             /// <param name="zipString">The <see cref="ZipString"/> to convert to a string.</param>
             /// <returns>The textual equivalent for the input value.</returns>
-            static public implicit operator string(ZipString zipString)
+            static public implicit operator string?(ZipString zipString)
             {
                 zipString.MakeTextAvailable();
                 return zipString.comment_;
             }
 
             #region Instance Fields
-            string comment_;
-            byte[] rawComment_;
+            string? comment_;
+            byte[]? rawComment_;
             bool isSourceString_;
             #endregion
         }
@@ -4233,7 +4222,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             }
             #region Instance Fields
             ZipFile zipFile_;
-            Stream baseStream_;
+            Stream? baseStream_;
             long start_;
             long length_;
             long readPos_;
@@ -4322,9 +4311,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <param name="entry">The entry to provide data for.</param>
         /// <param name="name">The file name for data if known.</param>
         /// <returns>Returns a stream providing data; or null if not available</returns>
-        public Stream GetSource(ZipEntry entry, string name)
+        public Stream? GetSource(ZipEntry entry, string name)
         {
-            Stream result = null;
+            Stream? result = null;
 
             if (name != null)
             {
