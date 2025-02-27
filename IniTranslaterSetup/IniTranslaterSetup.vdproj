@@ -181,6 +181,29 @@
         }
         "FileType"
         {
+            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_CF9B2A2740DA49839855E8D303E71AD5"
+            {
+            "Name" = "8:INI"
+            "Description" = "8:"
+            "Extensions" = "8:ini"
+            "MIME" = "8:"
+            "Icon" = "8:_AFE1BFE0E9D74459A2024A2ABF3D3BA1"
+            "IconIndex" = "3:0"
+                "Command"
+                {
+                "Command" = "8:_40CADA76809A4B85BE3002FB12414AB0"
+                }
+                "Verbs"
+                {
+                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_A7EA8A95A1FB44A3A6DCB14639C35D6F"
+                    {
+                    "Command" = "8:&Open"
+                    "Verb" = "8:open"
+                    "Arguments" = "8:\"%1\""
+                    "Order" = "3:0"
+                    }
+                }
+            }
         }
         "Folder"
         {

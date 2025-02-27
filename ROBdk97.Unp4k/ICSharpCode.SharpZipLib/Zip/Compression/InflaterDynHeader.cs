@@ -174,7 +174,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
         byte[] blLens;
         byte[] litdistLens;
 
-        InflaterHuffmanTree blTree;
+        InflaterHuffmanTree? blTree;
 
         /// <summary>
         /// The current decode mode

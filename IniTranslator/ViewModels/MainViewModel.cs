@@ -97,7 +97,7 @@ namespace IniTranslator.ViewModels
             try
             {
                 ResetStatus(2);
-                await UpdateTranslationsAsync(Settings.EnglishIniPath, Settings.TranslatedIniPath);
+                await UpdateTranslationsAsync(Settings.EnglishIniPath, Settings.TranslatedIniPath).ConfigureAwait(true);
             }
             catch (Exception ex)
             {
@@ -641,7 +641,7 @@ namespace IniTranslator.ViewModels
         internal async Task ExtractFromGameAsync()
         {
             ResetStatus(3);
-            if(string.IsNullOrWhiteSpace(Settings.StarCitizenPath) || !Directory.Exists(Settings.StarCitizenPath))
+            if (string.IsNullOrWhiteSpace(Settings.StarCitizenPath) || !Directory.Exists(Settings.StarCitizenPath))
             {
                 Settings.StarCitizenPath = StarCitizenPathFinder.GetStarCitizenPath();
             }
@@ -693,7 +693,7 @@ namespace IniTranslator.ViewModels
             try
             {
                 var archive = new P4KArchive(archivePath);
-                await archive.LoadAsync();
+                await archive.LoadAsync().ConfigureAwait(true);
 
                 // Data/Localization/english/global.ini
                 const string iniPathInArchive = "Data/Localization/english/global.ini";
@@ -737,6 +737,20 @@ namespace IniTranslator.ViewModels
         {
             StatusIndex = 0;
             StatusMax = max;
+        }
+
+        internal async Task Open(string v)
+        {
+            // check if it is in the english folder
+            if (v.Contains("english"))
+                Settings.EnglishIniPath = v;
+            else
+                Settings.TranslatedIniPath = v;
+            try
+            {
+                await ReloadAsync().ConfigureAwait(true);
+            }
+            catch (Exception) { }
         }
     }
 }

@@ -192,7 +192,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <param name="entryName">An alternative name to be used for the new entry. Null if not applicable.</param>
         /// <param name="useFileSystem">If true entry detail is retrieved from the file system if the file exists.</param>
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
-        public ZipEntry MakeFileEntry(string fileName, string entryName, bool useFileSystem)
+        public ZipEntry MakeFileEntry(string fileName, string? entryName, bool useFileSystem)
         {
             var result = new ZipEntry(nameTransform_.TransformFile(!string.IsNullOrEmpty(entryName) ? entryName : fileName));
             result.IsUnicodeText = isUnicodeText_;
