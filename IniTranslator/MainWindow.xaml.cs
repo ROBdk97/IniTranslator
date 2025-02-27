@@ -33,15 +33,19 @@ namespace IniTranslator
         /// </summary>
         private async void Open_ClickAsync(object sender, RoutedEventArgs e)
         {
-            var englishFilePath = ShowOpenFileDialog("Select English INI File");
-            if (string.IsNullOrWhiteSpace(englishFilePath))
-                return;
+            try
+            {
+                var englishFilePath = ShowOpenFileDialog("Select English INI File");
+                if (string.IsNullOrWhiteSpace(englishFilePath))
+                    return;
 
-            var translatedFilePath = ShowOpenFileDialog("Select Translated INI File");
-            if (string.IsNullOrWhiteSpace(translatedFilePath))
-                return;
-            ViewModel.ResetStatus(2);
-            await ViewModel.UpdateTranslationsAsync(englishFilePath, translatedFilePath);
+                var translatedFilePath = ShowOpenFileDialog("Select Translated INI File");
+                if (string.IsNullOrWhiteSpace(translatedFilePath))
+                    return;
+                ViewModel.ResetStatus(2);
+                await ViewModel.UpdateTranslationsAsync(englishFilePath, translatedFilePath).ConfigureAwait(true);
+            }
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -537,6 +541,19 @@ namespace IniTranslator
                 var selectedItems = listView.SelectedItems.Cast<Translations>();
                 ViewModel.ReplaceSelectedItems(selectedItems, searchText, replaceText);
             }
+        }
+
+        internal async void Open(string? v)
+        {
+            if (v is null)
+                return;
+            if (string.IsNullOrWhiteSpace(v))
+                return;
+            try
+            {
+                await ViewModel.Open(v).ConfigureAwait(true);
+            }
+            catch (Exception) { }
         }
     }
 }
