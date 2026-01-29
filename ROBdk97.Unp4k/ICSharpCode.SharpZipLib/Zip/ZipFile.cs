@@ -2713,7 +2713,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             /// <param name="x">First object to compare</param>
             /// <param name="y">Second object to compare.</param>
             /// <returns>Compare result.</returns>
-            public int Compare(ZipUpdate x, ZipUpdate y)
+			public int Compare(ZipUpdate? x, ZipUpdate? y)
             {
                 int result;
 
@@ -4197,16 +4197,14 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <param name="entry">The entry to provide data for.</param>
         /// <param name="name">The file name for data if known.</param>
         /// <returns>Returns a stream providing data; or null if not available</returns>
-        public Stream? GetSource(ZipEntry entry, string name)
+		public Stream GetSource(ZipEntry entry, string name)
         {
-            Stream? result = null;
+			if (!string.IsNullOrEmpty(name))
+			{
+				return File.Open(name, FileMode.Open, FileAccess.Read, FileShare.Read);
+			}
 
-            if (name != null)
-            {
-                result = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.Read);
-            }
-
-            return result;
+			return Stream.Null;
         }
 
         #endregion
