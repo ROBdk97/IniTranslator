@@ -293,6 +293,36 @@ namespace IniTranslator
             }
         }
 
+        /// <summary>
+        /// Jumps to the next change entry in the ListView.
+        /// </summary>
+        private void JumpNextChange_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listView.SelectedIndex;
+            if (index < 0) index = 0;
+
+            int newIndex = ViewModel.GetNextChange(index);
+            if (newIndex <= index || newIndex >= listView.Items.Count) return;
+
+            listView.ScrollIntoView(listView.Items[newIndex]);
+            listView.SelectedIndex = newIndex;
+        }
+
+        /// <summary>
+        /// Jumps to the next missing placeholder entry in the ListView.
+        /// </summary>
+        private void JumpNextMissingPlaceholder_Click(object sender, RoutedEventArgs e)
+        {
+            int index = listView.SelectedIndex;
+            if (index < 0) index = 0;
+
+            int newIndex = ViewModel.GetNextMissingPlaceHolder(index);
+            if (newIndex <= index || newIndex >= listView.Items.Count) return;
+
+            listView.ScrollIntoView(listView.Items[newIndex]);
+            listView.SelectedIndex = newIndex;
+        }
+
 
         /// <summary>
         /// Applies the specified theme to the application.

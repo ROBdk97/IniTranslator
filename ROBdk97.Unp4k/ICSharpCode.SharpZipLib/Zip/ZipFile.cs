@@ -3404,7 +3404,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 
             var cipher = aes.CreateDecryptor();
 
-            var crypto = new CryptoStream(baseStream, cipher, CryptoStreamMode.Read);
+            using var crypto = new CryptoStream(baseStream, cipher, CryptoStreamMode.Read);
 
             var buffer = new MemoryStream();
             crypto.CopyTo(buffer);

@@ -96,7 +96,17 @@ namespace IniTranslator.ViewModels
                 ResetStatus(2);
                 await UpdateTranslationsAsync(englishFilePath, translatedFilePath).ConfigureAwait(true);
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                // Log the exception for diagnostics and inform the user that opening failed.
+                Debug.WriteLine(ex);
+                MessageBox.Show(
+                    "An error occurred while opening the INI files. Please try again.",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                UpdateStatus(Resources.Ready);
+            }
         }
 
         [RelayCommand]
@@ -184,20 +194,112 @@ namespace IniTranslator.ViewModels
 
                 await EqualizeFilesAsync(oldFilePath).ConfigureAwait(true);
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                // Log the exception for diagnostics and inform the user.
+                Debug.WriteLine("Error while opening or processing old INI file: " + ex);
+                MessageBox.Show(
+                    "An error occurred while opening the old INI file.\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
         [RelayCommand]
         private void JumpToNextChange(IList? items)
         {
-            // UI-scrolling is handled in the view; this command exists for parity and status updates.
-            UpdateStatus("Jump to next change from toolbar.");
+            // This command is called from the toolbar; navigation logic is in GetNextChange.
+            // The actual scrolling and selection is handled in the code-behind.
         }
 
         [RelayCommand]
         private void JumpToNextMissingPlaceholder(IList? items)
         {
-            UpdateStatus("Jump to next missing placeholder from toolbar.");
+            // This command is called from the toolbar; navigation logic is in GetNextMissingPlaceHolder.
+            // The actual scrolling and selection is handled in the code-behind.
+        }
+
+        internal int GetNextChange(int current)
+        {
+            if (!Translations.Any(t => !string.IsNullOrWhiteSpace(t.OldValue)))
+            {
+                MessageBox.Show("Please click on \"File\"->\"Open Old Ini File\" first to use this feature.");
+                UpdateStatus("Old INI file not loaded.");
+                return current;
+            }
+
+            for (int next = current + 1; next < Translations.Count; next++)
+            {
+                if (Translations[next].Value != Translations[next].OldValue)
+                {
+                    return next;
+                }
+            }
+
+            UpdateStatus("No further changes found.");
+            return current;
+        }
+
+        // 1. %[a-zA-Z0-9]{1,2} for % placeholders with 1-2 alphanumeric characters, no non-whitespace character before %
+        // 2. \[~\w+\(.*?\)\] for [~action(...)] placeholders enclosed in square brackets
+        // 3. ~\w+\(.*?\) for ~action(...) placeholders without square brackets
+        [GeneratedRegex(@"(?<!\S)%[a-zA-Z0-9]{1,2}|\[~\w+\(.*?\)\]|~\w+\(.*?\)", RegexOptions.Compiled)]
+        internal static partial Regex PlaceholderRegex();
+
+        public int GetNextMissingPlaceHolder(int current)
+        {
+            var mismatchedEntries = GetEntriesWithMissingPlaceholders();
+            var next = mismatchedEntries.FirstOrDefault(index => index > current, current);
+            if (next == current)
+                UpdateStatus("No further mismatched placeholders found.");
+            return next;
+        }
+
+        /// <summary>
+        /// Determines whether there are any _translations with missing or mismatched placeholders.
+        /// </summary>
+        /// <returns>True if any missing placeholders are found; otherwise, false.</returns>
+        public bool ContainsMissingPlaceHolder() => GetEntriesWithMissingPlaceholders().Count != 0;
+
+        public List<int> GetEntriesWithMissingPlaceholders()
+        {
+            var mismatchedEntries = new List<int>();
+
+            for (int i = 0; i < Translations.Count; i++)
+            {
+                var entry = Translations[i];
+
+                // Skip entries with null or whitespace values
+                if (string.IsNullOrWhiteSpace(entry?.Value))
+                    continue;
+
+                // Extract placeholders from the Value field
+                var valuePlaceholders = ExtractPlaceholders(entry.Value);
+
+                // Extract placeholders from the Translation field
+                var translationPlaceholders = ExtractPlaceholders(entry.Translation ?? string.Empty);
+
+                // Add the index to the result if placeholders are mismatched
+                if (!valuePlaceholders.SetEquals(translationPlaceholders))
+                {
+                    mismatchedEntries.Add(i);
+                }
+            }
+
+            return mismatchedEntries;
+        }
+
+        /// <summary>
+        /// Extracts placeholders from a string using the specified regex pattern.
+        /// </summary>
+        /// <param name="input">The input string to analyze.</param>
+        /// <returns>A HashSet of normalized placeholders.</returns>
+        private static HashSet<string> ExtractPlaceholders(string input)
+        {
+            return PlaceholderRegex().Matches(input)
+                                      .Select(m => m.Value.Trim())
+                                      .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
 
         private static string? ShowOpenFileDialog(string title, Window? owner)
@@ -567,13 +669,13 @@ namespace IniTranslator.ViewModels
             UpdateStatus("Replaced selected items.");
         }
 
-        private string ReplaceWithStringComparison(string input, string searchText, string replaceText)
+        private string ReplaceWithStringComparison(string input, string search, string replaceText)
         {
-            return string.IsNullOrEmpty(searchText)
+            return string.IsNullOrEmpty(search)
                 ? input
                 : IgnoreCase
-                ? Regex.Replace(input, Regex.Escape(searchText), replaceText, RegexOptions.IgnoreCase)
-                : input.Replace(searchText, replaceText, StringComparison.Ordinal);
+                ? Regex.Replace(input, Regex.Escape(search), replaceText, RegexOptions.IgnoreCase)
+                : input.Replace(search, replaceText, StringComparison.Ordinal);
         }
 
         /// <summary>

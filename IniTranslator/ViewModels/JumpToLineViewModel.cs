@@ -9,17 +9,7 @@ namespace IniTranslator.ViewModels
         public string Line
         {
             get => LineNumber.ToString();
-            set
-            {
-                if (int.TryParse(value, out var parsed))
-                {
-                    LineNumber = parsed;
-                }
-                else
-                {
-                    LineNumber = 0;
-                }
-            }
+            set => LineNumber = int.TryParse(value, out var parsed) ? parsed : 0;
         }
 
         public event EventHandler? RequestedClose;

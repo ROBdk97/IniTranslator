@@ -74,7 +74,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
             _encrPos = ENCRYPT_BLOCK;
 
             // Performs the equivalent of derive_key in Dr Brian Gladman's pwd2key.c
-            var pdb = new Rfc2898DeriveBytes(key, saltBytes, KEY_ROUNDS, System.Security.Cryptography.HashAlgorithmName.SHA1);
+            using var pdb = new Rfc2898DeriveBytes(key, saltBytes, KEY_ROUNDS, System.Security.Cryptography.HashAlgorithmName.SHA1);
             var rm = Aes.Create();
             rm.Mode = CipherMode.ECB;           // No feedback from cipher for CTR mode
             _counterNonce = new byte[_blockSize];
