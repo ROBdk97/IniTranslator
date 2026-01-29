@@ -2,12 +2,15 @@
 using IniTranslator.Models;
 using IniTranslator.Properties;
 using IniTranslator.Windows;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using ROBdk97.Unp4k.P4kModels;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,15 +18,22 @@ using System.Windows;
 
 namespace IniTranslator.ViewModels
 {
-    public partial class MainViewModel : BaseModel
+    public partial class MainViewModel : ObservableObject
     {
         private readonly ObservableCollection<Translations> _translations; // Internal collection to be displayed
         private SettingsFile _settings; // Holds settings information
 
-        private string _searchText = string.Empty; // Search text for filtering _translations
-        private string _status = Resources.Ready;
-        private int _statusIndex = 0;
-        private int _statusMax = 3;
+        [ObservableProperty]
+        private string searchText = string.Empty; // Search text for filtering _translations
+
+        [ObservableProperty]
+        private string status = Resources.Ready;
+
+        [ObservableProperty]
+        private int statusIndex;
+
+        [ObservableProperty]
+        private int statusMax = 3;
 
         public bool IgnoreCase
         {
@@ -36,18 +46,6 @@ namespace IniTranslator.ViewModels
                     OnPropertyChanged(nameof(IgnoreCase));
                 }
             }
-        }
-
-        public int StatusIndex
-        {
-            get => _statusIndex;
-            set => SetProperty(ref _statusIndex, value);
-        }
-
-        public int StatusMax
-        {
-            get => _statusMax;
-            set => SetProperty(ref _statusMax, value);
         }
 
         public bool UseRegex
@@ -63,17 +61,7 @@ namespace IniTranslator.ViewModels
             }
         }
 
-        public string SearchText
-        {
-            get => _searchText;
-            set => SetProperty(ref _searchText, value);
-        }
-
-        public string Status
-        {
-            get => _status;
-            set => SetProperty(ref _status, value);
-        }
+        // Note: explicit properties are kept for compatibility with tooling/bindings.
 
         public SettingsFile Settings => _settings;
 
@@ -90,6 +78,137 @@ namespace IniTranslator.ViewModels
             _translations = [];
             UpdateStatus(Resources.Ready);
             InitializeAsync();
+        }
+
+        [RelayCommand]
+        private async Task DoOpenAsync(Window? owner)
+        {
+            try
+            {
+                var englishFilePath = ShowOpenFileDialog("Select English INI File", owner);
+                if (string.IsNullOrWhiteSpace(englishFilePath))
+                    return;
+
+                var translatedFilePath = ShowOpenFileDialog("Select Translated INI File", owner);
+                if (string.IsNullOrWhiteSpace(translatedFilePath))
+                    return;
+
+                ResetStatus(2);
+                await UpdateTranslationsAsync(englishFilePath, translatedFilePath).ConfigureAwait(true);
+            }
+            catch (Exception) { }
+        }
+
+        [RelayCommand]
+        private void DoSave()
+        {
+            SaveCore();
+        }
+
+        [RelayCommand]
+        private async Task DoReloadAsync()
+        {
+            await ReloadCoreAsync().ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private async Task DoLoadBackupAsync()
+        {
+            await LoadBackupCoreAsync().ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private void ShowEnglishInExplorer()
+        {
+            ShowInExplorer(false);
+        }
+
+        [RelayCommand]
+        private void ShowTranslatedInExplorer()
+        {
+            ShowInExplorer(true);
+        }
+
+        [RelayCommand]
+        private void ClearSearch()
+        {
+            SearchText = string.Empty;
+        }
+
+        [RelayCommand]
+        private void CopySelected(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            CopySelectedItemsToClipboard(selectedItems);
+        }
+
+        [RelayCommand]
+        private void PasteSelected(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            PasteFromClipboard(selectedItems);
+        }
+
+        [RelayCommand]
+        private void CopyFromEnglishSelected(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            CopyFromEnglish(selectedItems);
+        }
+
+        [RelayCommand]
+        private async Task DoTranslateSelectedAsync(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            await TranslateSelectedItemsAsync(selectedItems.Cast<Translations>()).ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private async Task DoExtractFromGameAsync()
+        {
+            await ExtractFromGameCoreAsync().ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private async Task DoOpenOldIniAsync(Window? owner)
+        {
+            try
+            {
+                var oldFilePath = ShowOpenFileDialog("Select Old INI File", owner);
+                if (string.IsNullOrWhiteSpace(oldFilePath))
+                    return;
+
+                await EqualizeFilesAsync(oldFilePath).ConfigureAwait(true);
+            }
+            catch (Exception) { }
+        }
+
+        [RelayCommand]
+        private void JumpToNextChange(IList? items)
+        {
+            // UI-scrolling is handled in the view; this command exists for parity and status updates.
+            UpdateStatus("Jump to next change from toolbar.");
+        }
+
+        [RelayCommand]
+        private void JumpToNextMissingPlaceholder(IList? items)
+        {
+            UpdateStatus("Jump to next missing placeholder from toolbar.");
+        }
+
+        private static string? ShowOpenFileDialog(string title, Window? owner)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Ini files (*.ini)|*.ini",
+                Title = title
+            };
+
+            return openFileDialog.ShowDialog(owner) == true ? openFileDialog.FileName : null;
         }
 
         private async void InitializeAsync()
@@ -192,7 +311,9 @@ namespace IniTranslator.ViewModels
         /// <summary>
         /// Save translations back to the translated INI file
         /// </summary>
-        internal void Save()
+        internal void Save() => SaveCore();
+
+        private void SaveCore()
         {
             if (Settings is null || string.IsNullOrWhiteSpace(Settings.TranslatedIniPath))
             {
@@ -275,7 +396,7 @@ namespace IniTranslator.ViewModels
             }
         }
 
-        internal async Task ReloadAsync()
+        private async Task ReloadCoreAsync()
         {
             UpdateStatus("Reloading translations...");
             ResetStatus(2);
@@ -482,7 +603,7 @@ namespace IniTranslator.ViewModels
                     Settings.EnglishIniPath,
                     Settings.TranslatedIniPath);
 
-                await ReloadAsync();
+                await ReloadCoreAsync();
 
                 var oldLines = await File.ReadAllLinesAsync(oldFilePath);
                 var translationsDict = Translations.ToDictionary(t => t.Key, t => t);
@@ -513,7 +634,7 @@ namespace IniTranslator.ViewModels
             }
         }
 
-        internal async Task LoadBackupAsync()
+        private async Task LoadBackupCoreAsync()
         {
             if (string.IsNullOrWhiteSpace(Settings.TranslatedIniPath))
             {
@@ -532,7 +653,7 @@ namespace IniTranslator.ViewModels
             {
                 File.Copy(backupPath, Settings.TranslatedIniPath, overwrite: true);
                 Debug.WriteLine($"Backup restored from '{backupPath}'.");
-                await ReloadAsync();
+                await ReloadCoreAsync();
                 UpdateStatus("Backup loaded successfully.");
             }
             catch (Exception ex)
@@ -637,7 +758,7 @@ namespace IniTranslator.ViewModels
         /// <summary>
         /// Extract the English global.ini from game files.
         /// </summary>
-        internal async Task ExtractFromGameAsync()
+        private async Task ExtractFromGameCoreAsync()
         {
             ResetStatus(3);
             if (string.IsNullOrWhiteSpace(Settings.StarCitizenPath) || !Directory.Exists(Settings.StarCitizenPath))
@@ -727,7 +848,16 @@ namespace IniTranslator.ViewModels
         {
             StatusIndex++;
             Debug.WriteLine(message);
-            Application.Current.Dispatcher.Invoke(() => Status = message);
+
+            if (Application.Current?.Dispatcher is not null)
+            {
+                Application.Current.Dispatcher.Invoke(() => Status = message);
+            }
+            else
+            {
+                Status = message;
+            }
+
             if (reset)
                 ResetStatus();
         }
@@ -747,7 +877,7 @@ namespace IniTranslator.ViewModels
                 Settings.TranslatedIniPath = v;
             try
             {
-                await ReloadAsync().ConfigureAwait(true);
+                await ReloadCoreAsync().ConfigureAwait(true);
             }
             catch (Exception) { }
         }

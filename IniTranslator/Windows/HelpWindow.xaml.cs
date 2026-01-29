@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using System.Windows.Navigation;
+﻿using System.Windows;
+using IniTranslator.ViewModels;
 
 namespace IniTranslator.Windows
 {
@@ -11,20 +10,8 @@ namespace IniTranslator.Windows
     {
         public HelpWindow()
         {
+            DataContext = new HelpWindowViewModel();
             InitializeComponent();
-        }
-
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show($"Unable to open link: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            e.Handled = true;
         }
     }
 }

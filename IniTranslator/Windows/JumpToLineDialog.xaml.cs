@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using IniTranslator.ViewModels;
 
 namespace IniTranslator.Windows
 {
@@ -10,34 +10,16 @@ namespace IniTranslator.Windows
     /// </summary>
     public partial class JumpToLineDialog : Window
     {
+        private readonly JumpToLineViewModel _viewModel;
+
         public JumpToLineDialog()
         {
-            DataContext = this;
+            _viewModel = new JumpToLineViewModel();
+            DataContext = _viewModel;
             InitializeComponent();
         }
 
-        private int _lineNumber;
-        public string Line
-        {
-            get => _lineNumber.ToString();
-            set
-            {
-                if (int.TryParse(value, out int lineNumber) && lineNumber > 0)
-                {
-                    _lineNumber = lineNumber;
-                }
-                else
-                {
-                    _lineNumber = lineNumber;
-                }
-            }
-        }
-        public int LineNumber => _lineNumber;
-
-        private void Jump_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
+        public int LineNumber => _viewModel.LineNumber;
 
         private void Window_Activated(object sender, EventArgs e)
         {
@@ -76,6 +58,11 @@ namespace IniTranslator.Windows
             {
                 DialogResult = true;
             }
+        }
+
+        private void Jump_CommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            DialogResult = true;
         }
 
     }

@@ -2,6 +2,7 @@
     x:Class="IniTranslator.Windows.JumpToLineDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:IniTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:properties="clr-namespace:IniTranslator.Properties"
@@ -13,6 +14,9 @@
     Activated="Window_Activated"
     WindowStartupLocation="CenterOwner"
     WindowStyle="ToolWindow">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="Jump_CommandExecuted" />
+    </Window.CommandBindings>
     <Grid>
         <!--Jump to Line Dialog-->
         <Grid>
@@ -40,8 +44,8 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Click="Jump_Click"
-                Content="{x:Static properties:Resources.Jump}" />
+                Content="{x:Static properties:Resources.Jump}"
+                Command="ApplicationCommands.Open" />
         </Grid>
     </Grid>
 </Window>

@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace IniTranslator
 {
@@ -28,38 +27,6 @@ namespace IniTranslator
             SetTheme(ViewModel.Settings.Theme);
         }
 
-        /// <summary>
-        /// Handles the Open menu click event to load English and Translated INI files.
-        /// </summary>
-        private async void Open_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var englishFilePath = ShowOpenFileDialog("Select English INI File");
-                if (string.IsNullOrWhiteSpace(englishFilePath))
-                    return;
-
-                var translatedFilePath = ShowOpenFileDialog("Select Translated INI File");
-                if (string.IsNullOrWhiteSpace(translatedFilePath))
-                    return;
-                ViewModel.ResetStatus(2);
-                await ViewModel.UpdateTranslationsAsync(englishFilePath, translatedFilePath).ConfigureAwait(true);
-            }
-            catch (Exception) { }
-        }
-
-        /// <summary>
-        /// Displays an Open File Dialog with the specified title.
-        /// </summary>
-        private static string? ShowOpenFileDialog(string title)
-        {
-            var openFileDialog = new OpenFileDialog
-            {
-                Filter = "Ini files (*.ini)|*.ini",
-                Title = title
-            };
-            return openFileDialog.ShowDialog() == true ? openFileDialog.FileName : null;
-        }
 
         /// <summary>
         /// Performs search filtering on the ListView based on the SearchText.
@@ -207,85 +174,6 @@ namespace IniTranslator
             DetachColumnWidthChangedHandler();
         }
 
-        /// <summary>
-        /// Handles the Save button click event to save translations.
-        /// </summary>
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Save();
-        }
-
-        /// <summary>
-        /// Opens the English INI file location in Explorer.
-        /// </summary>
-        private void ShowEnInExplorer_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ShowInExplorer();
-        }
-
-        /// <summary>
-        /// Opens the Translated INI file location in Explorer.
-        /// </summary>
-        private void ShowTrInExplorer_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ShowInExplorer(true);
-        }
-
-        /// <summary>
-        /// Handles key down events in the ListView for shortcuts.
-        /// </summary>
-        private async void ListView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-            {
-                ViewModel.CopySelectedItemsToClipboard(listView.SelectedItems);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.V && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-            {
-                ViewModel.PasteFromClipboard(listView.SelectedItems);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.M && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-            {
-                ViewModel.CopyFromEnglish(listView.SelectedItems);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.T && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-            {
-                await ViewModel.TranslateSelectedItemsAsync(listView.SelectedItems.Cast<Translations>());
-                e.Handled = true;
-            }
-            else if (e.Key == Key.J && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-            {
-                JumpToLine();
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// Handles the Copy menu click event to copy selected items to clipboard.
-        /// </summary>
-        private void Copy_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.CopySelectedItemsToClipboard(listView.SelectedItems);
-        }
-
-        /// <summary>
-        /// Handles the Paste menu click event to paste clipboard contents into selected items.
-        /// </summary>
-        private void Paste_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.PasteFromClipboard(listView.SelectedItems);
-        }
-
-        /// <summary>
-        /// Handles the Reload menu click event to reload translations.
-        /// </summary>
-        private async void Reload_Click(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.ReloadAsync();
-        }
 
         /// <summary>
         /// Handles changes in the Search TextBox to perform search filtering.
@@ -307,21 +195,6 @@ namespace IniTranslator
             WindowState = ViewModel.Settings.WindowState;
         }
 
-        /// <summary>
-        /// Handles the Copy from English menu click event.
-        /// </summary>
-        private void CopyFromEnglish_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.CopyFromEnglish(listView.SelectedItems);
-        }
-
-        /// <summary>
-        /// Handles the Translate menu click event to translate selected items.
-        /// </summary>
-        private async void Translate_Click(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.TranslateSelectedItemsAsync(listView.SelectedItems.Cast<Translations>());
-        }
 
         /// <summary>
         /// Opens a dialog to jump to a specific line in the ListView.
@@ -363,10 +236,6 @@ namespace IniTranslator
             SetTheme("Dark");
         }
 
-        private void ClearSearch_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SearchText = string.Empty;
-        }
 
         /// <summary>
         /// Handles changes in the SearchBox to trigger search.
@@ -408,40 +277,6 @@ namespace IniTranslator
             }
         }
 
-        /// <summary>
-        /// Handles the Open Old INI file menu click event to equalize files.
-        /// </summary>
-        private async void OpenOldIni_Click(object sender, RoutedEventArgs e)
-        {
-            string? oldFilePath = ShowOpenFileDialog("Select Old INI File");
-            if (!string.IsNullOrWhiteSpace(oldFilePath))
-            {
-                await ViewModel.EqualizeFilesAsync(oldFilePath);
-            }
-        }
-
-        /// <summary>
-        /// Handles the Load Backup menu click event to restore from backup.
-        /// </summary>
-        private async void LoadBackup_Click(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.LoadBackupAsync();
-        }
-
-        /// <summary>
-        /// Handles the Jump to Next Change menu click event.
-        /// </summary>
-        private void JumpToNextChange(object sender, RoutedEventArgs e)
-        {
-            int index = listView.SelectedIndex;
-            if (index < 0) index = 0;
-
-            int newIndex = ViewModel.GetNextChange(index);
-            if (newIndex <= index) return;
-
-            listView.ScrollIntoView(listView.Items[newIndex]);
-            listView.SelectedIndex = newIndex;
-        }
 
         /// <summary>
         /// Opens the Settings window to allow user to modify application settings.
@@ -458,20 +293,6 @@ namespace IniTranslator
             }
         }
 
-        /// <summary>
-        /// Jumps to the next missing placeholder entry in the ListView.
-        /// </summary>
-        private void JumpNextMissingPlaceholder_Click(object sender, RoutedEventArgs e)
-        {
-            int index = listView.SelectedIndex;
-            if (index < 0) index = 0;
-
-            int newIndex = ViewModel.GetNextMissingPlaceHolder(index);
-            if (newIndex <= index) return;
-
-            listView.ScrollIntoView(listView.Items[newIndex]);
-            listView.SelectedIndex = newIndex;
-        }
 
         /// <summary>
         /// Applies the specified theme to the application.
@@ -511,13 +332,6 @@ namespace IniTranslator
             Close();
         }
 
-        /// <summary>
-        /// Handles the Extract From Game menu click event to extract global.ini from game files.
-        /// </summary>
-        private async void ExtractFromGame_Click(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.ExtractFromGameAsync();
-        }
 
         /// <summary>
         /// Handles the Replace menu click event to perform replace functionality.
