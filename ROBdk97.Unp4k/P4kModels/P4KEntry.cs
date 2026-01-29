@@ -18,9 +18,7 @@ namespace ROBdk97.Unp4k.P4kModels
         {
             get
             {
-                if (Name.EndsWith(".xml", System.StringComparison.OrdinalIgnoreCase))
-                    return true;
-                return false;
+                return Name.EndsWith(".xml", System.StringComparison.OrdinalIgnoreCase);
             }
         }
 
@@ -28,9 +26,7 @@ namespace ROBdk97.Unp4k.P4kModels
         {
             get
             {
-                if (Name.EndsWith(".dcb", System.StringComparison.OrdinalIgnoreCase))
-                    return true;
-                return false;
+                return Name.EndsWith(".dcb", System.StringComparison.OrdinalIgnoreCase);
             }
         }
 

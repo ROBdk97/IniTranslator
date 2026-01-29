@@ -284,7 +284,7 @@ namespace IniTranslator.ViewModels
 
         internal async Task TranslateSelectedItemsAsync(IEnumerable<Translations> selectedItems)
         {
-            if (selectedItems == null || selectedItems.Count() == 0)
+            if (selectedItems == null || !selectedItems.Any())
             {
                 UpdateStatus("No items selected for translation.");
                 return;
@@ -356,7 +356,7 @@ namespace IniTranslator.ViewModels
                 {
                     cleanLines.Add(line);
                 }
-                else if (cleanLines.Any())
+                else if (cleanLines.Count != 0)
                 {
                     cleanLines[^1] += line;
                 }
@@ -448,10 +448,9 @@ namespace IniTranslator.ViewModels
 
         private string ReplaceWithStringComparison(string input, string searchText, string replaceText)
         {
-            if (string.IsNullOrEmpty(searchText))
-                return input;
-
-            return IgnoreCase
+            return string.IsNullOrEmpty(searchText)
+                ? input
+                : IgnoreCase
                 ? Regex.Replace(input, Regex.Escape(searchText), replaceText, RegexOptions.IgnoreCase)
                 : input.Replace(searchText, replaceText, StringComparison.Ordinal);
         }
@@ -494,8 +493,8 @@ namespace IniTranslator.ViewModels
                     if (index < 0)
                         continue;
 
-                    var key = line.Substring(0, index).Trim();
-                    var value = line.Substring(index + 1).Trim();
+                    var key = line[..index].Trim();
+                    var value = line[(index + 1)..].Trim();
 
                     if (translationsDict.TryGetValue(key, out var translation))
                     {

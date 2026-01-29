@@ -155,10 +155,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// <returns>Returns the number of bytes read.</returns>
         public int ReadRawBuffer(byte[] outBuffer, int offset, int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(length));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(length);
 
             int currentOffset = offset;
             int currentLength = length;
@@ -191,10 +188,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// <returns>Returns the number of bytes actually read.</returns>
         public int ReadClearTextBuffer(byte[] outBuffer, int offset, int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(length));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(length);
 
             int currentOffset = offset;
             int currentLength = length;
@@ -278,10 +272,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
                 {
                     if (rawData == clearText)
                     {
-                        if (internalClearText == null)
-                        {
-                            internalClearText = new byte[rawData.Length];
-                        }
+                        internalClearText ??= new byte[rawData.Length];
                         clearText = internalClearText;
                     }
                     clearTextLength = rawLength;
@@ -367,20 +358,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// </param>
         public InflaterInputStream(Stream baseInputStream, Inflater inflater, int bufferSize)
         {
-            if (baseInputStream == null)
-            {
-                throw new ArgumentNullException(nameof(baseInputStream));
-            }
+            ArgumentNullException.ThrowIfNull(baseInputStream);
 
-            if (inflater == null)
-            {
-                throw new ArgumentNullException(nameof(inflater));
-            }
+            ArgumentNullException.ThrowIfNull(inflater);
 
-            if (bufferSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(bufferSize);
 
             this.baseInputStream = baseInputStream;
             this.inf = inflater;
@@ -412,10 +394,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// </exception>
         public long Skip(long count)
         {
-            if (count <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(count);
 
             // v0.80 Skip by seeking if underlying stream supports it...
             if (baseInputStream.CanSeek)

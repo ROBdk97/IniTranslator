@@ -31,9 +31,9 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
 
         // The lengths of the bit length codes are sent in order of decreasing
         // probability, to avoid transmitting the lengths for unused bit length codes.
-        static readonly int[] BL_ORDER = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
+        static readonly int[] BL_ORDER = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
 
-        static readonly byte[] bit4Reverse = {
+        static readonly byte[] bit4Reverse = [
             0,
             8,
             4,
@@ -50,7 +50,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
             11,
             7,
             15
-        };
+        ];
 
         static short[] staticLCodes;
         static byte[] staticLLength;

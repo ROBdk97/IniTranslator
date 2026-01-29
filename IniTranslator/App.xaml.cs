@@ -10,7 +10,7 @@ namespace IniTranslator
         // Start the application
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            MainWindow mainWindow = new();
             mainWindow.Show();
             mainWindow.Open(e?.Args?.FirstOrDefault());
         }

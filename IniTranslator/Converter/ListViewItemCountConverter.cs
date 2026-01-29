@@ -9,12 +9,7 @@ namespace IniTranslator.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is System.Collections.ICollection collection)
-            {
-                return collection.Count;
-            }
-
-            return 0;
+            return value is System.Collections.ICollection collection ? collection.Count : 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

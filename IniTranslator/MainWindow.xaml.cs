@@ -478,18 +478,13 @@ namespace IniTranslator
         /// </summary>
         public static void SetTheme(string theme)
         {
-            ResourceDictionary themeResource = new();
+            ResourceDictionary themeResource = [];
 
-            switch (theme)
+            themeResource.Source = theme switch
             {
-                case "Dark":
-                    themeResource.Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative);
-                    break;
-                case "Light":
-                default:
-                    themeResource.Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative);
-                    break;
-            }
+                "Dark" => new Uri("Themes/DarkTheme.xaml", UriKind.Relative),
+                _ => new Uri("Themes/LightTheme.xaml", UriKind.Relative),
+            };
 
             // Clear existing resources and add the new theme resources
             Application.Current.Dispatcher.Invoke(() =>

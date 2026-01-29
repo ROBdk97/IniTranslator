@@ -332,12 +332,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             }
 
             int byteValue2 = stream_.ReadByte();
-            if (byteValue2 < 0)
-            {
-                throw new EndOfStreamException();
-            }
-
-            return byteValue1 | (byteValue2 << 8);
+            return byteValue2 < 0 ? throw new EndOfStreamException() : byteValue1 | (byteValue2 << 8);
         }
 
         /// <summary>
@@ -433,10 +428,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <returns>Returns the number of descriptor bytes written.</returns>
         public int WriteDataDescriptor(ZipEntry entry)
         {
-            if (entry == null)
-            {
-                throw new ArgumentNullException(nameof(entry));
-            }
+            ArgumentNullException.ThrowIfNull(entry);
 
             int result = 0;
 

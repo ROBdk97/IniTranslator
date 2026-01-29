@@ -31,7 +31,7 @@ namespace ROBdk97.Unp4k.P4kModels
 
         private void AddEntry(ZipEntry zipEntry)
         {
-            string[] parts = zipEntry.Name.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = zipEntry.Name.Split(['/', '\\'], StringSplitOptions.RemoveEmptyEntries);
             P4KDirectory currentDir = Root;
 
             for (int i = 0; i < parts.Length - 1; i++)

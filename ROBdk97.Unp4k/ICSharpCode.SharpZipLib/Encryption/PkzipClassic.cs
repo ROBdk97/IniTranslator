@@ -18,21 +18,18 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         /// <returns>A new key value.</returns>
         static public byte[] GenerateKeys(byte[] seed)
         {
-            if (seed == null)
-            {
-                throw new ArgumentNullException(nameof(seed));
-            }
+            ArgumentNullException.ThrowIfNull(seed);
 
             if (seed.Length == 0)
             {
                 throw new ArgumentException("Length is zero", nameof(seed));
             }
 
-            uint[] newKeys = {
+            uint[] newKeys = [
                 0x12345678,
                 0x23456789,
                 0x34567890
-             };
+             ];
 
             for (int i = 0; i < seed.Length; ++i)
             {
@@ -42,19 +39,21 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
                 newKeys[2] = Crc32.ComputeCrc32(newKeys[2], (byte)(newKeys[1] >> 24));
             }
 
-            byte[] result = new byte[12];
-            result[0] = (byte)(newKeys[0] & 0xff);
-            result[1] = (byte)((newKeys[0] >> 8) & 0xff);
-            result[2] = (byte)((newKeys[0] >> 16) & 0xff);
-            result[3] = (byte)((newKeys[0] >> 24) & 0xff);
-            result[4] = (byte)(newKeys[1] & 0xff);
-            result[5] = (byte)((newKeys[1] >> 8) & 0xff);
-            result[6] = (byte)((newKeys[1] >> 16) & 0xff);
-            result[7] = (byte)((newKeys[1] >> 24) & 0xff);
-            result[8] = (byte)(newKeys[2] & 0xff);
-            result[9] = (byte)((newKeys[2] >> 8) & 0xff);
-            result[10] = (byte)((newKeys[2] >> 16) & 0xff);
-            result[11] = (byte)((newKeys[2] >> 24) & 0xff);
+            byte[] result =
+            [
+                (byte)(newKeys[0] & 0xff),
+                (byte)((newKeys[0] >> 8) & 0xff),
+                (byte)((newKeys[0] >> 16) & 0xff),
+                (byte)((newKeys[0] >> 24) & 0xff),
+                (byte)(newKeys[1] & 0xff),
+                (byte)((newKeys[1] >> 8) & 0xff),
+                (byte)((newKeys[1] >> 16) & 0xff),
+                (byte)((newKeys[1] >> 24) & 0xff),
+                (byte)(newKeys[2] & 0xff),
+                (byte)((newKeys[2] >> 8) & 0xff),
+                (byte)((newKeys[2] >> 16) & 0xff),
+                (byte)((newKeys[2] >> 24) & 0xff),
+            ];
             return result;
         }
     }
@@ -83,10 +82,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         /// <param name="keyData">The data use to set the keys from.</param>
         protected void SetKeys(byte[] keyData)
         {
-            if (keyData == null)
-            {
-                throw new ArgumentNullException(nameof(keyData));
-            }
+            ArgumentNullException.ThrowIfNull(keyData);
 
             if (keyData.Length != 12)
             {
@@ -379,8 +375,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         {
             get
             {
-                KeySizes[] keySizes = new KeySizes[1];
-                keySizes[0] = new KeySizes(12 * 8, 12 * 8, 0);
+                KeySizes[] keySizes = [new KeySizes(12 * 8, 12 * 8, 0)];
                 return keySizes;
             }
         }
@@ -400,8 +395,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         {
             get
             {
-                KeySizes[] keySizes = new KeySizes[1];
-                keySizes[0] = new KeySizes(1 * 8, 1 * 8, 0);
+                KeySizes[] keySizes = [new KeySizes(1 * 8, 1 * 8, 0)];
                 return keySizes;
             }
         }
@@ -423,10 +417,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
 
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
+                ArgumentNullException.ThrowIfNull(value);
 
                 if (value.Length != 12)
                 {

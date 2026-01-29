@@ -69,7 +69,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// </summary>
         ReadDataHandler internalReader;
 
-        Crc32? crc = new Crc32();
+        Crc32? crc = new();
         ZipEntry? entry;
 
         long size;
@@ -204,10 +204,12 @@ namespace ICSharpCode.SharpZipLib.Zip
 
             string name = ZipConstants.ConvertToStringExt(flags, buffer);
 
-            entry = new ZipEntry(name, versionRequiredToExtract);
-            entry.Flags = flags;
+            entry = new ZipEntry(name, versionRequiredToExtract)
+            {
+                Flags = flags,
 
-            entry.CompressionMethod = (CompressionMethod)method;
+                CompressionMethod = (CompressionMethod)method
+            };
 
             if ((flags & 8) == 0)
             {
@@ -434,14 +436,7 @@ namespace ICSharpCode.SharpZipLib.Zip
             {
                 if (entry != null)
                 {
-                    if (entry.Size >= 0)
-                    {
-                        return entry.Size;
-                    }
-                    else
-                    {
-                        throw new ZipException("Length not available for the current entry");
-                    }
+                    return entry.Size >= 0 ? entry.Size : throw new ZipException("Length not available for the current entry");
                 }
                 else
                 {
@@ -460,11 +455,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         public override int ReadByte()
         {
             byte[] b = new byte[1];
-            if (Read(b, 0, 1) <= 0)
-            {
-                return -1;
-            }
-            return b[0] & 0xff;
+            return Read(b, 0, 1) <= 0 ? -1 : b[0] & 0xff;
         }
 
         /// <summary>
@@ -571,10 +562,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <remarks>Zero bytes read means end of stream.</remarks>
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            ArgumentNullException.ThrowIfNull(buffer);
 
             if (offset < 0)
             {
@@ -586,12 +574,9 @@ namespace ICSharpCode.SharpZipLib.Zip
                 throw new ArgumentOutOfRangeException(nameof(count), "Cannot be negative");
             }
 
-            if ((buffer.Length - offset) < count)
-            {
-                throw new ArgumentException("Invalid offset/count combination");
-            }
-
-            return internalReader(buffer, offset, count);
+            return (buffer.Length - offset) < count
+                ? throw new ArgumentException("Invalid offset/count combination")
+                : internalReader(buffer, offset, count);
         }
 
         /// <summary>

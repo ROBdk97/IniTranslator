@@ -35,7 +35,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Checksum
         const uint crcInit = 0xFFFFFFFF;
         //const uint crcXor = 0x00000000;
 
-        readonly static uint[] crcTable = {
+        readonly static uint[] crcTable = [
             0X00000000, 0X04C11DB7, 0X09823B6E, 0X0D4326D9,
             0X130476DC, 0X17C56B6B, 0X1A864DB2, 0X1E475005,
             0X2608EDB8, 0X22C9F00F, 0X2F8AD6D6, 0X2B4BCB61,
@@ -100,7 +100,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Checksum
             0X9ABC8BD5, 0X9E7D9662, 0X933EB0BB, 0X97FFAD0C,
             0XAFB010B1, 0XAB710D06, 0XA6322BDF, 0XA2F33668,
             0XBCB4666D, 0XB8757BDA, 0XB5365D03, 0XB1F740B4
-        };
+        ];
 
         /// <summary>
         /// The CRC data checksum so far.
@@ -159,10 +159,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Checksum
         /// <param name="buffer">Contains the data to update the CRC with.</param>
         public void Update(byte[] buffer)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            ArgumentNullException.ThrowIfNull(buffer);
 
             Update(buffer, 0, buffer.Length);
         }
@@ -175,10 +172,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Checksum
         /// <param name = "count">The number of data bytes to update the CRC with.</param>
         public void Update(byte[] buffer, int offset, int count)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            ArgumentNullException.ThrowIfNull(buffer);
 
             if (offset < 0)
             {

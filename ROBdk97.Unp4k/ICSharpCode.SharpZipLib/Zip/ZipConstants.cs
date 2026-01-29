@@ -472,12 +472,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// </returns>
         public static string ConvertToString(byte[] data, int count)
         {
-            if (data == null)
-            {
-                return string.Empty;
-            }
-
-            return Encoding.GetEncoding(DefaultCodePage).GetString(data, 0, count);
+            return data == null ? string.Empty : Encoding.GetEncoding(DefaultCodePage).GetString(data, 0, count);
         }
 
         /// <summary>
@@ -491,11 +486,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// </returns>
         public static string ConvertToString(byte[]? data)
         {
-            if (data == null)
-            {
-                return string.Empty;
-            }
-            return ConvertToString(data, data.Length);
+            return data == null ? string.Empty : ConvertToString(data, data.Length);
         }
 
         /// <summary>
@@ -516,14 +507,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 return string.Empty;
             }
 
-            if ((flags & (int)GeneralBitFlags.UnicodeText) != 0)
-            {
-                return Encoding.UTF8.GetString(data, 0, count);
-            }
-            else
-            {
-                return ConvertToString(data, count);
-            }
+            return (flags & (int)GeneralBitFlags.UnicodeText) != 0 ? Encoding.UTF8.GetString(data, 0, count) : ConvertToString(data, count);
         }
 
         /// <summary>
@@ -543,14 +527,9 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 return string.Empty;
             }
 
-            if ((flags & (int)GeneralBitFlags.UnicodeText) != 0)
-            {
-                return Encoding.UTF8.GetString(data, 0, data.Length);
-            }
-            else
-            {
-                return ConvertToString(data, data.Length);
-            }
+            return (flags & (int)GeneralBitFlags.UnicodeText) != 0
+                ? Encoding.UTF8.GetString(data, 0, data.Length)
+                : ConvertToString(data, data.Length);
         }
 
         /// <summary>
@@ -562,12 +541,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <returns>Converted array</returns>
         public static byte[] ConvertToArray(string? str)
         {
-            if (str is null)
-            {
-                return [];
-            }
-
-            return Encoding.GetEncoding(DefaultCodePage).GetBytes(str);
+            return str is null ? [] : Encoding.GetEncoding(DefaultCodePage).GetBytes(str);
         }
 
         /// <summary>
@@ -585,14 +559,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 return [];
             }
 
-            if ((flags & (int)GeneralBitFlags.UnicodeText) != 0)
-            {
-                return Encoding.UTF8.GetBytes(str);
-            }
-            else
-            {
-                return ConvertToArray(str);
-            }
+            return (flags & (int)GeneralBitFlags.UnicodeText) != 0 ? Encoding.UTF8.GetBytes(str) : ConvertToArray(str);
         }
 
 

@@ -89,20 +89,13 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
             {
                 FillWindow();
                 bool canFlush = flush && (inputOff == inputEnd);
-                switch (compressionFunction)
+                progress = compressionFunction switch
                 {
-                    case DeflaterConstants.DEFLATE_STORED:
-                        progress = DeflateStored(canFlush, finish);
-                        break;
-                    case DeflaterConstants.DEFLATE_FAST:
-                        progress = DeflateFast(canFlush, finish);
-                        break;
-                    case DeflaterConstants.DEFLATE_SLOW:
-                        progress = DeflateSlow(canFlush, finish);
-                        break;
-                    default:
-                        throw new InvalidOperationException("unknown compressionFunction");
-                }
+                    DeflaterConstants.DEFLATE_STORED => DeflateStored(canFlush, finish),
+                    DeflaterConstants.DEFLATE_FAST => DeflateFast(canFlush, finish),
+                    DeflaterConstants.DEFLATE_SLOW => DeflateSlow(canFlush, finish),
+                    _ => throw new InvalidOperationException("unknown compressionFunction"),
+                };
             } while (pending.IsFlushed && progress); // repeat while we have no pending output and progress was made
             return progress;
         }
@@ -116,20 +109,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression
         /// <param name="count">The number of bytes of data to use as input.</param>
         public void SetInput(byte[] buffer, int offset, int count)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            ArgumentNullException.ThrowIfNull(buffer);
 
-            if (offset < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(offset));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(offset);
 
-            if (count < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(count);
 
             if (inputOff < inputEnd)
             {
