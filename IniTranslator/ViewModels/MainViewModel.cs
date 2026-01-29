@@ -220,7 +220,7 @@ namespace IniTranslator.ViewModels
             // The actual scrolling and selection is handled in the code-behind.
         }
 
-        internal int GetNextChange(int current)
+        internal int GetNextChangeLegacy(int current)
         {
             if (!Translations.Any(t => !string.IsNullOrWhiteSpace(t.OldValue)))
             {
@@ -245,7 +245,7 @@ namespace IniTranslator.ViewModels
         // 2. \[~\w+\(.*?\)\] for [~action(...)] placeholders enclosed in square brackets
         // 3. ~\w+\(.*?\) for ~action(...) placeholders without square brackets
         [GeneratedRegex(@"(?<!\S)%[a-zA-Z0-9]{1,2}|\[~\w+\(.*?\)\]|~\w+\(.*?\)", RegexOptions.Compiled)]
-        internal static partial Regex PlaceholderRegex();
+        internal static partial Regex PlaceholderRegexLegacy();
 
         public int GetNextMissingPlaceHolder(int current)
         {
@@ -262,7 +262,7 @@ namespace IniTranslator.ViewModels
         /// <returns>True if any missing placeholders are found; otherwise, false.</returns>
         public bool ContainsMissingPlaceHolder() => GetEntriesWithMissingPlaceholders().Count != 0;
 
-        public List<int> GetEntriesWithMissingPlaceholders()
+        public List<int> GetEntriesWithMissingPlaceholdersLegacy()
         {
             var mismatchedEntries = new List<int>();
 
@@ -275,10 +275,10 @@ namespace IniTranslator.ViewModels
                     continue;
 
                 // Extract placeholders from the Value field
-                var valuePlaceholders = ExtractPlaceholders(entry.Value);
+                var valuePlaceholders = ExtractPlaceholdersLegacy(entry.Value);
 
                 // Extract placeholders from the Translation field
-                var translationPlaceholders = ExtractPlaceholders(entry.Translation ?? string.Empty);
+                var translationPlaceholders = ExtractPlaceholdersLegacy(entry.Translation ?? string.Empty);
 
                 // Add the index to the result if placeholders are mismatched
                 if (!valuePlaceholders.SetEquals(translationPlaceholders))
@@ -830,9 +830,9 @@ namespace IniTranslator.ViewModels
         /// </summary>
         /// <param name="current">The current index to start searching from.</param>
         /// <returns>The index of the next mismatched placeholder, or -1 if none are found.</returns>
-        public int GetNextMissingPlaceHolder(int current)
+        public int GetNextMissingPlaceHolderLegacy(int current)
         {
-            var mismatchedEntries = GetEntriesWithMissingPlaceholders();
+            var mismatchedEntries = GetEntriesWithMissingPlaceholdersLegacy();
             var next = mismatchedEntries.FirstOrDefault(index => index > current, -1);
             if (next == -1)
                 UpdateStatus("No further mismatched placeholders found.");
@@ -843,16 +843,16 @@ namespace IniTranslator.ViewModels
         /// Determines whether there are any _translations with missing or mismatched placeholders.
         /// </summary>
         /// <returns>True if any missing placeholders are found; otherwise, false.</returns>
-        public bool ContainsMissingPlaceHolder() => GetEntriesWithMissingPlaceholders().Count != 0;
+        public bool ContainsMissingPlaceHolderLegacy() => GetEntriesWithMissingPlaceholdersLegacy().Count != 0;
 
         /// <summary>
         /// Extracts placeholders from a string using the specified regex pattern.
         /// </summary>
         /// <param name="input">The input string to analyze.</param>
         /// <returns>A HashSet of normalized placeholders.</returns>
-        private static HashSet<string> ExtractPlaceholders(string input)
+        private static HashSet<string> ExtractPlaceholdersLegacy(string input)
         {
-            return PlaceholderRegex().Matches(input)
+            return PlaceholderRegexLegacy().Matches(input)
                                       .Select(m => m.Value.Trim())
                                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
