@@ -893,7 +893,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <summary>
         /// Used to track the crc of data added to entries.
         /// </summary>
-        Crc32 crc = new();
+        readonly Crc32 crc = new();
 
         /// <summary>
         /// The current entry being added.

@@ -5,9 +5,9 @@ namespace IniTranslator.ViewModels
     internal partial class ReplaceDialogViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string searchText = string.Empty;
+        private readonly string searchText = string.Empty;
 
         [ObservableProperty]
-        private string replaceText = string.Empty;
+        private readonly string replaceText = string.Empty;
     }
 }

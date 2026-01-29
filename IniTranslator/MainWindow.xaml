@@ -76,8 +76,8 @@
         <!-- ToolBar for Search and Other Controls -->
         <ToolBarTray DockPanel.Dock="Top" IsLocked="True" IsManipulationEnabled="False">
             <ToolBar>
-                <Button Content="{x:Static properties:Resources.JumpToNextChange}" Command="{Binding JumpToNextChangeCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" ToolTip="{x:Static properties:Resources.NavigateToTheNextChangedTranslation}" />
-                <Button Content="{x:Static properties:Resources.NextMissingPlaceholder}" Command="{Binding JumpToNextMissingPlaceholderCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" ToolTip="{x:Static properties:Resources.NavigateToTheNextTranslationWithMissingPlaceholders}" />
+                <Button Content="{x:Static properties:Resources.JumpToNextChange}" Click="JumpNextChange_Click" ToolTip="{x:Static properties:Resources.NavigateToTheNextChangedTranslation}" />
+                <Button Content="{x:Static properties:Resources.NextMissingPlaceholder}" Click="JumpNextMissingPlaceholder_Click" ToolTip="{x:Static properties:Resources.NavigateToTheNextTranslationWithMissingPlaceholders}" />
                 <Separator />
                 <Label Content="{x:Static properties:Resources.Search}" VerticalAlignment="Center" />
                 <TextBox

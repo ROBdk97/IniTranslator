@@ -213,7 +213,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         {
             salt = new byte[entry.AESSaltLen];
             // Salt needs to be cryptographically random, and unique per file
-            _aesRnd ??= RandomNumberGenerator.Create();
             _aesRnd.GetBytes(salt);
             int blockSize = entry.AESKeySize / 8;   // bits to bytes
 
