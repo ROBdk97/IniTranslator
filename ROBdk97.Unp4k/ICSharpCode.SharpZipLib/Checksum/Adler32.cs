@@ -115,10 +115,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Checksum
         /// <param name="buffer">Contains the data to update the checksum with.</param>
         public void Update(byte[] buffer)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            ArgumentNullException.ThrowIfNull(buffer);
 
             Update(buffer, 0, buffer.Length);
         }
@@ -131,10 +128,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Checksum
         /// <param name = "count">The number of data bytes to update the CRC with.</param>
         public void Update(byte[] buffer, int offset, int count)
         {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            ArgumentNullException.ThrowIfNull(buffer);
 
             if (offset < 0)
             {

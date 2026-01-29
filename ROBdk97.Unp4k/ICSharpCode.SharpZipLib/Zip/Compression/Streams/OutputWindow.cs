@@ -129,10 +129,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// </exception>
         public void CopyDict(byte[] dictionary, int offset, int length)
         {
-            if (dictionary == null)
-            {
-                throw new ArgumentNullException(nameof(dictionary));
-            }
+            ArgumentNullException.ThrowIfNull(dictionary);
 
             if (windowFilled > 0)
             {
@@ -199,11 +196,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
             }
             System.Array.Copy(window, copyEnd - len, output, offset, len);
             windowFilled -= copied;
-            if (windowFilled < 0)
-            {
-                throw new InvalidOperationException();
-            }
-            return copied;
+            return windowFilled < 0 ? throw new InvalidOperationException() : copied;
         }
 
         /// <summary>

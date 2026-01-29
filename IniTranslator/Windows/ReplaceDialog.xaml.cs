@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using IniTranslator.ViewModels;
+using System.Windows;
+using System.Windows.Input;
 
 namespace IniTranslator.Windows
 {
@@ -10,27 +12,30 @@ namespace IniTranslator.Windows
         public string SearchText { get; private set; }
         public string ReplaceText { get; private set; }
 
+        private readonly ReplaceDialogViewModel _viewModel;
+
         public ReplaceDialog()
         {
+            _viewModel = new ReplaceDialogViewModel();
+            DataContext = _viewModel;
+
             SearchText = string.Empty;
             ReplaceText = string.Empty;
             InitializeComponent();
         }
 
-        private void ReplaceAll_Click(object sender, RoutedEventArgs e)
+        protected override void OnSourceInitialized(EventArgs e)
         {
-            SearchText = SearchTextBox.Text;
-            ReplaceText = ReplaceTextBox.Text;
-
-            // Optionally, add validation here (e.g., ensure SearchText is not empty)
-
-            DialogResult = true;
-            Close();
+            base.OnSourceInitialized(e);
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, (_, __) => Accept()));
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private void Accept()
         {
-            DialogResult = false;
+            SearchText = _viewModel.SearchText;
+            ReplaceText = _viewModel.ReplaceText;
+
+            DialogResult = true;
             Close();
         }
     }

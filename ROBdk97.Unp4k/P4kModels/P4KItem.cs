@@ -7,7 +7,7 @@ namespace ROBdk97.Unp4k.P4kModels
         public abstract string Name { get; }
         public abstract string FullPath { get; }
         public abstract bool IsDirectory { get; }
-        public virtual ObservableCollection<P4KItem> Children { get; } = new ObservableCollection<P4KItem>();
+        public virtual ObservableCollection<P4KItem> Children { get; } = [];
 
         public List<P4KItem>? FindName(string name)
         {

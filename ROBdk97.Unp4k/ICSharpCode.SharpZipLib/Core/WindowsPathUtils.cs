@@ -43,7 +43,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Core
 
                         if (index < path.Length)
                         {
-                            result = path.Substring(index);
+                            result = path[index..];
                         }
                         else
                         {
@@ -58,7 +58,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Core
                     {
                         dropCount = 3;
                     }
-                    result = result.Remove(0, dropCount);
+                    result = result[dropCount..];
                 }
             }
             return result;

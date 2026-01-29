@@ -12,13 +12,13 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         {
             bool _finalised;
             public IncrementalHash(byte[] key) : base(key) { }
-            public static IncrementalHash CreateHMAC(string n, byte[] key) => new IncrementalHash(key);
+            public static IncrementalHash CreateHMAC(string n, byte[] key) => new(key);
             public void AppendData(byte[] buffer, int offset, int count) => TransformBlock(buffer, offset, count, buffer, offset);
             public byte[]? GetHashAndReset()
             {
                 if (!_finalised)
                 {
-                    byte[] dummy = new byte[0];
+                    byte[] dummy = [];
                     TransformFinalBlock(dummy, 0, 0);
                     _finalised = true;
                 }
@@ -74,7 +74,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
             _encrPos = ENCRYPT_BLOCK;
 
             // Performs the equivalent of derive_key in Dr Brian Gladman's pwd2key.c
-            var pdb = new Rfc2898DeriveBytes(key, saltBytes, KEY_ROUNDS);
+            using var pdb = new Rfc2898DeriveBytes(key, saltBytes, KEY_ROUNDS, System.Security.Cryptography.HashAlgorithmName.SHA1);
             var rm = Aes.Create();
             rm.Mode = CipherMode.ECB;           // No feedback from cipher for CTR mode
             _counterNonce = new byte[_blockSize];
@@ -143,10 +143,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Encryption
         /// </summary>
         public byte[]? GetAuthCode()
         {
-            if (_authCode == null)
-            {
-                _authCode = _hmacsha1.GetHashAndReset();
-            }
+            _authCode ??= _hmacsha1.GetHashAndReset();
             return _authCode;
         }
 

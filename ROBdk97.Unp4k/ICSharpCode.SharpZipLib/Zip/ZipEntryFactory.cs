@@ -194,8 +194,10 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <returns>Returns a new <see cref="ZipEntry"/> based on the <paramref name="fileName"/>.</returns>
         public ZipEntry MakeFileEntry(string fileName, string? entryName, bool useFileSystem)
         {
-            var result = new ZipEntry(nameTransform_.TransformFile(!string.IsNullOrEmpty(entryName) ? entryName : fileName));
-            result.IsUnicodeText = isUnicodeText_;
+            var result = new ZipEntry(nameTransform_.TransformFile(!string.IsNullOrEmpty(entryName) ? entryName : fileName))
+            {
+                IsUnicodeText = isUnicodeText_
+            };
 
             int externalAttributes = 0;
             bool useAttributes = (setAttributes_ != 0);
@@ -208,40 +210,17 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
 
             if ((fi != null) && fi.Exists)
             {
-                switch (timeSetting_)
+                result.DateTime = timeSetting_ switch
                 {
-                    case TimeSetting.CreateTime:
-                        result.DateTime = fi.CreationTime;
-                        break;
-
-                    case TimeSetting.CreateTimeUtc:
-                        result.DateTime = fi.CreationTimeUtc;
-                        break;
-
-                    case TimeSetting.LastAccessTime:
-                        result.DateTime = fi.LastAccessTime;
-                        break;
-
-                    case TimeSetting.LastAccessTimeUtc:
-                        result.DateTime = fi.LastAccessTimeUtc;
-                        break;
-
-                    case TimeSetting.LastWriteTime:
-                        result.DateTime = fi.LastWriteTime;
-                        break;
-
-                    case TimeSetting.LastWriteTimeUtc:
-                        result.DateTime = fi.LastWriteTimeUtc;
-                        break;
-
-                    case TimeSetting.Fixed:
-                        result.DateTime = fixedDateTime_;
-                        break;
-
-                    default:
-                        throw new ZipException("Unhandled time setting in MakeFileEntry");
-                }
-
+                    TimeSetting.CreateTime => fi.CreationTime,
+                    TimeSetting.CreateTimeUtc => fi.CreationTimeUtc,
+                    TimeSetting.LastAccessTime => fi.LastAccessTime,
+                    TimeSetting.LastAccessTimeUtc => fi.LastAccessTimeUtc,
+                    TimeSetting.LastWriteTime => fi.LastWriteTime,
+                    TimeSetting.LastWriteTimeUtc => fi.LastWriteTimeUtc,
+                    TimeSetting.Fixed => fixedDateTime_,
+                    _ => throw new ZipException("Unhandled time setting in MakeFileEntry"),
+                };
                 result.Size = fi.Length;
 
                 useAttributes = true;
@@ -283,9 +262,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         public ZipEntry MakeDirectoryEntry(string directoryName, bool useFileSystem)
         {
 
-            var result = new ZipEntry(nameTransform_.TransformDirectory(directoryName));
-            result.IsUnicodeText = isUnicodeText_;
-            result.Size = 0;
+            var result = new ZipEntry(nameTransform_.TransformDirectory(directoryName))
+            {
+                IsUnicodeText = isUnicodeText_,
+                Size = 0
+            };
 
             int externalAttributes = 0;
 
@@ -299,40 +280,17 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
 
             if ((di != null) && di.Exists)
             {
-                switch (timeSetting_)
+                result.DateTime = timeSetting_ switch
                 {
-                    case TimeSetting.CreateTime:
-                        result.DateTime = di.CreationTime;
-                        break;
-
-                    case TimeSetting.CreateTimeUtc:
-                        result.DateTime = di.CreationTimeUtc;
-                        break;
-
-                    case TimeSetting.LastAccessTime:
-                        result.DateTime = di.LastAccessTime;
-                        break;
-
-                    case TimeSetting.LastAccessTimeUtc:
-                        result.DateTime = di.LastAccessTimeUtc;
-                        break;
-
-                    case TimeSetting.LastWriteTime:
-                        result.DateTime = di.LastWriteTime;
-                        break;
-
-                    case TimeSetting.LastWriteTimeUtc:
-                        result.DateTime = di.LastWriteTimeUtc;
-                        break;
-
-                    case TimeSetting.Fixed:
-                        result.DateTime = fixedDateTime_;
-                        break;
-
-                    default:
-                        throw new ZipException("Unhandled time setting in MakeDirectoryEntry");
-                }
-
+                    TimeSetting.CreateTime => di.CreationTime,
+                    TimeSetting.CreateTimeUtc => di.CreationTimeUtc,
+                    TimeSetting.LastAccessTime => di.LastAccessTime,
+                    TimeSetting.LastAccessTimeUtc => di.LastAccessTimeUtc,
+                    TimeSetting.LastWriteTime => di.LastWriteTime,
+                    TimeSetting.LastWriteTimeUtc => di.LastWriteTimeUtc,
+                    TimeSetting.Fixed => fixedDateTime_,
+                    _ => throw new ZipException("Unhandled time setting in MakeDirectoryEntry"),
+                };
                 externalAttributes = ((int)di.Attributes & getAttributes_);
             }
             else

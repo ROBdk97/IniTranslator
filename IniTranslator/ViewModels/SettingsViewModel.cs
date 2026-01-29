@@ -1,20 +1,41 @@
 ﻿using IniTranslator.Helpers;
 using IniTranslator.Models;
 using IniTranslator.Properties;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 
 namespace IniTranslator.ViewModels
 {
-    internal class SettingsViewModel : BaseModel
+    internal partial class SettingsViewModel : ObservableObject
     {
         private readonly SettingsFile _settingsFile;
 
         public SettingsViewModel(SettingsFile settingsFile) { _settingsFile = settingsFile; }
 
-        public void SaveSettings() { _settingsFile.SaveSettings(); }
+        [RelayCommand]
+        private void SaveSettings()
+        {
+            _settingsFile.SaveSettings();
+        }
+
+        [RelayCommand]
+        private void SaveAll(IniTranslator.Helpers.PasswordPair? passwords)
+        {
+            if (passwords is not null)
+            {
+                if (!string.IsNullOrWhiteSpace(passwords.GoogleApiKey))
+                    GoogleTranslateApiKey = passwords.GoogleApiKey;
+                if (!string.IsNullOrWhiteSpace(passwords.DeepLApiKey))
+                    DeepLApiKey = passwords.DeepLApiKey;
+            }
+
+            _settingsFile.SaveSettings();
+        }
 
         public ObservableCollection<Language> Languages
         {

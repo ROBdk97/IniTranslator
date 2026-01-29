@@ -174,10 +174,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         internal ZipEntry(string name, int versionRequiredToExtract, int madeByInfo,
             CompressionMethod method)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
+            ArgumentNullException.ThrowIfNull(name);
 
             if (name.Length > 0xffff)
             {
@@ -205,10 +202,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         [Obsolete("Use Clone instead")]
         public ZipEntry(ZipEntry entry)
         {
-            if (entry == null)
-            {
-                throw new ArgumentNullException(nameof(entry));
-            }
+            ArgumentNullException.ThrowIfNull(entry);
 
             known = entry.known;
             name = entry.name;
@@ -404,14 +398,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         {
             get
             {
-                if ((known & Known.ExternalAttributes) == 0)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return externalFileAttributes;
-                }
+                return (known & Known.ExternalAttributes) == 0 ? -1 : externalFileAttributes;
             }
 
             set
@@ -678,14 +665,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         {
             get
             {
-                if ((known & Known.Time) == 0)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return dosTime;
-                }
+                return (known & Known.Time) == 0 ? 0 : dosTime;
             }
 
             set
@@ -893,8 +873,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             {
                 // TODO: This is slightly safer but less efficient.  Think about wether it should change.
                 //				return (byte[]) extra.Clone();
-                if (extra is null) return [];
-                return extra;
+                return extra is null ? [] : extra;
             }
 
             set
@@ -926,36 +905,24 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             get
             {
                 // the strength (1 or 3) is in the entry header
-                switch (_aesEncryptionStrength)
+                return _aesEncryptionStrength switch
                 {
-                    case 0:
-                        return 0;   // Not AES
-                    case 1:
-                        return 128;
-                    case 2:
-                        return 192; // Not used by WinZip
-                    case 3:
-                        return 256;
-                    default:
-                        throw new ZipException("Invalid AESEncryptionStrength " + _aesEncryptionStrength);
-                }
+                    0 => 0,// Not AES
+                    1 => 128,
+                    2 => 192,// Not used by WinZip
+                    3 => 256,
+                    _ => throw new ZipException("Invalid AESEncryptionStrength " + _aesEncryptionStrength),
+                };
             }
             set
             {
-                switch (value)
+                _aesEncryptionStrength = value switch
                 {
-                    case 0:
-                        _aesEncryptionStrength = 0;
-                        break;
-                    case 128:
-                        _aesEncryptionStrength = 1;
-                        break;
-                    case 256:
-                        _aesEncryptionStrength = 3;
-                        break;
-                    default:
-                        throw new ZipException("AESKeySize must be 0, 128 or 256: " + value);
-                }
+                    0 => 0,
+                    128 => 1,
+                    256 => 3,
+                    _ => throw new ZipException("AESKeySize must be 0, 128 or 256: " + value),
+                };
             }
         }
 
@@ -1294,14 +1261,14 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             {
                 // NOTE:
                 // for UNC names...  \\machine\share\zoom\beet.txt gives \zoom\beet.txt
-                name = name.Substring(Path.GetPathRoot(name).Length);
+                name = name[Path.GetPathRoot(name).Length..];
             }
 
             name = name.Replace(@"\", "/");
 
             while ((name.Length > 0) && (name[0] == '/'))
             {
-                name = name.Remove(0, 1);
+                name = name[1..];
             }
             return name;
         }

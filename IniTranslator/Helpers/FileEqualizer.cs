@@ -68,11 +68,13 @@ namespace IniTranslator.Helpers
                 var key = parts[0];
                 var value = parts.Length > 1 ? parts[1] : string.Empty;
 
-                if (!keyValuePairs.ContainsKey(key))
+                if (!keyValuePairs.TryGetValue(key, out List<string>? value1))
                 {
-                    keyValuePairs[key] = new List<string>();
+                    value1 = [];
+                    keyValuePairs[key] = value1;
                 }
-                keyValuePairs[key].Add(value);
+
+                value1.Add(value);
             }
 
             // User interaction for duplicates
@@ -137,7 +139,7 @@ namespace IniTranslator.Helpers
             foreach (var item in file1Dict)
             {
                 string key = item.Key;
-                string keyVariant = key.EndsWith(",P") ? key.Remove(key.Length - 2) : key + ",P";
+                string keyVariant = key.EndsWith(",P") ? key[..^2] : key + ",P";
 
                 if (file2Dict.ContainsKey(key))
                 {
@@ -168,7 +170,7 @@ namespace IniTranslator.Helpers
             // Update keys in file2Dict
             foreach (var oldKey in keysToUpdate)
             {
-                string newKey = oldKey.EndsWith(",P") ? oldKey.Remove(oldKey.Length - 2) : oldKey + ",P";
+                string newKey = oldKey.EndsWith(",P") ? oldKey[..^2] : oldKey + ",P";
                 if (file2Dict.TryGetValue(oldKey, out string? value))
                 {
                     file2Dict.Remove(oldKey);

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using IniTranslator.ViewModels;
 
 namespace IniTranslator.Windows
 {
@@ -7,6 +8,8 @@ namespace IniTranslator.Windows
     /// </summary>
     public partial class SelectVersionWindow : Window
     {
+        private readonly SelectVersionViewModel _viewModel;
+
         /// <summary>
         /// Gets the selected version.
         /// </summary>
@@ -18,25 +21,27 @@ namespace IniTranslator.Windows
         /// <param name="versions">The list of versions to display.</param>
         public SelectVersionWindow(IEnumerable<string> versions)
         {
+            _viewModel = new SelectVersionViewModel(versions);
+            DataContext = _viewModel;
             InitializeComponent();
-            VersionsListBox.ItemsSource = versions;
         }
 
-        /// <summary>
-        /// Handles the OK button click event.
-        /// </summary>
-        private void OkButton_Click(object sender, RoutedEventArgs e)
+        private void Ok_CommandExecuted(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            if (VersionsListBox.SelectedItem is string selected)
+            Accept();
+        }
+
+        private void Accept()
+        {
+            if (!string.IsNullOrWhiteSpace(_viewModel.SelectedVersion))
             {
-                SelectedVersion = selected;
+                SelectedVersion = _viewModel.SelectedVersion;
                 DialogResult = true;
                 Close();
+                return;
             }
-            else
-            {
-                MessageBox.Show("Please select a version before proceeding.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+
+            MessageBox.Show("Please select a version before proceeding.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }

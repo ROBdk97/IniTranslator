@@ -16,33 +16,45 @@
     Loaded="Window_Loaded"
     Closing="Window_Closing"    
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}">
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding DoOpenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding DoSaveCommand}" />
+        <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopySelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+        <KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+        <KeyBinding Key="M" Modifiers="Control" Command="{Binding CopyFromEnglishSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+        <KeyBinding Key="T" Modifiers="Control" Command="{Binding DoTranslateSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+        <KeyBinding Key="J" Modifiers="Control" Command="{x:Static ApplicationCommands.Find}" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Find" Executed="JumpToLine_Click" />
+    </Window.CommandBindings>
     <DockPanel Margin="5">
         <!-- Menu -->
         <Menu DockPanel.Dock="Top">
             <!-- File Menu -->
             <MenuItem Header="{x:Static properties:Resources.File}">
-                <MenuItem Header="{x:Static properties:Resources.Open}" InputGestureText="Ctrl+O" Click="Open_ClickAsync" ToolTip="{x:Static properties:Resources.OpenEnglishAndTranslatedINIFiles}" />
-                <MenuItem Header="{x:Static properties:Resources.Open_OldINIFile}" Click="OpenOldIni_Click" ToolTip="{x:Static properties:Resources.OpenAnOlderVersionOfTheINIFileForComparison}" />
+                <MenuItem Header="{x:Static properties:Resources.Open}" InputGestureText="Ctrl+O" Command="{Binding DoOpenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ToolTip="{x:Static properties:Resources.OpenEnglishAndTranslatedINIFiles}" />
+                <MenuItem Header="{x:Static properties:Resources.Open_OldINIFile}" Command="{Binding DoOpenOldIniCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ToolTip="{x:Static properties:Resources.OpenAnOlderVersionOfTheINIFileForComparison}" />
                 <Separator />
-                <MenuItem Header="{x:Static properties:Resources.ExtractFromGame}" Click="ExtractFromGame_Click" ToolTip="{x:Static properties:Resources.ExtractTheEnglishINIFileFromGameFiles}" />
+                <MenuItem Header="{x:Static properties:Resources.ExtractFromGame}" Command="{Binding DoExtractFromGameCommand}" ToolTip="{x:Static properties:Resources.ExtractTheEnglishINIFileFromGameFiles}" />
                 <Separator />
-                <MenuItem Header="{x:Static properties:Resources.Save}" InputGestureText="Ctrl+S" Click="SaveButton_Click" Name="SaveButton" ToolTip="{x:Static properties:Resources.SaveYourCurrentTranslations}" />
-                <MenuItem Header="{x:Static properties:Resources.Reload}" Click="Reload_Click" ToolTip="{x:Static properties:Resources.ReloadTranslationsFromTheINIFiles}" />
-                <MenuItem Header="{x:Static properties:Resources.Load_Backup}" Click="LoadBackup_Click" ToolTip="{x:Static properties:Resources.RestoreTranslationsFromABackupFile}" />
+                <MenuItem Header="{x:Static properties:Resources.Save}" InputGestureText="Ctrl+S" Command="{Binding DoSaveCommand}" Name="SaveButton" ToolTip="{x:Static properties:Resources.SaveYourCurrentTranslations}" />
+                <MenuItem Header="{x:Static properties:Resources.Reload}" Command="{Binding DoReloadCommand}" ToolTip="{x:Static properties:Resources.ReloadTranslationsFromTheINIFiles}" />
+                <MenuItem Header="{x:Static properties:Resources.Load_Backup}" Command="{Binding DoLoadBackupCommand}" ToolTip="{x:Static properties:Resources.RestoreTranslationsFromABackupFile}" />
                 <Separator />
                 <MenuItem Header="Show in E_xplorer">
-                    <MenuItem Header="{x:Static properties:Resources.EnglishINI}" Click="ShowEnInExplorer_Click" ToolTip="{x:Static properties:Resources.OpenTheEnglishINIFileLocationInExplorer}" />
-                    <MenuItem Header="{x:Static properties:Resources.TranslatedINI}" Click="ShowTrInExplorer_Click" ToolTip="{x:Static properties:Resources.OpenTheTranslatedINIFileLocationInExplorer}" />
+                    <MenuItem Header="{x:Static properties:Resources.EnglishINI}" Command="{Binding ShowEnglishInExplorerCommand}" ToolTip="{x:Static properties:Resources.OpenTheEnglishINIFileLocationInExplorer}" />
+                    <MenuItem Header="{x:Static properties:Resources.TranslatedINI}" Command="{Binding ShowTranslatedInExplorerCommand}" ToolTip="{x:Static properties:Resources.OpenTheTranslatedINIFileLocationInExplorer}" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="{x:Static properties:Resources.Exit}" Click="Exit_Click" ToolTip="{x:Static properties:Resources.CloseTheApplication}" />
             </MenuItem>
             <!-- Edit Menu -->
             <MenuItem Header="{x:Static properties:Resources.Edit}">
-                <MenuItem Header="{x:Static properties:Resources.Copy}" InputGestureText="Ctrl+C" Click="Copy_Click" ToolTip="{x:Static properties:Resources.CopySelectedItemsToClipboard}" />
-                <MenuItem Header="{x:Static properties:Resources.Paste}" InputGestureText="Ctrl+V" Click="Paste_Click" ToolTip="{x:Static properties:Resources.PasteClipboard}" />
-                <MenuItem Header="{x:Static properties:Resources.CopyFromEnglish}" InputGestureText="Ctrl+M" Click="CopyFromEnglish_Click" ToolTip="{x:Static properties:Resources.ReplaceTranslationsWithTheirEnglishCounterparts}" />
-                <MenuItem Header="{x:Static properties:Resources.Translate}" InputGestureText="Ctrl+T" Click="Translate_Click" ToolTip="{x:Static properties:Resources.AutomaticallyTranslateSelectedItemsUsingTheConfiguredAPI}" />
+                <MenuItem Header="{x:Static properties:Resources.Copy}" InputGestureText="Ctrl+C" Command="{Binding CopySelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" ToolTip="{x:Static properties:Resources.CopySelectedItemsToClipboard}" />
+                <MenuItem Header="{x:Static properties:Resources.Paste}" InputGestureText="Ctrl+V" Command="{Binding PasteSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" ToolTip="{x:Static properties:Resources.PasteClipboard}" />
+                <MenuItem Header="{x:Static properties:Resources.CopyFromEnglish}" InputGestureText="Ctrl+M" Command="{Binding CopyFromEnglishSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" ToolTip="{x:Static properties:Resources.ReplaceTranslationsWithTheirEnglishCounterparts}" />
+                <MenuItem Header="{x:Static properties:Resources.Translate}" InputGestureText="Ctrl+T" Command="{Binding DoTranslateSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" ToolTip="{x:Static properties:Resources.AutomaticallyTranslateSelectedItemsUsingTheConfiguredAPI}" />
                 <Separator />
                 <MenuItem Header="{x:Static properties:Resources.JumpToLine}" InputGestureText="Ctrl+J" Click="JumpToLine_Click" ToolTip="{x:Static properties:Resources.NavigateToASpecificLineNumberInTheList}" />
             </MenuItem>
@@ -64,7 +76,7 @@
         <!-- ToolBar for Search and Other Controls -->
         <ToolBarTray DockPanel.Dock="Top" IsLocked="True" IsManipulationEnabled="False">
             <ToolBar>
-                <Button Content="{x:Static properties:Resources.JumpToNextChange}" Click="JumpToNextChange" ToolTip="{x:Static properties:Resources.NavigateToTheNextChangedTranslation}" />
+                <Button Content="{x:Static properties:Resources.JumpToNextChange}" Click="JumpNextChange_Click" ToolTip="{x:Static properties:Resources.NavigateToTheNextChangedTranslation}" />
                 <Button Content="{x:Static properties:Resources.NextMissingPlaceholder}" Click="JumpNextMissingPlaceholder_Click" ToolTip="{x:Static properties:Resources.NavigateToTheNextTranslationWithMissingPlaceholders}" />
                 <Separator />
                 <Label Content="{x:Static properties:Resources.Search}" VerticalAlignment="Center" />
@@ -75,7 +87,7 @@
                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                     TextChanged="SearchTextBox_TextChanged"
                     ToolTip="{x:Static properties:Resources.EnterTextToSearchWithinTranslations}" />
-                <Button Content="X" ToolTip="{x:Static properties:Resources.ClearSearch}" Click="ClearSearch_Click" />
+                <Button Content="X" ToolTip="{x:Static properties:Resources.ClearSearch}" Command="{Binding ClearSearchCommand}" />
                 <Separator />
                 <CheckBox
                     x:Name="RegexCheckBox"
@@ -129,10 +141,15 @@
                 ItemsSource="{Binding Translations}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                KeyDown="ListView_KeyDown"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 SizeChanged="ListView_SizeChanged">
+                <ListView.InputBindings>
+                    <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopySelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+                    <KeyBinding Key="V" Modifiers="Control" Command="{Binding PasteSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+                    <KeyBinding Key="M" Modifiers="Control" Command="{Binding CopyFromEnglishSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+                    <KeyBinding Key="T" Modifiers="Control" Command="{Binding DoTranslateSelectedCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItems}" />
+                </ListView.InputBindings>
                 <ListView.View>
                     <GridView>
                         <!-- LineNumber -->

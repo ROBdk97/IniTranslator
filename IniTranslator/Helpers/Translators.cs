@@ -22,7 +22,7 @@ namespace IniTranslator.Helpers
             if (string.IsNullOrWhiteSpace(apiKey))
                 return text;
             apiKey = CryptoHelper.Decrypt(apiKey);
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             string url = $"https://translation.googleapis.com/language/translate/v2?key={apiKey}";
 
             // Prepare the request body
@@ -46,9 +46,7 @@ namespace IniTranslator.Helpers
             string responseBody = await response.Content.ReadAsStringAsync();
             JsonDocument jsonResponse = JsonDocument.Parse(responseBody);
             string? translatedText = jsonResponse.RootElement.GetProperty("data").GetProperty("_translations")[0].GetProperty("translatedText").GetString();
-            if (translatedText is null)
-                return text;
-            return translatedText;
+            return translatedText is null ? text : translatedText;
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿using IniTranslator.Models;
 using IniTranslator.ViewModels;
+using IniTranslator.Helpers;
 using System;
-using System.Linq;
 using System.Windows;
 
 namespace IniTranslator.Windows
@@ -22,11 +22,15 @@ namespace IniTranslator.Windows
             DeepLApiKeyBox.Password = ViewModel.DeepLApiKey;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.GoogleTranslateApiKey = GoogleTranslateApiKeyBox.Password;
-            ViewModel.DeepLApiKey = DeepLApiKeyBox.Password;
-            ViewModel.SaveSettings();
+            ViewModel.SaveAllCommand.Execute(new PasswordPair
+            {
+                GoogleApiKey = GoogleTranslateApiKeyBox.Password,
+                DeepLApiKey = DeepLApiKeyBox.Password
+            });
+
+            Close();
         }
     }
 }

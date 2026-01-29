@@ -62,7 +62,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             name = TransformFile(name);
             if (name.Length > 0)
             {
-                if (!name.EndsWith("/", StringComparison.Ordinal))
+                if (!name.EndsWith('/'))
                 {
                     name += "/";
                 }
@@ -84,9 +84,9 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             if (name != null)
             {
                 string lowerName = name.ToLower();
-                if ((trimPrefix_ != null) && (lowerName.IndexOf(trimPrefix_, StringComparison.Ordinal) == 0))
+                if ((trimPrefix_ != null) && (lowerName.StartsWith(trimPrefix_, StringComparison.Ordinal)))
                 {
-                    name = name.Substring(trimPrefix_.Length);
+                    name = name[trimPrefix_.Length..];
                 }
 
                 name = name.Replace(@"\", "/");
@@ -95,13 +95,13 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 // Drop any leading slashes.
                 while ((name.Length > 0) && (name[0] == '/'))
                 {
-                    name = name.Remove(0, 1);
+                    name = name[1..];
                 }
 
                 // Drop any trailing slashes.
                 while ((name.Length > 0) && (name[name.Length - 1] == '/'))
                 {
-                    name = name.Remove(name.Length - 1, 1);
+                    name = name[..^1];
                 }
 
                 // Convert consecutive // characters to /
@@ -168,12 +168,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 name = builder.ToString();
             }
 
-            if (name.Length > 0xffff)
-            {
-                throw new PathTooLongException();
-            }
-
-            return name;
+            return name.Length > 0xffff ? throw new PathTooLongException() : name;
         }
 
         /// <summary>
@@ -202,7 +197,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 {
                     result =
                         (name.IndexOfAny(InvalidEntryChars) < 0) &&
-                        (name.IndexOf('/') != 0);
+                        (!name.StartsWith('/'));
                 }
             }
 
@@ -226,7 +221,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
             bool result =
                 (name != null) &&
                 (name.IndexOfAny(InvalidEntryChars) < 0) &&
-                (name.IndexOf('/') != 0)
+                (!name.StartsWith('/'))
                 ;
             return result;
         }

@@ -2,12 +2,15 @@
 using IniTranslator.Models;
 using IniTranslator.Properties;
 using IniTranslator.Windows;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using ROBdk97.Unp4k.P4kModels;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,15 +18,22 @@ using System.Windows;
 
 namespace IniTranslator.ViewModels
 {
-    public partial class MainViewModel : BaseModel
+    public partial class MainViewModel : ObservableObject
     {
         private readonly ObservableCollection<Translations> _translations; // Internal collection to be displayed
         private SettingsFile _settings; // Holds settings information
 
-        private string _searchText = string.Empty; // Search text for filtering _translations
-        private string _status = Resources.Ready;
-        private int _statusIndex = 0;
-        private int _statusMax = 3;
+        [ObservableProperty]
+        private string searchText = string.Empty; // Search text for filtering _translations
+
+        [ObservableProperty]
+        private string status = Resources.Ready;
+
+        [ObservableProperty]
+        private int statusIndex;
+
+        [ObservableProperty]
+        private int statusMax = 3;
 
         public bool IgnoreCase
         {
@@ -36,18 +46,6 @@ namespace IniTranslator.ViewModels
                     OnPropertyChanged(nameof(IgnoreCase));
                 }
             }
-        }
-
-        public int StatusIndex
-        {
-            get => _statusIndex;
-            set => SetProperty(ref _statusIndex, value);
-        }
-
-        public int StatusMax
-        {
-            get => _statusMax;
-            set => SetProperty(ref _statusMax, value);
         }
 
         public bool UseRegex
@@ -63,17 +61,7 @@ namespace IniTranslator.ViewModels
             }
         }
 
-        public string SearchText
-        {
-            get => _searchText;
-            set => SetProperty(ref _searchText, value);
-        }
-
-        public string Status
-        {
-            get => _status;
-            set => SetProperty(ref _status, value);
-        }
+        // Note: explicit properties are kept for compatibility with tooling/bindings.
 
         public SettingsFile Settings => _settings;
 
@@ -90,6 +78,239 @@ namespace IniTranslator.ViewModels
             _translations = [];
             UpdateStatus(Resources.Ready);
             InitializeAsync();
+        }
+
+        [RelayCommand]
+        private async Task DoOpenAsync(Window? owner)
+        {
+            try
+            {
+                var englishFilePath = ShowOpenFileDialog("Select English INI File", owner);
+                if (string.IsNullOrWhiteSpace(englishFilePath))
+                    return;
+
+                var translatedFilePath = ShowOpenFileDialog("Select Translated INI File", owner);
+                if (string.IsNullOrWhiteSpace(translatedFilePath))
+                    return;
+
+                ResetStatus(2);
+                await UpdateTranslationsAsync(englishFilePath, translatedFilePath).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for diagnostics and inform the user that opening failed.
+                Debug.WriteLine(ex);
+                MessageBox.Show(
+                    "An error occurred while opening the INI files. Please try again.",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                UpdateStatus(Resources.Ready);
+            }
+        }
+
+        [RelayCommand]
+        private void DoSave()
+        {
+            SaveCore();
+        }
+
+        [RelayCommand]
+        private async Task DoReloadAsync()
+        {
+            await ReloadCoreAsync().ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private async Task DoLoadBackupAsync()
+        {
+            await LoadBackupCoreAsync().ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private void ShowEnglishInExplorer()
+        {
+            ShowInExplorer(false);
+        }
+
+        [RelayCommand]
+        private void ShowTranslatedInExplorer()
+        {
+            ShowInExplorer(true);
+        }
+
+        [RelayCommand]
+        private void ClearSearch()
+        {
+            SearchText = string.Empty;
+        }
+
+        [RelayCommand]
+        private void CopySelected(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            CopySelectedItemsToClipboard(selectedItems);
+        }
+
+        [RelayCommand]
+        private void PasteSelected(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            PasteFromClipboard(selectedItems);
+        }
+
+        [RelayCommand]
+        private void CopyFromEnglishSelected(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            CopyFromEnglish(selectedItems);
+        }
+
+        [RelayCommand]
+        private async Task DoTranslateSelectedAsync(IList? selectedItems)
+        {
+            if (selectedItems is null)
+                return;
+            await TranslateSelectedItemsAsync(selectedItems.Cast<Translations>()).ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private async Task DoExtractFromGameAsync()
+        {
+            await ExtractFromGameCoreAsync().ConfigureAwait(true);
+        }
+
+        [RelayCommand]
+        private async Task DoOpenOldIniAsync(Window? owner)
+        {
+            try
+            {
+                var oldFilePath = ShowOpenFileDialog("Select Old INI File", owner);
+                if (string.IsNullOrWhiteSpace(oldFilePath))
+                    return;
+
+                await EqualizeFilesAsync(oldFilePath).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for diagnostics and inform the user.
+                Debug.WriteLine("Error while opening or processing old INI file: " + ex);
+                MessageBox.Show(
+                    "An error occurred while opening the old INI file.\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        [RelayCommand]
+        private void JumpToNextChange(IList? items)
+        {
+            // This command is called from the toolbar; navigation logic is in GetNextChange.
+            // The actual scrolling and selection is handled in the code-behind.
+        }
+
+        [RelayCommand]
+        private void JumpToNextMissingPlaceholder(IList? items)
+        {
+            // This command is called from the toolbar; navigation logic is in GetNextMissingPlaceHolder.
+            // The actual scrolling and selection is handled in the code-behind.
+        }
+
+        internal int GetNextChangeLegacy(int current)
+        {
+            if (!Translations.Any(t => !string.IsNullOrWhiteSpace(t.OldValue)))
+            {
+                MessageBox.Show("Please click on \"File\"->\"Open Old Ini File\" first to use this feature.");
+                UpdateStatus("Old INI file not loaded.");
+                return current;
+            }
+
+            for (int next = current + 1; next < Translations.Count; next++)
+            {
+                if (Translations[next].Value != Translations[next].OldValue)
+                {
+                    return next;
+                }
+            }
+
+            UpdateStatus("No further changes found.");
+            return current;
+        }
+
+        // 1. %[a-zA-Z0-9]{1,2} for % placeholders with 1-2 alphanumeric characters, no non-whitespace character before %
+        // 2. \[~\w+\(.*?\)\] for [~action(...)] placeholders enclosed in square brackets
+        // 3. ~\w+\(.*?\) for ~action(...) placeholders without square brackets
+        [GeneratedRegex(@"(?<!\S)%[a-zA-Z0-9]{1,2}|\[~\w+\(.*?\)\]|~\w+\(.*?\)", RegexOptions.Compiled)]
+        internal static partial Regex PlaceholderRegexLegacy();
+
+        public int GetNextMissingPlaceHolder(int current)
+        {
+            var mismatchedEntries = GetEntriesWithMissingPlaceholders();
+            var next = mismatchedEntries.FirstOrDefault(index => index > current, current);
+            if (next == current)
+                UpdateStatus("No further mismatched placeholders found.");
+            return next;
+        }
+
+        /// <summary>
+        /// Determines whether there are any _translations with missing or mismatched placeholders.
+        /// </summary>
+        /// <returns>True if any missing placeholders are found; otherwise, false.</returns>
+        public bool ContainsMissingPlaceHolder() => GetEntriesWithMissingPlaceholders().Count != 0;
+
+        public List<int> GetEntriesWithMissingPlaceholdersLegacy()
+        {
+            var mismatchedEntries = new List<int>();
+
+            for (int i = 0; i < Translations.Count; i++)
+            {
+                var entry = Translations[i];
+
+                // Skip entries with null or whitespace values
+                if (string.IsNullOrWhiteSpace(entry?.Value))
+                    continue;
+
+                // Extract placeholders from the Value field
+                var valuePlaceholders = ExtractPlaceholdersLegacy(entry.Value);
+
+                // Extract placeholders from the Translation field
+                var translationPlaceholders = ExtractPlaceholdersLegacy(entry.Translation ?? string.Empty);
+
+                // Add the index to the result if placeholders are mismatched
+                if (!valuePlaceholders.SetEquals(translationPlaceholders))
+                {
+                    mismatchedEntries.Add(i);
+                }
+            }
+
+            return mismatchedEntries;
+        }
+
+        /// <summary>
+        /// Extracts placeholders from a string using the specified regex pattern.
+        /// </summary>
+        /// <param name="input">The input string to analyze.</param>
+        /// <returns>A HashSet of normalized placeholders.</returns>
+        private static HashSet<string> ExtractPlaceholders(string input)
+        {
+            return PlaceholderRegex().Matches(input)
+                                      .Select(m => m.Value.Trim())
+                                      .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        }
+
+        private static string? ShowOpenFileDialog(string title, Window? owner)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Ini files (*.ini)|*.ini",
+                Title = title
+            };
+
+            return openFileDialog.ShowDialog(owner) == true ? openFileDialog.FileName : null;
         }
 
         private async void InitializeAsync()
@@ -192,7 +413,9 @@ namespace IniTranslator.ViewModels
         /// <summary>
         /// Save translations back to the translated INI file
         /// </summary>
-        internal void Save()
+        internal void Save() => SaveCore();
+
+        private void SaveCore()
         {
             if (Settings is null || string.IsNullOrWhiteSpace(Settings.TranslatedIniPath))
             {
@@ -275,7 +498,7 @@ namespace IniTranslator.ViewModels
             }
         }
 
-        internal async Task ReloadAsync()
+        private async Task ReloadCoreAsync()
         {
             UpdateStatus("Reloading translations...");
             ResetStatus(2);
@@ -284,7 +507,7 @@ namespace IniTranslator.ViewModels
 
         internal async Task TranslateSelectedItemsAsync(IEnumerable<Translations> selectedItems)
         {
-            if (selectedItems == null || selectedItems.Count() == 0)
+            if (selectedItems == null || !selectedItems.Any())
             {
                 UpdateStatus("No items selected for translation.");
                 return;
@@ -356,7 +579,7 @@ namespace IniTranslator.ViewModels
                 {
                     cleanLines.Add(line);
                 }
-                else if (cleanLines.Any())
+                else if (cleanLines.Count != 0)
                 {
                     cleanLines[^1] += line;
                 }
@@ -446,14 +669,13 @@ namespace IniTranslator.ViewModels
             UpdateStatus("Replaced selected items.");
         }
 
-        private string ReplaceWithStringComparison(string input, string searchText, string replaceText)
+        private string ReplaceWithStringComparison(string input, string search, string replaceText)
         {
-            if (string.IsNullOrEmpty(searchText))
-                return input;
-
-            return IgnoreCase
-                ? Regex.Replace(input, Regex.Escape(searchText), replaceText, RegexOptions.IgnoreCase)
-                : input.Replace(searchText, replaceText, StringComparison.Ordinal);
+            return string.IsNullOrEmpty(search)
+                ? input
+                : IgnoreCase
+                ? Regex.Replace(input, Regex.Escape(search), replaceText, RegexOptions.IgnoreCase)
+                : input.Replace(search, replaceText, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -483,7 +705,7 @@ namespace IniTranslator.ViewModels
                     Settings.EnglishIniPath,
                     Settings.TranslatedIniPath);
 
-                await ReloadAsync();
+                await ReloadCoreAsync();
 
                 var oldLines = await File.ReadAllLinesAsync(oldFilePath);
                 var translationsDict = Translations.ToDictionary(t => t.Key, t => t);
@@ -494,8 +716,8 @@ namespace IniTranslator.ViewModels
                     if (index < 0)
                         continue;
 
-                    var key = line.Substring(0, index).Trim();
-                    var value = line.Substring(index + 1).Trim();
+                    var key = line[..index].Trim();
+                    var value = line[(index + 1)..].Trim();
 
                     if (translationsDict.TryGetValue(key, out var translation))
                     {
@@ -514,7 +736,7 @@ namespace IniTranslator.ViewModels
             }
         }
 
-        internal async Task LoadBackupAsync()
+        private async Task LoadBackupCoreAsync()
         {
             if (string.IsNullOrWhiteSpace(Settings.TranslatedIniPath))
             {
@@ -533,7 +755,7 @@ namespace IniTranslator.ViewModels
             {
                 File.Copy(backupPath, Settings.TranslatedIniPath, overwrite: true);
                 Debug.WriteLine($"Backup restored from '{backupPath}'.");
-                await ReloadAsync();
+                await ReloadCoreAsync();
                 UpdateStatus("Backup loaded successfully.");
             }
             catch (Exception ex)
@@ -608,9 +830,9 @@ namespace IniTranslator.ViewModels
         /// </summary>
         /// <param name="current">The current index to start searching from.</param>
         /// <returns>The index of the next mismatched placeholder, or -1 if none are found.</returns>
-        public int GetNextMissingPlaceHolder(int current)
+        public int GetNextMissingPlaceHolderLegacy(int current)
         {
-            var mismatchedEntries = GetEntriesWithMissingPlaceholders();
+            var mismatchedEntries = GetEntriesWithMissingPlaceholdersLegacy();
             var next = mismatchedEntries.FirstOrDefault(index => index > current, -1);
             if (next == -1)
                 UpdateStatus("No further mismatched placeholders found.");
@@ -621,16 +843,16 @@ namespace IniTranslator.ViewModels
         /// Determines whether there are any _translations with missing or mismatched placeholders.
         /// </summary>
         /// <returns>True if any missing placeholders are found; otherwise, false.</returns>
-        public bool ContainsMissingPlaceHolder() => GetEntriesWithMissingPlaceholders().Count != 0;
+        public bool ContainsMissingPlaceHolderLegacy() => GetEntriesWithMissingPlaceholdersLegacy().Count != 0;
 
         /// <summary>
         /// Extracts placeholders from a string using the specified regex pattern.
         /// </summary>
         /// <param name="input">The input string to analyze.</param>
         /// <returns>A HashSet of normalized placeholders.</returns>
-        private static HashSet<string> ExtractPlaceholders(string input)
+        private static HashSet<string> ExtractPlaceholdersLegacy(string input)
         {
-            return PlaceholderRegex().Matches(input)
+            return PlaceholderRegexLegacy().Matches(input)
                                       .Select(m => m.Value.Trim())
                                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
@@ -638,7 +860,7 @@ namespace IniTranslator.ViewModels
         /// <summary>
         /// Extract the English global.ini from game files.
         /// </summary>
-        internal async Task ExtractFromGameAsync()
+        private async Task ExtractFromGameCoreAsync()
         {
             ResetStatus(3);
             if (string.IsNullOrWhiteSpace(Settings.StarCitizenPath) || !Directory.Exists(Settings.StarCitizenPath))
@@ -728,7 +950,16 @@ namespace IniTranslator.ViewModels
         {
             StatusIndex++;
             Debug.WriteLine(message);
-            Application.Current.Dispatcher.Invoke(() => Status = message);
+
+            if (Application.Current?.Dispatcher is not null)
+            {
+                Application.Current.Dispatcher.Invoke(() => Status = message);
+            }
+            else
+            {
+                Status = message;
+            }
+
             if (reset)
                 ResetStatus();
         }
@@ -748,7 +979,7 @@ namespace IniTranslator.ViewModels
                 Settings.TranslatedIniPath = v;
             try
             {
-                await ReloadAsync().ConfigureAwait(true);
+                await ReloadCoreAsync().ConfigureAwait(true);
             }
             catch (Exception) { }
         }

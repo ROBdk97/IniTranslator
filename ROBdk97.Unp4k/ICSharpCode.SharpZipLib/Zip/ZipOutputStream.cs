@@ -204,10 +204,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// </exception>
         public void PutNextEntry(ZipEntry entry)
         {
-            if (entry == null)
-            {
-                throw new ArgumentNullException(nameof(entry));
-            }
+            ArgumentNullException.ThrowIfNull(entry);
 
             if (entries == null)
             {
@@ -629,9 +626,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         //
         private void WriteAESHeader(ZipEntry entry)
         {
-            byte[] salt;
-            byte[] pwdVerifier;
-            InitializeAESPassword(entry, Password, out salt, out pwdVerifier);
+            InitializeAESPassword(entry, Password, out byte[] salt, out byte[] pwdVerifier);
             // File format for AES:
             // Size (bytes)   Content
             // ------------   -------
@@ -662,10 +657,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 throw new InvalidOperationException("No open entry.");
             }
 
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+            ArgumentNullException.ThrowIfNull(buffer);
 
             if (offset < 0)
             {
@@ -827,7 +819,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 byte[] entryComment =
                     (entry.Comment != null) ?
                     ZipConstants.ConvertToArray(entry.Flags, entry.Comment) :
-                    new byte[0];
+                    [];
 
                 if (entryComment.Length > 0xffff)
                 {
@@ -884,7 +876,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
                 sizeEntries += ZipConstants.CentralHeaderBaseSize + name.Length + extra.Length + entryComment.Length;
             }
 
-            using (ZipHelperStream zhs = new ZipHelperStream(baseOutputStream_))
+            using (ZipHelperStream zhs = new(baseOutputStream_))
             {
                 zhs.WriteEndOfCentralDirectory(numEntries, sizeEntries, offset, zipComment);
             }
@@ -896,12 +888,12 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <summary>
         /// The entries for the archive.
         /// </summary>
-        List<ZipEntry> entries = new List<ZipEntry>();
+        List<ZipEntry> entries = [];
 
         /// <summary>
         /// Used to track the crc of data added to entries.
         /// </summary>
-        Crc32 crc = new Crc32();
+        readonly Crc32 crc = new();
 
         /// <summary>
         /// The current entry being added.
@@ -925,7 +917,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip
         /// <summary>
         /// Comment for the entire archive recorded in central header.
         /// </summary>
-        byte[] zipComment = new byte[0];
+        byte[] zipComment = [];
 
         /// <summary>
         /// Flag indicating that header patching is required for the current entry.

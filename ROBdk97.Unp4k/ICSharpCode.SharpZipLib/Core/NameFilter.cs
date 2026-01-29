@@ -28,8 +28,8 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Core
         public NameFilter(string filter)
         {
             filter_ = filter;
-            inclusions_ = new List<Regex>();
-            exclusions_ = new List<Regex>();
+            inclusions_ = [];
+            exclusions_ = [];
             Compile();
         }
         #endregion
@@ -75,11 +75,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Core
 
                             if (items[i][0] == '+')
                             {
-                                toCompile = items[i].Substring(1, items[i].Length - 1);
+                                toCompile = items[i][1..];
                             }
                             else if (items[i][0] == '-')
                             {
-                                toCompile = items[i].Substring(1, items[i].Length - 1);
+                                toCompile = items[i][1..];
                             }
                             else
                             {
@@ -107,7 +107,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Core
         public static string[] SplitQuoted(string original)
         {
             char escape = '\\';
-            char[] separators = { ';' };
+            char[] separators = [';'];
 
             var result = new List<string>();
 
@@ -242,11 +242,11 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Core
 
                     if (items[i][0] == '+')
                     {
-                        toCompile = items[i].Substring(1, items[i].Length - 1);
+                        toCompile = items[i][1..];
                     }
                     else if (items[i][0] == '-')
                     {
-                        toCompile = items[i].Substring(1, items[i].Length - 1);
+                        toCompile = items[i][1..];
                     }
                     else
                     {

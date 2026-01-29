@@ -62,25 +62,16 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// </exception>
         public DeflaterOutputStream(Stream baseOutputStream, Deflater deflater, int bufferSize)
         {
-            if (baseOutputStream == null)
-            {
-                throw new ArgumentNullException(nameof(baseOutputStream));
-            }
+            ArgumentNullException.ThrowIfNull(baseOutputStream);
 
             if (baseOutputStream.CanWrite == false)
             {
                 throw new ArgumentException("Must support writing", nameof(baseOutputStream));
             }
 
-            if (deflater == null)
-            {
-                throw new ArgumentNullException(nameof(deflater));
-            }
+            ArgumentNullException.ThrowIfNull(deflater);
 
-            if (bufferSize < 512)
-            {
-                throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            }
+            ArgumentOutOfRangeException.ThrowIfLessThan(bufferSize, 512);
 
             baseOutputStream_ = baseOutputStream;
             buffer_ = new byte[bufferSize];
@@ -222,8 +213,6 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         {
             salt = new byte[entry.AESSaltLen];
             // Salt needs to be cryptographically random, and unique per file
-            if (_aesRnd == null)
-                _aesRnd = RandomNumberGenerator.Create();
             _aesRnd.GetBytes(salt);
             int blockSize = entry.AESKeySize / 8;   // bits to bytes
 
@@ -428,8 +417,7 @@ namespace ROBdk97.Unp4k.ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// </param>
         public override void WriteByte(byte value)
         {
-            byte[] b = new byte[1];
-            b[0] = value;
+            byte[] b = [value];
             Write(b, 0, 1);
         }
 
