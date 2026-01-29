@@ -302,7 +302,7 @@ namespace IniTranslator
             if (index < 0) index = 0;
 
             int newIndex = ViewModel.GetNextChange(index);
-            if (newIndex <= index) return;
+            if (newIndex <= index || newIndex >= listView.Items.Count) return;
 
             listView.ScrollIntoView(listView.Items[newIndex]);
             listView.SelectedIndex = newIndex;
@@ -317,7 +317,7 @@ namespace IniTranslator
             if (index < 0) index = 0;
 
             int newIndex = ViewModel.GetNextMissingPlaceHolder(index);
-            if (newIndex <= index) return;
+            if (newIndex <= index || newIndex >= listView.Items.Count) return;
 
             listView.ScrollIntoView(listView.Items[newIndex]);
             listView.SelectedIndex = newIndex;

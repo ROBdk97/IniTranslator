@@ -24,16 +24,16 @@ namespace IniTranslator.ViewModels
         private SettingsFile _settings; // Holds settings information
 
         [ObservableProperty]
-        private readonly string searchText = string.Empty; // Search text for filtering _translations
+        private string searchText = string.Empty; // Search text for filtering _translations
 
         [ObservableProperty]
-        private readonly string status = Resources.Ready;
+        private string status = Resources.Ready;
 
         [ObservableProperty]
         private int statusIndex;
 
         [ObservableProperty]
-        private readonly int statusMax = 3;
+        private int statusMax = 3;
 
         public bool IgnoreCase
         {
@@ -241,7 +241,7 @@ namespace IniTranslator.ViewModels
             return current;
         }
 
-        // 1. %[a-zA-Z0-9]{1,2} for % placeholders with 1-2 alphanumeric characters, no preceding character before %
+        // 1. %[a-zA-Z0-9]{1,2} for % placeholders with 1-2 alphanumeric characters, no non-whitespace character before %
         // 2. \[~\w+\(.*?\)\] for [~action(...)] placeholders enclosed in square brackets
         // 3. ~\w+\(.*?\) for ~action(...) placeholders without square brackets
         [GeneratedRegex(@"(?<!\S)%[a-zA-Z0-9]{1,2}|\[~\w+\(.*?\)\]|~\w+\(.*?\)", RegexOptions.Compiled)]
@@ -250,8 +250,8 @@ namespace IniTranslator.ViewModels
         public int GetNextMissingPlaceHolder(int current)
         {
             var mismatchedEntries = GetEntriesWithMissingPlaceholders();
-            var next = mismatchedEntries.FirstOrDefault(index => index > current, -1);
-            if (next == -1)
+            var next = mismatchedEntries.FirstOrDefault(index => index > current, current);
+            if (next == current)
                 UpdateStatus("No further mismatched placeholders found.");
             return next;
         }

@@ -4,7 +4,7 @@ namespace IniTranslator.ViewModels
     internal partial class JumpToLineViewModel : ObservableObject
     {
         [ObservableProperty]
-        private readonly int lineNumber = 1;
+        private int lineNumber = 1;
 
         public string Line
         {
