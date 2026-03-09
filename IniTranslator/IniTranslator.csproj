@@ -5,9 +5,12 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
-		<SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
 		<Platforms>AnyCPU;x64</Platforms>
+	</PropertyGroup>
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);WPF0001</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Icon.ico" />

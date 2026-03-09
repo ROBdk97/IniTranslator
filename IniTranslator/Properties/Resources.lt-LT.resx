@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,335 +59,335 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="File" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="File" xml:space="preserve">
     <value>_Failas</value>
   </data>
-  <data name="Open" xml:space="preserve">
+	<data name="Open" xml:space="preserve">
     <value>Atviras...</value>
   </data>
-  <data name="OpenEnglishAndTranslatedINIFiles" xml:space="preserve">
+	<data name="OpenEnglishAndTranslatedINIFiles" xml:space="preserve">
     <value>Atidaryti anglų ir išverstus INI failus</value>
   </data>
-  <data name="OpenAnOlderVersionOfTheINIFileForComparison" xml:space="preserve">
+	<data name="OpenAnOlderVersionOfTheINIFileForComparison" xml:space="preserve">
     <value>Atidarykite senesnę INI failo versiją palyginimui</value>
   </data>
-  <data name="Open_OldINIFile" xml:space="preserve">
+	<data name="Open_OldINIFile" xml:space="preserve">
     <value>Atidaryti seną INI failą...</value>
   </data>
-  <data name="ExtractFromGame" xml:space="preserve">
+	<data name="ExtractFromGame" xml:space="preserve">
     <value>Ištrauka iš žaidimo</value>
   </data>
-  <data name="ExtractTheEnglishINIFileFromGameFiles" xml:space="preserve">
+	<data name="ExtractTheEnglishINIFileFromGameFiles" xml:space="preserve">
     <value>Ištraukti anglišką INI failą iš žaidimo failų</value>
   </data>
-  <data name="Save" xml:space="preserve">
+	<data name="Save" xml:space="preserve">
     <value>Išsaugoti</value>
   </data>
-  <data name="Reload" xml:space="preserve">
+	<data name="Reload" xml:space="preserve">
     <value>Perkrauti</value>
   </data>
-  <data name="Load_Backup" xml:space="preserve">
+	<data name="Load_Backup" xml:space="preserve">
     <value>Įkrovos atsarginė kopija</value>
   </data>
-  <data name="SaveYourCurrentTranslations" xml:space="preserve">
+	<data name="SaveYourCurrentTranslations" xml:space="preserve">
     <value>Išsaugoti dabartinius vertimus</value>
   </data>
-  <data name="ReloadTranslationsFromTheINIFiles" xml:space="preserve">
+	<data name="ReloadTranslationsFromTheINIFiles" xml:space="preserve">
     <value>Perkrauti vertimus iš INI failų</value>
   </data>
-  <data name="RestoreTranslationsFromABackupFile" xml:space="preserve">
+	<data name="RestoreTranslationsFromABackupFile" xml:space="preserve">
     <value>Atkurti vertimus iš atsarginės kopijos failo</value>
   </data>
-  <data name="EnglishINI" xml:space="preserve">
+	<data name="EnglishINI" xml:space="preserve">
     <value>Lietuviškai INI</value>
   </data>
-  <data name="TranslatedINI" xml:space="preserve">
+	<data name="TranslatedINI" xml:space="preserve">
     <value>Išverstas INI</value>
   </data>
-  <data name="OpenTheEnglishINIFileLocationInExplorer" xml:space="preserve">
+	<data name="OpenTheEnglishINIFileLocationInExplorer" xml:space="preserve">
     <value>Atidarykite angliško INI failo vietą Explorer</value>
   </data>
-  <data name="OpenTheTranslatedINIFileLocationInExplorer" xml:space="preserve">
+	<data name="OpenTheTranslatedINIFileLocationInExplorer" xml:space="preserve">
     <value>Atidarykite išversto INI failo vietą Explorer</value>
   </data>
-  <data name="CloseTheApplication" xml:space="preserve">
+	<data name="CloseTheApplication" xml:space="preserve">
     <value>Uždaryti programą</value>
   </data>
-  <data name="Exit" xml:space="preserve">
+	<data name="Exit" xml:space="preserve">
     <value>Išeiti</value>
   </data>
-  <data name="IniTranslator" xml:space="preserve">
+	<data name="IniTranslator" xml:space="preserve">
     <value>Ini Vertėjas</value>
   </data>
-  <data name="Edit" xml:space="preserve">
+	<data name="Edit" xml:space="preserve">
     <value>Redaguoti</value>
   </data>
-  <data name="Copy" xml:space="preserve">
+	<data name="Copy" xml:space="preserve">
     <value>Kopijuoti</value>
   </data>
-  <data name="CopySelectedItemsToClipboard" xml:space="preserve">
+	<data name="CopySelectedItemsToClipboard" xml:space="preserve">
     <value>Pasirinktų elementų kopijavimas į iškarpinę</value>
   </data>
-  <data name="Paste" xml:space="preserve">
+	<data name="Paste" xml:space="preserve">
     <value>Pasta</value>
   </data>
-  <data name="CopyFromEnglish" xml:space="preserve">
+	<data name="CopyFromEnglish" xml:space="preserve">
     <value>Kopijuoti iš anglų kalbos</value>
   </data>
-  <data name="Translate" xml:space="preserve">
+	<data name="Translate" xml:space="preserve">
     <value>Išversti</value>
   </data>
-  <data name="JumpToLine" xml:space="preserve">
+	<data name="JumpToLine" xml:space="preserve">
     <value>Pereiti į eilutę...</value>
   </data>
-  <data name="PasteClipboard" xml:space="preserve">
+	<data name="PasteClipboard" xml:space="preserve">
     <value>Įklijuokite iškarpinės turinį į pasirinktus elementus</value>
   </data>
-  <data name="ReplaceTranslationsWithTheirEnglishCounterparts" xml:space="preserve">
+	<data name="ReplaceTranslationsWithTheirEnglishCounterparts" xml:space="preserve">
     <value>Pakeiskite vertimus angliškais atitikmenimis</value>
   </data>
-  <data name="AutomaticallyTranslateSelectedItemsUsingTheConfiguredAPI" xml:space="preserve">
+	<data name="AutomaticallyTranslateSelectedItemsUsingTheConfiguredAPI" xml:space="preserve">
     <value>Automatiškai išversti pasirinktus elementus naudojant sukonfigūruotą API</value>
   </data>
-  <data name="NavigateToASpecificLineNumberInTheList" xml:space="preserve">
+	<data name="NavigateToASpecificLineNumberInTheList" xml:space="preserve">
     <value>Perėjimas prie konkretaus eilutės numerio sąraše</value>
   </data>
-  <data name="Settings" xml:space="preserve">
+	<data name="Settings" xml:space="preserve">
     <value>Nustatymai</value>
   </data>
-  <data name="OpenTheSettingsWindowToConfigurePreferences" xml:space="preserve">
+	<data name="OpenTheSettingsWindowToConfigurePreferences" xml:space="preserve">
     <value>Atidarykite nustatymų langą, kad sukonfigūruotumėte nuostatas</value>
   </data>
-  <data name="Theme" xml:space="preserve">
+	<data name="Theme" xml:space="preserve">
     <value>Tema</value>
   </data>
-  <data name="Light" xml:space="preserve">
+	<data name="Light" xml:space="preserve">
     <value>Šviesa</value>
   </data>
-  <data name="Dark" xml:space="preserve">
+	<data name="Dark" xml:space="preserve">
     <value>Tamsus</value>
   </data>
-  <data name="SwitchToLightTheme" xml:space="preserve">
+	<data name="SwitchToLightTheme" xml:space="preserve">
     <value>Perjungti į šviesos temą</value>
   </data>
-  <data name="SwitchToDarkTheme" xml:space="preserve">
+	<data name="SwitchToDarkTheme" xml:space="preserve">
     <value>Perjungimas į tamsią temą</value>
   </data>
-  <data name="Help" xml:space="preserve">
+	<data name="Help" xml:space="preserve">
     <value>Pagalba</value>
   </data>
-  <data name="Documentation" xml:space="preserve">
+	<data name="Documentation" xml:space="preserve">
     <value>Dokumentacija</value>
   </data>
-  <data name="About" xml:space="preserve">
+	<data name="About" xml:space="preserve">
     <value>Apie</value>
   </data>
-  <data name="ViewDetailedDocumentationAndUsageInstructions" xml:space="preserve">
+	<data name="ViewDetailedDocumentationAndUsageInstructions" xml:space="preserve">
     <value>Peržiūrėkite išsamią dokumentaciją ir naudojimo instrukcijas</value>
   </data>
-  <data name="LearnMoreAboutIniTranslator" xml:space="preserve">
+	<data name="LearnMoreAboutIniTranslator" xml:space="preserve">
     <value>Sužinokite daugiau apie "Ini Translator</value>
   </data>
-  <data name="JumpToNextChange" xml:space="preserve">
+	<data name="JumpToNextChange" xml:space="preserve">
     <value>Pereiti prie kito pakeitimo</value>
   </data>
-  <data name="NextMissingPlaceholder" xml:space="preserve">
+	<data name="NextMissingPlaceholder" xml:space="preserve">
     <value>Kitas Trūkstamas pakaitinis žymeklis</value>
   </data>
-  <data name="NavigateToTheNextChangedTranslation" xml:space="preserve">
+	<data name="NavigateToTheNextChangedTranslation" xml:space="preserve">
     <value>Pereikite prie kito pakeisto vertimo</value>
   </data>
-  <data name="NavigateToTheNextTranslationWithMissingPlaceholders" xml:space="preserve">
+	<data name="NavigateToTheNextTranslationWithMissingPlaceholders" xml:space="preserve">
     <value>Pereiti prie kito vertimo su trūkstamomis pakaitinėmis žymėmis</value>
   </data>
-  <data name="Search" xml:space="preserve">
+	<data name="Search" xml:space="preserve">
     <value>Paieška:</value>
   </data>
-  <data name="EnterTextToSearchWithinTranslations" xml:space="preserve">
+	<data name="EnterTextToSearchWithinTranslations" xml:space="preserve">
     <value>Įveskite tekstą paieškai vertimuose</value>
   </data>
-  <data name="ClearSearch" xml:space="preserve">
+	<data name="ClearSearch" xml:space="preserve">
     <value>Aiški paieška</value>
   </data>
-  <data name="EnableRegularExpressionSearch" xml:space="preserve">
+	<data name="EnableRegularExpressionSearch" xml:space="preserve">
     <value>Įjungti paiešką pagal reguliariąsias išraiškas</value>
   </data>
-  <data name="IgnoreCase" xml:space="preserve">
+	<data name="IgnoreCase" xml:space="preserve">
     <value>Ignoruoti bylą</value>
   </data>
-  <data name="IgnoreCaseDuringSearch" xml:space="preserve">
+	<data name="IgnoreCaseDuringSearch" xml:space="preserve">
     <value>Paieškos metu ignoruoti atvejį</value>
   </data>
-  <data name="Replace" xml:space="preserve">
+	<data name="Replace" xml:space="preserve">
     <value>Pakeisti</value>
   </data>
-  <data name="FindAndReplaceTextInSelectedTranslations" xml:space="preserve">
+	<data name="FindAndReplaceTextInSelectedTranslations" xml:space="preserve">
     <value>Rasti ir pakeisti tekstą pasirinktuose vertimuose</value>
   </data>
-  <data name="SwitchTheme" xml:space="preserve">
+	<data name="SwitchTheme" xml:space="preserve">
     <value>Perjungimo tema</value>
   </data>
-  <data name="ToggleBetweenLightAndDarkThemes" xml:space="preserve">
+	<data name="ToggleBetweenLightAndDarkThemes" xml:space="preserve">
     <value>Šviesios ir tamsios temos perjungimas</value>
   </data>
-  <data name="TotalKeys" xml:space="preserve">
-    <value>Iš viso raktų:</value>
+	<data name="TotalKeys" xml:space="preserve">
+    <value>Iš viso raktų: </value>
   </data>
-  <data name="Line" xml:space="preserve">
+	<data name="Line" xml:space="preserve">
     <value>Linija</value>
   </data>
-  <data name="Key" xml:space="preserve">
+	<data name="Key" xml:space="preserve">
     <value>Pagrindinis</value>
   </data>
-  <data name="English" xml:space="preserve">
+	<data name="English" xml:space="preserve">
     <value>Anglų kalba</value>
   </data>
-  <data name="Translation" xml:space="preserve">
+	<data name="Translation" xml:space="preserve">
     <value>Vertimas</value>
   </data>
-  <data name="EditTheTranslationForThisKey" xml:space="preserve">
+	<data name="EditTheTranslationForThisKey" xml:space="preserve">
     <value>Redaguoti šio rakto vertimą</value>
   </data>
-  <data name="Jump" xml:space="preserve">
+	<data name="Jump" xml:space="preserve">
     <value>Peršokti</value>
   </data>
-  <data name="LineW" xml:space="preserve">
+	<data name="LineW" xml:space="preserve">
     <value>Linija: </value>
   </data>
-  <data name="ReplaceText" xml:space="preserve">
+	<data name="ReplaceText" xml:space="preserve">
     <value>Pakeisti tekstą</value>
   </data>
-  <data name="SearchText" xml:space="preserve">
+	<data name="SearchText" xml:space="preserve">
     <value>Paieškos tekstas:</value>
   </data>
-  <data name="ReplaceWith" xml:space="preserve">
+	<data name="ReplaceWith" xml:space="preserve">
     <value>Pakeisti į:</value>
   </data>
-  <data name="ReplaceAll" xml:space="preserve">
+	<data name="ReplaceAll" xml:space="preserve">
     <value>Pakeisti visus</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
+	<data name="Cancel" xml:space="preserve">
     <value>Atšaukti</value>
   </data>
-  <data name="SelectVersion" xml:space="preserve">
+	<data name="SelectVersion" xml:space="preserve">
     <value>Pasirinkite versiją</value>
   </data>
-  <data name="PleaseSelectAVersionFromTheList" xml:space="preserve">
+	<data name="PleaseSelectAVersionFromTheList" xml:space="preserve">
     <value>Pasirinkite versiją iš sąrašo:</value>
   </data>
-  <data name="OK" xml:space="preserve">
+	<data name="OK" xml:space="preserve">
     <value>GERAI</value>
   </data>
-  <data name="SettingsWindow_Settings" xml:space="preserve">
+	<data name="SettingsWindow_Settings" xml:space="preserve">
     <value>Nustatymai</value>
   </data>
-  <data name="SettingsWindow_Language" xml:space="preserve">
+	<data name="SettingsWindow_Language" xml:space="preserve">
     <value>Kalba:</value>
   </data>
-  <data name="SettingsWindow_Theme" xml:space="preserve">
+	<data name="SettingsWindow_Theme" xml:space="preserve">
     <value>Tema:</value>
   </data>
-  <data name="SettingsWindow_TranslationProvider" xml:space="preserve">
+	<data name="SettingsWindow_TranslationProvider" xml:space="preserve">
     <value>Vertimo paslaugų teikėjas:</value>
   </data>
-  <data name="SettingsWindow_DeepLApiKey" xml:space="preserve">
+	<data name="SettingsWindow_DeepLApiKey" xml:space="preserve">
     <value>DeepL Api raktas:</value>
   </data>
-  <data name="SettingsWindow_GoogleTranslateApiKey" xml:space="preserve">
+	<data name="SettingsWindow_GoogleTranslateApiKey" xml:space="preserve">
     <value>"Google" vertimo programos raktas:</value>
   </data>
-  <data name="SettingsViewModel_Light" xml:space="preserve">
+	<data name="SettingsViewModel_Light" xml:space="preserve">
     <value>Šviesa</value>
   </data>
-  <data name="SettingsViewModel_Dark" xml:space="preserve">
+	<data name="SettingsViewModel_Dark" xml:space="preserve">
     <value>Tamsus</value>
   </data>
-  <data name="SpanishSpain" xml:space="preserve">
+	<data name="SpanishSpain" xml:space="preserve">
     <value>Ispanų kalba (Ispanija)</value>
   </data>
-  <data name="FrenchFrance" xml:space="preserve">
+	<data name="FrenchFrance" xml:space="preserve">
     <value>Prancūzų kalba (Prancūzija)</value>
   </data>
-  <data name="ItalianItaly" xml:space="preserve">
+	<data name="ItalianItaly" xml:space="preserve">
     <value>italų kalba (Italija)</value>
   </data>
-  <data name="LithuanianLithuania" xml:space="preserve">
+	<data name="LithuanianLithuania" xml:space="preserve">
     <value>Lietuvių kalba (Lietuva)</value>
   </data>
-  <data name="PortugueseBrazil" xml:space="preserve">
+	<data name="PortugueseBrazil" xml:space="preserve">
     <value>portugalų kalba (Brazilija)</value>
   </data>
-  <data name="GermanGermany" xml:space="preserve">
+	<data name="GermanGermany" xml:space="preserve">
     <value>Vokiečių kalba (Vokietija)</value>
   </data>
-  <data name="Ready" xml:space="preserve">
+	<data name="Ready" xml:space="preserve">
     <value>Paruošta</value>
   </data>
-  <data name="MissingPlaceholdersDesc" xml:space="preserve">
+	<data name="MissingPlaceholdersDesc" xml:space="preserve">
     <value>Jūsų vertimuose trūksta arba nesutampa vietos žymenys. Prieš išsaugodami juos peržiūrėkite ir ištaisykite.</value>
   </data>
-  <data name="MissingPlaceholders" xml:space="preserve">
+	<data name="MissingPlaceholders" xml:space="preserve">
     <value>Trūkstamos pakaitinės žymos</value>
   </data>
-  <data name="StarCitizenPath" xml:space="preserve">
+	<data name="StarCitizenPath" xml:space="preserve">
     <value>StarCitizen kelias:</value>
   </data>
 </root>

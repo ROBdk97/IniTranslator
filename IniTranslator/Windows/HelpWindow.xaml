@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
         Background="{DynamicResource BackgroundBrush}"
-        Foreground="{DynamicResource ForegroundBrush}">
+        >
     <FlowDocumentScrollViewer Margin="10">
         <FlowDocument>
             <!-- Title -->

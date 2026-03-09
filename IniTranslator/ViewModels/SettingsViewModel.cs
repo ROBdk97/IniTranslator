@@ -52,14 +52,11 @@ namespace IniTranslator.ViewModels
 ];
 
 
-        public ObservableCollection<Theme> Themes
+        public ObservableCollection<ThemeMode> Themes
         {
             get;
         } =
-        [
-            new Theme{ Name=Resources.SettingsViewModel_Light, Value="Light" },
-            new Theme{ Name=Resources.SettingsViewModel_Dark, Value="Dark" }
-        ];
+        [ThemeMode.Light, ThemeMode.Dark, ThemeMode.System];
 
         public ObservableCollection<string> TranslationProviders
         {
@@ -72,13 +69,13 @@ namespace IniTranslator.ViewModels
             Models.TranslationProvider.OpenAI.ToString()
         ];
 
-        public string Theme
+        public ThemeMode Theme
         {
             get => _settingsFile.Theme;
             set
             {
                 _settingsFile.Theme = value;
-                MainWindow.SetTheme(value);
+                SettingsManager.SetTheme(value);
                 OnPropertyChanged();
             }
         }
