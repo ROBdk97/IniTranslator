@@ -22,7 +22,7 @@ namespace IniTranslator.Models
         public string GoogleApiKey { get; set; } = string.Empty;
         public string DeepLApiKey { get; set; } = string.Empty;
         public string Language { get; set; } = LanguageCode.English;
-        public string Theme { get; set; } = "Light";
+        public ThemeMode Theme { get; set; } = ThemeMode.System;
         public string? StarCitizenPath { get; set; }
     }
 }

@@ -6,10 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:IniTranslator.ViewModels" 
     xmlns:properties="clr-namespace:IniTranslator.Properties"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     mc:Ignorable="d"
     Title="{x:Static properties:Resources.IniTranslator}"
     Background="{DynamicResource BackgroundBrush}"
-    Foreground="{DynamicResource ForegroundBrush}"
+    
     Width="800"
     Height="450"
     Icon="Icon.ico"
@@ -37,6 +38,7 @@
                 <MenuItem Header="{x:Static properties:Resources.Open_OldINIFile}" Command="{Binding DoOpenOldIniCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ToolTip="{x:Static properties:Resources.OpenAnOlderVersionOfTheINIFileForComparison}" />
                 <Separator />
                 <MenuItem Header="{x:Static properties:Resources.ExtractFromGame}" Command="{Binding DoExtractFromGameCommand}" ToolTip="{x:Static properties:Resources.ExtractTheEnglishINIFileFromGameFiles}" />
+                <MenuItem Header="Explore P4K Archive" Command="{Binding OpenP4KExplorerCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" ToolTip="Browse and explore the contents of P4K archive files" />
                 <Separator />
                 <MenuItem Header="{x:Static properties:Resources.Save}" InputGestureText="Ctrl+S" Command="{Binding DoSaveCommand}" Name="SaveButton" ToolTip="{x:Static properties:Resources.SaveYourCurrentTranslations}" />
                 <MenuItem Header="{x:Static properties:Resources.Reload}" Command="{Binding DoReloadCommand}" ToolTip="{x:Static properties:Resources.ReloadTranslationsFromTheINIFiles}" />
@@ -107,8 +109,6 @@
                     Click="SearchBoxChanged" />
                 <Button Content="{x:Static properties:Resources.Replace}" Click="Replace_Click" ToolTip="{x:Static properties:Resources.FindAndReplaceTextInSelectedTranslations}" />
                 <Separator />
-                <!--<Button Content="{x:Static properties:Resources.SwitchTheme}" Click="SwitchTheme_Click" ToolTip="{x:Static properties:Resources.ToggleBetweenLightAndDarkThemes}" VerticalAlignment="Center" Margin="5,0,0,0" />
-                <Separator />-->
                 <Label Content="{x:Static properties:Resources.TotalKeys}" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Label Content="{Binding Translations.Count}" VerticalAlignment="Center" />
             </ToolBar>
@@ -130,7 +130,7 @@
                 <TextBlock Text="{Binding Status}" Grid.Column="1" Margin="10,0,0,0"/>
             </Grid>
 
-            <TextBlock Text="© ROBdk97 2024" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat=© ROBdk97 2024-{0:yyyy}}"/>
         </Grid>
 
         <!-- Main Content -->

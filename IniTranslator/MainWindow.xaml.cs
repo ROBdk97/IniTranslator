@@ -24,7 +24,6 @@ namespace IniTranslator
             DataContext = ViewModel;
             InitializeComponent();
             AttachColumnWidthChangedHandler();
-            SetTheme(ViewModel.Settings.Theme);
         }
 
 
@@ -226,14 +225,22 @@ namespace IniTranslator
         }
         private void SetLightTheme_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.Settings.Theme = "Light";
-            SetTheme("Light");
+            ViewModel.ApplyTheme(ThemeMode.Light);
         }
 
         private void SetDarkTheme_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.Settings.Theme = "Dark";
-            SetTheme("Dark");
+            ViewModel.ApplyTheme(ThemeMode.Dark);
+        }
+
+        private void SetSystemTheme_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ApplyTheme(ThemeMode.System);
+        }
+
+        private void SetNoneTheme_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ApplyTheme(ThemeMode.None);
         }
 
 
@@ -321,37 +328,6 @@ namespace IniTranslator
 
             listView.ScrollIntoView(listView.Items[newIndex]);
             listView.SelectedIndex = newIndex;
-        }
-
-
-        /// <summary>
-        /// Applies the specified theme to the application.
-        /// </summary>
-        public static void SetTheme(string theme)
-        {
-            ResourceDictionary themeResource = [];
-
-            themeResource.Source = theme switch
-            {
-                "Dark" => new Uri("Themes/DarkTheme.xaml", UriKind.Relative),
-                _ => new Uri("Themes/LightTheme.xaml", UriKind.Relative),
-            };
-
-            // Clear existing resources and add the new theme resources
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Application.Current.Resources.MergedDictionaries.Clear();
-                Application.Current.Resources.MergedDictionaries.Add(themeResource);
-            });
-        }
-
-        /// <summary>
-        /// Handles the Switch Theme menu click event to toggle between Light and Dark themes.
-        /// </summary>
-        private void SwitchTheme_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Settings.Theme = ViewModel.Settings.Theme == "Light" ? "Dark" : "Light";
-            SetTheme(ViewModel.Settings.Theme);
         }
 
         /// <summary>

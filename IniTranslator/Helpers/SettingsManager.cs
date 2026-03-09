@@ -1,18 +1,24 @@
-﻿using IniTranslator.Models;
+﻿using IniTranslator.Converter;
+using IniTranslator.Models;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Windows;
 
 namespace IniTranslator.Helpers
 {
     internal static class SettingsManager
     {
-        private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+        private static JsonSerializerOptions CreateJsonOptions()
         {
-            WriteIndented = true // Makes JSON more readable
-        };
+            JsonSerializerOptions options = new() { WriteIndented = true };
+            options.Converters.Add(new JsonStringEnumConverter());
+            options.Converters.Add(new ThemeModeJsonConverter());
+            return options;
+        }
 
 
         internal static readonly string SettingsFilePath = Path.Combine(
@@ -36,7 +42,7 @@ namespace IniTranslator.Helpers
                     Directory.CreateDirectory(directory);
                 }
                 Debug.WriteLine("Saving settings");
-                string json = JsonSerializer.Serialize(settingsFile, JsonSerializerOptions);
+                string json = JsonSerializer.Serialize(settingsFile, CreateJsonOptions());
                 File.WriteAllText(SettingsFilePath, json);
             }
             catch (IOException ex)
@@ -61,6 +67,11 @@ namespace IniTranslator.Helpers
                 return;
         }
 
+        internal static void SetTheme(ThemeMode mode)
+        {
+            Application.Current.ThemeMode = mode;
+        }
+
 
         /// <summary>
         /// Load settings from JSON asynchronously or create new settings if file is missing.
@@ -76,8 +87,9 @@ namespace IniTranslator.Helpers
             try
             {
                 string json = File.ReadAllText(SettingsFilePath);
-                var settings = JsonSerializer.Deserialize<SettingsFile>(json) ?? CreateDefaultSettings();
+                var settings = JsonSerializer.Deserialize<SettingsFile>(json, CreateJsonOptions()) ?? CreateDefaultSettings();
                 settings.SetLanguage();
+                SetTheme(settings.Theme);
                 return settings;
             }
             catch (JsonException ex)
@@ -110,7 +122,7 @@ namespace IniTranslator.Helpers
             };
             try
             {
-                string json = JsonSerializer.Serialize(defaultSettings, JsonSerializerOptions);
+                string json = JsonSerializer.Serialize(defaultSettings, CreateJsonOptions());
                 File.WriteAllText(SettingsFilePath, json);
             }
             catch (Exception ex)

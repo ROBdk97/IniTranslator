@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Background="{DynamicResource BackgroundBrush}"
-        Foreground="{DynamicResource ForegroundBrush}"
+        
         Title="{x:Static properties:Resources.SettingsWindow_Settings}" Height="250" Width="530">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
         <Label Grid.Row="0" Grid.Column="0" Content="{x:Static properties:Resources.SettingsWindow_Language}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <ComboBox Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="325" ItemsSource="{Binding Languages}" DisplayMemberPath="Name" SelectedValue="{Binding Language}" SelectedValuePath="Code"/>
         <Label Grid.Row="1" Grid.Column="0" Content="{x:Static properties:Resources.SettingsWindow_Theme}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="325" SelectedValue="{Binding Theme}" ItemsSource="{Binding Themes}" SelectedValuePath="Value" DisplayMemberPath="Name"/>
+        <ComboBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="325" SelectedValue="{Binding Theme}" ItemsSource="{Binding Themes}"/>
         <!-- Translation Provider-->
         <Label Grid.Row="2" Grid.Column="0" Content="{x:Static properties:Resources.SettingsWindow_TranslationProvider}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <ComboBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="325" ItemsSource="{Binding TranslationProviders}" SelectedValue="{Binding TranslationProvider}"/>

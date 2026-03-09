@@ -31,6 +31,9 @@
   
 - **INI File Extraction**  
   Extract INI files directly from *Star Citizen* game files!
+
+- **P4K Archive Explorer**  
+  Browse, search, and extract files from Star Citizen P4K archives with an intuitive interface.
   
 - **Search & Filtering**  
   Utilize regex and case-insensitive search to quickly locate entries in large files.
@@ -48,7 +51,7 @@
   Identify differences between current and older INI file versions.
 
 - **Customizable UI**  
-  Switch between Light and Dark themes; save preferences like window size and position.
+  Switch between Light, Dark, and System themes; save preferences like window size and position.
 
 - **Efficient Navigation**  
   Navigate using intuitive keyboard shortcuts and jump to lines or specific entries with ease.
@@ -90,6 +93,8 @@
 ### General Usage
 
 - **Open Files**: Load English and translated INI files via `File > Open` or `Ctrl + O`.
+- **Extract from Game**: Retrieve English INI files from *Star Citizen* archives via `File > Extract from Game`.
+- **Browse Archives**: Explore P4K archives with the built-in P4K Explorer accessible from the Tools menu.
 - **Edit Translations**: Modify translation entries directly in the interface.
 - **Translate**: Use the configured API via `Edit > Translate` or `Ctrl + T`.
 - **Validate Placeholders**: Locate mismatched placeholders using the toolbar.
@@ -120,7 +125,8 @@
 
 #### Tools  
 - **Settings**: Configure API keys, themes, and more.  
-- **Theme**: Toggle between Light and Dark modes.  
+- **Theme**: Toggle between Light, Dark, and System modes.  
+- **P4K Explorer**: Browse and extract files from Star Citizen game archives.  
 
 ---
 

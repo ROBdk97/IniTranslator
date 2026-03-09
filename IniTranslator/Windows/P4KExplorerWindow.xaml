@@ -1,0 +1,92 @@
+<Window x:Class="IniTranslator.Windows.P4KExplorerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:IniTranslator.ViewModels"
+        xmlns:p4k="clr-namespace:ROBdk97.Unp4k.P4kModels;assembly=ROBdk97.Unp4k"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:helpers="clr-namespace:IniTranslator.Helpers"
+        d:DataContext="{d:DesignInstance Type=viewmodels:P4KExplorerViewModel}"
+        mc:Ignorable="d"
+        Title="P4K Archive Explorer"
+        Width="1000"
+        Height="700"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <HierarchicalDataTemplate DataType="{x:Type p4k:P4KDirectory}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📁 " Margin="0,0,5,0" />
+                <TextBlock Text="{Binding Name}" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <DataTemplate DataType="{x:Type p4k:P4KEntry}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📄 " Margin="0,0,5,0" />
+                <TextBlock Text="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="40">
+            <Button Padding="10,5"
+                    Margin="0,0,5,0"
+                    Content="Open Archive"
+                    Command="{Binding OpenArchiveCommand}" />
+            <TextBox Width="200"
+                     Margin="10,0,5,0"
+                     VerticalAlignment="Center"
+                     Padding="5"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchArchiveCommand}" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Padding="10,5"
+                    Margin="0,0,5,0"
+                    Content="Search"
+                    Command="{Binding SearchArchiveCommand}" />
+            <Button Padding="10,5"
+                    Content="Clear"
+                    Command="{Binding ClearSearchCommand}" />
+            <TextBlock Margin="20,0,0,0"
+                       VerticalAlignment="Center"
+                       Text="{Binding Status}" />
+        </StackPanel>
+
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <TreeView Grid.Column="0"
+                      Margin="10"
+                      BorderThickness="1"
+                      ItemsSource="{Binding RootChildren}">
+                <i:Interaction.Behaviors>
+                    <helpers:TreeViewSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
+            </TreeView>
+
+            <Border Grid.Column="1" Margin="10" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Margin="10,10,10,5" FontWeight="Bold" Text="File Details"/>
+                    <TextBox Margin="10,5,10,10"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             MinHeight="100"
+                             BorderThickness="0"
+                             Text="{Binding SelectedItemDetails}"/>
+
+                    <Button Padding="10,8"
+                            Margin="10,5,10,10"
+                            Content="{Binding ExportButtonText}"
+                            IsEnabled="{Binding CanExportSelectedItem}"
+                            Command="{Binding ExportSelectedCommand}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

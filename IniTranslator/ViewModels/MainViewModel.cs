@@ -140,6 +140,17 @@ namespace IniTranslator.ViewModels
         }
 
         [RelayCommand]
+        private void OpenP4KExplorer(Window? owner)
+        {
+            var explorerWindow = new P4KExplorerWindow();
+            if (owner != null)
+            {
+                explorerWindow.Owner = owner;
+            }
+            explorerWindow.Show();
+        }
+
+        [RelayCommand]
         private void ClearSearch()
         {
             SearchText = string.Empty;
@@ -982,6 +993,13 @@ namespace IniTranslator.ViewModels
                 await ReloadCoreAsync().ConfigureAwait(true);
             }
             catch (Exception) { }
+        }
+
+        internal void ApplyTheme(ThemeMode theme)
+        {
+            Settings.Theme = theme;
+            Settings.SaveSettings();
+            SettingsManager.SetTheme(theme);
         }
     }
 }

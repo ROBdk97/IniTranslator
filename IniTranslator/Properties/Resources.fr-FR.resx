@@ -289,7 +289,7 @@
     <value>Basculer entre les thèmes Clair et Foncé</value>
   </data>
   <data name="TotalKeys" xml:space="preserve">
-    <value>Nombre total de clés :</value>
+    <value>Nombre total de clés:  </value>
   </data>
   <data name="Line" xml:space="preserve">
     <value>Ligne</value>
