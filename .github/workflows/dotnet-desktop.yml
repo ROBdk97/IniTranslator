@@ -35,7 +35,7 @@ jobs:
         run: Compress-Archive -Path publish\* -DestinationPath Release.zip
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Release
           path: Release.zip
