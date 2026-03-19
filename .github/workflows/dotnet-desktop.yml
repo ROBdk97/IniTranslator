@@ -13,12 +13,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
+          cache: true
 
       - name: List Installed Windows SDKs
         run: dir 'C:\Program Files (x86)\Windows Kits\10\Lib'
@@ -41,6 +42,6 @@ jobs:
           path: Release.zip
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: Release.zip

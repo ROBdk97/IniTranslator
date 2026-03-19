@@ -1,170 +1,262 @@
 # IniTranslator
+
 ![GitHub all releases](https://img.shields.io/github/downloads/ROBdk97/IniTranslator/total)
 
-**IniTranslator** is a powerful WPF desktop application designed for easy comparison, editing, and management of INI file translations, commonly used in software localization. With advanced features and an intuitive UI, it simplifies synchronization between English and translated INI files.
+IniTranslator is a Windows WPF desktop application for comparing, editing, and maintaining INI-based translations. It helps translators keep English and localized INI files synchronized with side-by-side editing, search and replace, placeholder validation, automatic backups, version comparison, and direct extraction from Star Citizen P4K archives.
 
 ![Screenshot](Image.png)
 
----
-
 ## Table of Contents
 
+- [Overview](#overview)
 - [Features](#features)
+- [Requirements](#requirements)
 - [Installation](#installation)
-  - [Prerequisites](#prerequisites)
-  - [Download Options](#download-options)
+- [Build from Source](#build-from-source)
 - [Usage](#usage)
-  - [General Usage](#general-usage)
-  - [Keyboard Shortcuts](#keyboard-shortcuts)
-  - [Menu Options](#menu-options)
-  - [Toolbar Functions](#toolbar-functions)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Settings](#settings)
+- [Project Structure](#project-structure)
 - [Third-Party Components](#third-party-components)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
+- [Repository](#repository)
 
----
+## Overview
+
+IniTranslator is designed for translation maintenance rather than generic text editing.
+
+Typical workflow:
+
+1. Open the current English INI file and the translated INI file.
+2. Review entries in a side-by-side editor.
+3. Search, filter, replace, or copy source text into translation fields.
+4. Translate selected rows with Google Translate or DeepL.
+5. Validate placeholders before saving.
+6. Save changes with an automatic `.bak` backup of the translated file.
+7. Optionally compare against an older English INI or extract a fresh `global.ini` from Star Citizen.
 
 ## Features
 
-- **Multi-Language INI File Management**  
-  Open, edit, and compare English and translated INI files side-by-side.
-  
-- **INI File Extraction**  
-  Extract INI files directly from *Star Citizen* game files!
+- Side-by-side INI editing for source and translated values.
+- Fast filtering by key, English text, or translated text.
+- Optional regular-expression search and case-insensitive search.
+- Batch replace on selected translations.
+- Copy/paste support for structured `key=value` clipboard data.
+- Copy English source text directly into translation fields.
+- Translation of selected rows through Google Translate or DeepL.
+- Placeholder mismatch detection for patterns such as `%xx` and Star Citizen action tokens.
+- Automatic backup creation when saving translated files.
+- Reload backup support from the main UI.
+- Comparison against an older INI file to identify changed entries.
+- Extraction of `Data/Localization/english/global.ini` from Star Citizen `Data.p4k` archives.
+- Built-in P4K archive explorer with search, file export, and directory extraction.
+- Light, Dark, and System theme support.
+- Persisted window position, size, language, search settings, provider choice, and game path.
+- Localized UI with built-in language options:
+  English, Spanish, French, Italian, Lithuanian, Portuguese (Brazil), and German.
 
-- **P4K Archive Explorer**  
-  Browse, search, and extract files from Star Citizen P4K archives with an intuitive interface.
-  
-- **Search & Filtering**  
-  Utilize regex and case-insensitive search to quickly locate entries in large files.
+## Requirements
 
-- **Placeholder Validation**  
-  Automatically detect and resolve mismatched or missing placeholders.
+- Windows 10 or later.
+- Star Citizen installed locally if you want to use archive extraction or the P4K explorer.
+- For source builds: .NET 10 SDK.
 
-- **Backup System**  
-  Create, manage, and restore backups effortlessly.
+Notes:
 
-- **Translation API Support**  
-  Leverage Google Translate or DeepL APIs for instant translations.
-
-- **Version Comparison**  
-  Identify differences between current and older INI file versions.
-
-- **Customizable UI**  
-  Switch between Light, Dark, and System themes; save preferences like window size and position.
-
-- **Efficient Navigation**  
-  Navigate using intuitive keyboard shortcuts and jump to lines or specific entries with ease.
-
-- **Comprehensive Editing Tools**  
-  Replace text using regex, copy English values to translation fields, and manage structured clipboard data.
-
-- **File System Integration**  
-  Open INI files directly via Windows Explorer or extract INI files from game archives.
-
-- **Help & Documentation**  
-  In-app guidance with keyboard shortcuts, tooltips, and GitHub repository links.
-
-- **Localized Application**  
-  Choose from multiple languages to enhance your experience.
-
----
+- The GitHub release package is published as a self-contained `win-x64` build.
+- API keys are only required if you want to use machine translation features.
 
 ## Installation
 
-### Prerequisites
+Download the latest packaged build from GitHub Releases:
 
-- **.NET 8 Desktop Runtime**: Ensure the runtime is installed. The setup file will handle installation if needed.
+- [Release.zip](https://github.com/ROBdk97/IniTranslator/releases/latest/download/Release.zip)
 
-### Download Options
+Then:
 
- **Direct Executable**  
-   For advanced users who already have the runtime installed.  
-   [Download Executable](https://github.com/ROBdk97/IniTranslator/releases/latest/download/Release.zip)
+1. Extract the archive.
+2. Run `IniTranslator.exe`.
 
----
+No separate .NET desktop runtime installation is required for the published release package.
+
+## Build from Source
+
+The CI pipeline restores and publishes the WPF application as a self-contained `win-x64` build with .NET 10.
+
+To build locally:
+
+```powershell
+dotnet restore .\IniTranslator\IniTranslator.csproj -r win-x64
+dotnet build .\IniTranslator\IniTranslator.csproj -c Release -r win-x64
+```
+
+To publish a release-style build locally:
+
+```powershell
+dotnet publish .\IniTranslator\IniTranslator.csproj -c Release -r win-x64 --no-restore -o publish -p:DebugType=None -p:PublishSingleFile=true --self-contained true
+```
 
 ## Usage
 
-### General Usage
+### Open and edit translations
 
-- **Open Files**: Load English and translated INI files via `File > Open` or `Ctrl + O`.
-- **Extract from Game**: Retrieve English INI files from *Star Citizen* archives via `File > Extract from Game`.
-- **Browse Archives**: Explore P4K archives with the built-in P4K Explorer accessible from the Tools menu.
-- **Edit Translations**: Modify translation entries directly in the interface.
-- **Translate**: Use the configured API via `Edit > Translate` or `Ctrl + T`.
-- **Validate Placeholders**: Locate mismatched placeholders using the toolbar.
-- **Save Work**: Save your changes with `Ctrl + S`.
-- **Restore Backups**: Reload backups from `File > Load Backup`.
+Use `File > Open` to select:
 
-### Keyboard Shortcuts
+1. The English source INI file.
+2. The translated INI file.
 
-- **Ctrl + O**: Open INI files  
-- **Ctrl + S**: Save translations  
-- **Ctrl + T**: Translate selected entries  
-- **Ctrl + J**: Jump to a specific line  
-- **F3**: Navigate to the next change  
-- **F4**: Jump to mismatched placeholders  
+The main list shows:
 
-### Menu Options
+- Line number
+- Key
+- English value
+- Editable translation value
 
-#### File  
-- **Open...**: Load English and translated INI files.  
-- **Extract from Game**: Retrieve English INI files from *Star Citizen* archives.  
-- **Save/Reload**: Manage translations.  
-- **Load Backup**: Restore previous versions.  
+### Search and filter
 
-#### Edit  
-- **Copy/Paste**: Manage clipboard data.  
-- **Replace**: Find and replace text.  
-- **Translate**: Automate translations.  
+The toolbar search box filters the current list in real time.
 
-#### Tools  
-- **Settings**: Configure API keys, themes, and more.  
-- **Theme**: Toggle between Light, Dark, and System modes.  
-- **P4K Explorer**: Browse and extract files from Star Citizen game archives.  
+- Search covers key, English text, and translated text.
+- `RegEx` enables regular expression matching.
+- `Ignore Case` switches between ordinal and case-insensitive matching.
+- `Replace` opens a dialog to update selected translations in bulk.
 
----
+### Translation helpers
 
-## Toolbar Functions
+Editing commands are available from the menu and keyboard shortcuts:
 
-- **Search**: Filter translations using keywords or regex.  
-- **Jump to Changes**: Navigate directly to updated translations.  
-- **Placeholder Validation**: Highlight entries with mismatched placeholders.  
-- **Progress Indicators**: Monitor tasks in real-time.  
+- Copy selected entries to the clipboard.
+- Paste structured `key=value` content back into matching selected rows.
+- Copy English text into the translation column.
+- Translate selected rows with the configured provider.
 
----
+Currently implemented machine translation providers:
+
+- Google Translate
+- DeepL
+
+### Placeholder validation
+
+IniTranslator checks placeholders used in the English value against the translated value and helps you jump between mismatches.
+
+Examples of supported placeholder patterns include:
+
+- `%s`, `%d`, `%r`
+- `[~action(...)]`
+- `~action(...)`
+
+When mismatches are found, the app warns before saving so you can review them.
+
+### Backups and reload
+
+When you save a translated file, IniTranslator creates a backup next to it:
+
+- `yourfile.ini.bak`
+
+You can restore that backup with `File > Load Backup`.
+
+### Compare with an older INI
+
+Use `File > Open Old INI File` to load an earlier English INI version.
+
+This workflow is intended to help when the source file changes between game versions:
+
+- missing keys are added back into the current translation set
+- entry ordering is synchronized with the current English file
+- changed source entries can be reviewed with the `Jump to Next Change` action
+
+### Extract from Star Citizen
+
+Use `File > Extract from Game` to extract the current English `global.ini` from a selected Star Citizen installation version.
+
+The app attempts to find the game automatically by:
+
+- checking the default installation directory
+- falling back to the RSI Launcher log
+
+After selecting a version, IniTranslator reads `Data.p4k`, extracts `Data/Localization/english/global.ini`, and reloads the current translation view against the extracted file.
+
+### P4K archive explorer
+
+Use `File > Explore P4K Archive` to open the built-in archive browser.
+
+The explorer supports:
+
+- loading a Star Citizen `Data.p4k` archive
+- browsing directories in a tree view
+- searching files by name/path
+- viewing basic metadata for the selected item
+- exporting individual files
+- extracting entire directories
+
+CryXmlB files are exported as `.xml` when applicable.
+
+## Keyboard Shortcuts
+
+- `Ctrl+O`: Open English and translated INI files
+- `Ctrl+S`: Save translated INI file
+- `Ctrl+C`: Copy selected entries
+- `Ctrl+V`: Paste clipboard content into selected entries
+- `Ctrl+M`: Copy English values into the translation column
+- `Ctrl+T`: Translate selected entries
+- `Ctrl+J`: Jump to a specific line
+
+Toolbar actions also expose these navigation features:
+
+- Jump to next changed entry
+- Jump to next placeholder mismatch
+
+## Settings
+
+The settings window includes:
+
+- UI language
+- application theme
+- translation provider
+- DeepL API key
+- Google Translate API key
+- Star Citizen installation path
+
+Settings are stored in:
+
+- `%AppData%\ROBdk97\IniTranslator\settings.json`
+
+API keys are stored in the settings file in encrypted form by the application.
+
+## Project Structure
+
+- `IniTranslator/`: main WPF application
+- `IniTranslator/ViewModels/`: main editing, settings, help, and P4K explorer logic
+- `IniTranslator/Windows/`: dialogs and secondary windows
+- `IniTranslator/Helpers/`: settings, translation, file equalization, clipboard, and path helpers
+- `IniTranslator/Models/`: settings and translation data models
+- `ROBdk97.Unp4k/`: modified P4K archive handling library used by the app
+- `IniTranslaterSetup/`: legacy setup project artifacts
 
 ## Third-Party Components
 
-- This application uses a modified version of [dolkensp/unp4k](https://github.com/dolkensp/unp4k).
-- This application uses a modified version of [icsharpcode/SharpZipLib](https://github.com/icsharpcode/SharpZipLib).
-- It also relies on `libzstd.dll`.
-
----
+- Modified version of [dolkensp/unp4k](https://github.com/dolkensp/unp4k)
+- Modified version of [icsharpcode/SharpZipLib](https://github.com/icsharpcode/SharpZipLib)
+- [DeepL.net](https://www.nuget.org/packages/DeepL.net)
+- `libzstd.dll` / Zstandard support used by the archive tooling
 
 ## Contributing
 
-We welcome contributions! To contribute:
+Contributions are welcome.
 
-1. **Fork** the repository.  
-2. Create a branch: `git checkout -b feature/YourFeatureName`.  
-3. Commit changes: `git commit -m "Description of changes"`.  
-4. Push to your branch: `git push origin feature/YourFeatureName`.  
-5. Open a **Pull Request**.
+1. Fork the repository.
+2. Create a branch for your change.
+3. Make and test the change.
+4. Open a pull request with a clear description.
 
-For significant changes, start a discussion by opening an issue.
-
----
+If you plan a larger change, open an issue first so the scope can be discussed.
 
 ## License
 
 This project is licensed under the [MIT License](https://github.com/ROBdk97/IniTranslator/blob/main/LICENSE).
 
----
+## Repository
 
-## Contact
-
-- **GitHub Repository**: [IniTranslator](https://github.com/ROBdk97/IniTranslator)  
-- **Issues & Feature Requests**: Open an issue on GitHub  
+- GitHub: [ROBdk97/IniTranslator](https://github.com/ROBdk97/IniTranslator)
+- Issues: [Open an issue](https://github.com/ROBdk97/IniTranslator/issues)
