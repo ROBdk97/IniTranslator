@@ -19,11 +19,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-          cache: true
-
-      - name: List Installed Windows SDKs
-        run: dir 'C:\Program Files (x86)\Windows Kits\10\Lib'
-
 
       - name: Restore dependencies
         run: dotnet restore ./IniTranslator/IniTranslator.csproj -r win-x64
