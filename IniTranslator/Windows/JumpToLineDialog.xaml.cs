@@ -1,7 +1,7 @@
-﻿using System;
+﻿using IniTranslator.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Input;
-using IniTranslator.ViewModels;
 
 namespace IniTranslator.Windows
 {

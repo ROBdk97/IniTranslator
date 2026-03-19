@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using IniTranslator.ViewModels;
+﻿using IniTranslator.ViewModels;
+using System.Windows;
 
 namespace IniTranslator.Windows
 {

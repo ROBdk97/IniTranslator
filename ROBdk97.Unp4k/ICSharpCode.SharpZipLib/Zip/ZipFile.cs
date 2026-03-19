@@ -4199,12 +4199,12 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <returns>Returns a stream providing data; or null if not available</returns>
 		public Stream GetSource(ZipEntry entry, string name)
         {
-			if (!string.IsNullOrEmpty(name))
-			{
-				return File.Open(name, FileMode.Open, FileAccess.Read, FileShare.Read);
-			}
+            if (!string.IsNullOrEmpty(name))
+            {
+                return File.Open(name, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
 
-			return Stream.Null;
+            return Stream.Null;
         }
 
         #endregion

@@ -16,9 +16,9 @@
 		<None Remove="Icon.ico" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1" />
 		<PackageReference Include="DeepL.net" Version="1.19.0" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ROBdk97.Unp4k\ROBdk97.Unp4k.csproj" />

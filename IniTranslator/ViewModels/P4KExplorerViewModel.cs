@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using IniTranslator.Helpers;
 using IniTranslator.Windows;
 using Microsoft.Win32;
 using ROBdk97.Unp4k.P4kModels;
@@ -13,6 +12,8 @@ namespace IniTranslator.ViewModels
 {
     public partial class P4KExplorerViewModel : ObservableObject
     {
+        private const string DIALOG_IDENT = "C47E4DF7-FB8D-475B-B14B-8E97B936DA7E";
+        private CancellationTokenSource? currentOperationCts;
         [ObservableProperty]
         private P4KArchive? archive;
 
@@ -140,22 +141,22 @@ namespace IniTranslator.ViewModels
         }
 
         [RelayCommand(CanExecute = nameof(CanExportSelectedItem))]
-        private void ExportSelected()
+        private async Task ExportSelected()
         {
             if (SelectedItem is P4KDirectory directory)
             {
-                ExtractDirectory(directory);
+                await ExtractDirectory(directory);
                 return;
             }
 
             if (SelectedItem is P4KEntry entry)
             {
-                ExportFile(entry);
+                await ExportFile(entry);
             }
         }
 
         [RelayCommand]
-        private void ExportFile(P4KEntry? entry)
+        private async Task ExportFile(P4KEntry? entry)
         {
             if (entry == null)
             {
@@ -167,27 +168,45 @@ namespace IniTranslator.ViewModels
             {
                 FileName = entry.Name,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                ClientGuid = new Guid(DIALOG_IDENT),
             };
+
+            if (entry.IsCryXmlB)
+            {
+                dialog.DefaultExt = ".xml";
+                dialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
+                if (!dialog.FileName.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+                {
+                    dialog.FileName = Path.ChangeExtension(dialog.FileName, ".xml");
+                }
+            }
 
             if (dialog.ShowDialog() != true)
                 return;
 
+            var operationCts = BeginOperation();
             try
             {
-                using var sourceStream = entry.Open();
-                using var targetStream = File.Create(dialog.FileName);
-                sourceStream.CopyTo(targetStream);
+                await WriteEntryToFileAsync(entry, dialog.FileName, operationCts.Token);
                 Status = $"File exported to {dialog.FileName}";
+            }
+            catch (OperationCanceledException)
+            {
+                Status = "Export cancelled.";
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error exporting file: {ex.Message}");
                 Status = $"Error exporting file: {ex.Message}";
             }
+            finally
+            {
+                EndOperation(operationCts);
+            }
         }
 
         [RelayCommand]
-        private void ExtractDirectory(P4KDirectory? directory)
+        private async Task ExtractDirectory(P4KDirectory? directory)
         {
             if (directory == null)
             {
@@ -198,45 +217,137 @@ namespace IniTranslator.ViewModels
             var dialog = new OpenFolderDialog
             {
                 Title = "Select extraction location",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                ClientGuid = new Guid(DIALOG_IDENT),
             };
 
             if (dialog.ShowDialog() != true)
                 return;
 
+            var operationCts = BeginOperation();
             try
             {
                 var destinationRoot = Path.Combine(dialog.FolderName, directory.Name);
                 Directory.CreateDirectory(destinationRoot);
-                ExtractDirectoryRecursive(directory, destinationRoot);
+
+                var totalFiles = CountFiles(directory);
+                Status = totalFiles == 0 ? "No files to extract." : $"Extracting files... 0/{totalFiles}";
+
+                await ExtractDirectoryIterativeAsync(directory, destinationRoot, totalFiles, operationCts.Token);
                 Status = $"Directory extracted to {destinationRoot}";
+            }
+            catch (OperationCanceledException)
+            {
+                Status = "Directory extraction cancelled.";
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error extracting directory: {ex.Message}");
                 Status = $"Error extracting directory: {ex.Message}";
             }
+            finally
+            {
+                EndOperation(operationCts);
+            }
         }
 
-        private static void ExtractDirectoryRecursive(P4KDirectory sourceDirectory, string destinationPath)
+        private async Task ExtractDirectoryIterativeAsync(P4KDirectory sourceDirectory, string destinationPath, int totalFiles, CancellationToken cancellationToken)
         {
-            foreach (var child in sourceDirectory.Children)
-            {
-                if (child is P4KDirectory subDirectory)
-                {
-                    var subDirectoryPath = Path.Combine(destinationPath, subDirectory.Name);
-                    Directory.CreateDirectory(subDirectoryPath);
-                    ExtractDirectoryRecursive(subDirectory, subDirectoryPath);
-                    continue;
-                }
+            var processedFiles = 0;
+            var pendingDirectories = new Stack<(P4KDirectory Directory, string Path)>();
+            pendingDirectories.Push((sourceDirectory, destinationPath));
 
-                if (child is P4KEntry fileEntry)
+            while (pendingDirectories.Count > 0)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var (currentDirectory, currentPath) = pendingDirectories.Pop();
+
+                foreach (var child in currentDirectory.Children)
                 {
-                    var targetFilePath = Path.Combine(destinationPath, fileEntry.Name);
-                    using var sourceStream = fileEntry.Open();
-                    using var targetStream = File.Create(targetFilePath);
-                    sourceStream.CopyTo(targetStream);
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    if (child is P4KDirectory subDirectory)
+                    {
+                        var subDirectoryPath = Path.Combine(currentPath, subDirectory.Name);
+                        Directory.CreateDirectory(subDirectoryPath);
+                        pendingDirectories.Push((subDirectory, subDirectoryPath));
+                        continue;
+                    }
+
+                    if (child is P4KEntry fileEntry)
+                    {
+                        var targetFilePath = Path.Combine(currentPath, fileEntry.Name);
+                        await WriteEntryToFileAsync(fileEntry, targetFilePath, cancellationToken);
+                        processedFiles++;
+
+                        if (totalFiles > 0 && (processedFiles == 1 || processedFiles % 25 == 0 || processedFiles == totalFiles))
+                        {
+                            Status = $"Extracting files... {processedFiles}/{totalFiles}";
+                        }
+                    }
                 }
             }
+        }
+
+        private static int CountFiles(P4KDirectory sourceDirectory)
+        {
+            var count = 0;
+            var pendingDirectories = new Stack<P4KDirectory>();
+            pendingDirectories.Push(sourceDirectory);
+
+            while (pendingDirectories.Count > 0)
+            {
+                var currentDirectory = pendingDirectories.Pop();
+                foreach (var child in currentDirectory.Children)
+                {
+                    if (child is P4KDirectory subDirectory)
+                    {
+                        pendingDirectories.Push(subDirectory);
+                        continue;
+                    }
+
+                    if (child is P4KEntry)
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        private CancellationTokenSource BeginOperation()
+        {
+            currentOperationCts?.Cancel();
+            currentOperationCts?.Dispose();
+            currentOperationCts = new CancellationTokenSource();
+            return currentOperationCts;
+        }
+
+        private void EndOperation(CancellationTokenSource operationCts)
+        {
+            if (ReferenceEquals(currentOperationCts, operationCts))
+            {
+                currentOperationCts = null;
+            }
+
+            operationCts.Dispose();
+        }
+
+        private static async Task WriteEntryToFileAsync(P4KEntry entry, string targetFilePath, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (entry.IsCryXmlB)
+            {
+                var content = await entry.ReadAsStringAsync();
+                await File.WriteAllTextAsync(targetFilePath, content, cancellationToken);
+                return;
+            }
+
+            using var sourceStream = entry.Open();
+            using var targetStream = File.Create(targetFilePath);
+            await sourceStream.CopyToAsync(targetStream, cancellationToken);
         }
 
         [RelayCommand]

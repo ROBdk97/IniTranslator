@@ -118,7 +118,7 @@
         <Grid DockPanel.Dock="Bottom" Height="25">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="110" />
+                <ColumnDefinition Width="160" />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" VerticalAlignment="Center">

@@ -1,11 +1,11 @@
-﻿using IniTranslator.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using IniTranslator.Helpers;
 using IniTranslator.Models;
 using IniTranslator.Properties;
 using IniTranslator.Windows;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using ROBdk97.Unp4k.P4kModels;
-using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

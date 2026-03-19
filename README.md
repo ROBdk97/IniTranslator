@@ -18,6 +18,7 @@
   - [Keyboard Shortcuts](#keyboard-shortcuts)
   - [Menu Options](#menu-options)
   - [Toolbar Functions](#toolbar-functions)
+- [Third-Party Components](#third-party-components)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -78,11 +79,7 @@
 
 ### Download Options
 
-1. **Setup Installer**  
-   Install the application with a guided setup, including desktop/start menu entries and runtime installation.  
-   [Download Setup](https://github.com/ROBdk97/IniTranslator/releases/latest/download/IniTranslaterSetup.msi)
-
-2. **Direct Executable**  
+ **Direct Executable**  
    For advanced users who already have the runtime installed.  
    [Download Executable](https://github.com/ROBdk97/IniTranslator/releases/latest/download/Release.zip)
 
@@ -136,6 +133,14 @@
 - **Jump to Changes**: Navigate directly to updated translations.  
 - **Placeholder Validation**: Highlight entries with mismatched placeholders.  
 - **Progress Indicators**: Monitor tasks in real-time.  
+
+---
+
+## Third-Party Components
+
+- This application uses a modified version of [dolkensp/unp4k](https://github.com/dolkensp/unp4k).
+- This application uses a modified version of [icsharpcode/SharpZipLib](https://github.com/icsharpcode/SharpZipLib).
+- It also relies on `libzstd.dll`.
 
 ---
 

@@ -1,8 +1,8 @@
-﻿using IniTranslator.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using IniTranslator.Helpers;
 using IniTranslator.Models;
 using IniTranslator.Properties;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

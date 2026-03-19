@@ -43,20 +43,10 @@ namespace ROBdk97.Unp4k.P4kModels
             {
                 return ReadAsXml();
             }
-            //if (IsDataCore)
-            //{
-            //    return await ReadAsDataCoreAsync();
-            //}
             using var stream = Open();
             using var reader = new StreamReader(stream);
             return await reader.ReadToEndAsync();
         }
-
-        private Task<string> ReadAsDataCoreAsync()
-        {
-            throw new NotImplementedException();
-        }
-
 
         private string ReadAsXml()
         {

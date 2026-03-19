@@ -1,6 +1,6 @@
-﻿using IniTranslator.Models;
+﻿using IniTranslator.Helpers;
+using IniTranslator.Models;
 using IniTranslator.ViewModels;
-using IniTranslator.Helpers;
 using System;
 using System.Windows;
 

@@ -2,7 +2,6 @@
 using IniTranslator.Models;
 using IniTranslator.ViewModels;
 using IniTranslator.Windows;
-using Microsoft.Win32;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows;
