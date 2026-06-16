@@ -49,6 +49,6 @@ public partial class StarCitizenPathFinder
         return null;
     }
 
-    [GeneratedRegex("Launching Star Citizen (PTU|LIVE) from \\(([^)]+)\\)")]
+    [GeneratedRegex("Launching Star Citizen (PTU|LIVE|HOTFIX|TECH-PREVIEW|EPTU) from \\(([^)]+)\\)")]
     private static partial Regex LaunchSC();
 }
