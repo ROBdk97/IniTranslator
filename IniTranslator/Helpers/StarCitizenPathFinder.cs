@@ -37,13 +37,17 @@ public partial class StarCitizenPathFinder
     /// <returns>The extracted path, or null if not found.</returns>
     private static string? ExtractPathFromLog(string logFilePath)
     {
-        string[] lines = File.ReadAllLines(logFilePath);
+        var lines = File.ReadAllLines(logFilePath).Reverse();
 
         foreach (string line in lines)
         {
             var match = LaunchSC().Match(line);
             if (match.Success)
-                return match.Groups[2].Value.Replace("\\\\", "\\");
+            {
+                var path = match.Groups[2].Value.Replace("\\\\", "\\");
+                if (Directory.Exists(path))
+                    return path;
+            }
         }
 
         return null;
