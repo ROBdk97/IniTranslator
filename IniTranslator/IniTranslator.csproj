@@ -17,8 +17,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-		<PackageReference Include="DeepL.net" Version="1.21.0" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
+		<PackageReference Include="DeepL.net" Version="1.22.1" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.161" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ROBdk97.Unp4k\ROBdk97.Unp4k.csproj" />
